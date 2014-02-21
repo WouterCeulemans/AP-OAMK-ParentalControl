@@ -40,10 +40,8 @@ public class HomeScreen extends Activity {
     }
 
     private void showAppsPage(){
-        //Not yet implemented
-
-        //Intent showApps = new Intent(this, DisplayAppsScreen.class);
-        //startActivity(showApps);
+        Intent showApps = new Intent(this, DisplayAppsScreen.class);
+        startActivity(showApps);
     }
 
     private void showSmsApp()
