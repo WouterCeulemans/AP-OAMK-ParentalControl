@@ -3,5 +3,6 @@
 
     <string name="app_name">Parent Control Launcher</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_display_apps_screen">DisplayAppsScreen</string>
 
 </resources>
