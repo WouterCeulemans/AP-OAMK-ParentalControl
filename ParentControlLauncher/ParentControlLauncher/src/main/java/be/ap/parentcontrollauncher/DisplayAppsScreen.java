@@ -73,4 +73,41 @@ public class DisplayAppsScreen extends ActionBarActivity {
             }
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        super.onCreateOptionsMenu(menu);
+
+        menu.add(0, 11, 0, "Settings")
+                .setIcon(android.R.drawable.ic_menu_preferences);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        //Handle item selection
+        switch (item.getItemId()){
+            case 11:
+                showSettingsPage();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showSettingsPage(){
+        Intent showSettings = new Intent(this, SelectAppsScreen.class);
+        startActivity(showSettings);
+    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+
+        Log.d("TEST", "Load on Resume");
+
+       /* appList.clear();
+        appList = Applications.GetSelectedApps(this);
+        appsAdapter.notifyDataSetChanged();*/
+    }
 }

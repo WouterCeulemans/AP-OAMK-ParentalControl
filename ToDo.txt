@@ -1,1 +1,2 @@
 - Load Apps in background
+- Reload Apps after selection changed

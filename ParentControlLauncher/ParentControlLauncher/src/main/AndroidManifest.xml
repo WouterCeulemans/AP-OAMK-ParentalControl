@@ -29,12 +29,20 @@
         </activity>
         <activity
             android:name="be.ap.parentcontrollauncher.DisplayAppsScreen"
-            android:theme="@style/Theme.Base.AppCompat"
             android:label="@string/title_activity_display_apps_screen"
-            android:parentActivityName="be.ap.parentcontrollauncher.HomeScreen" >
+            android:parentActivityName="be.ap.parentcontrollauncher.HomeScreen"
+            android:theme="@style/Theme.Base.AppCompat" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.ap.parentcontrollauncher.HomeScreen" />
+        </activity>
+        <activity
+            android:name="be.ap.parentcontrollauncher.SelectAppsScreen"
+            android:label="@string/title_activity_select_apps_screen"
+            android:parentActivityName="be.ap.parentcontrollauncher.DisplayAppsScreen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.ap.parentcontrollauncher.DisplayAppsScreen" />
         </activity>
     </application>
 

@@ -48,9 +48,9 @@ public class AppsAdapter extends ArrayAdapter<Item> {
             holder = new RecordHolder();
             holder.txtTitle = (TextView) row.findViewById(R.id.item_text);
             holder.imageItem = (ImageView) row.findViewById(R.id.item_image);
-           /* if (layoutResourceId == R.layout.row_list) {
+            if (layoutResourceId == R.layout.row_list) {
                 holder.checkItem = (CheckBox) row.findViewById(R.id.item_check);
-            }*/
+            }
             row.setTag(holder);
         } else {
             holder = (RecordHolder) row.getTag();
@@ -59,15 +59,15 @@ public class AppsAdapter extends ArrayAdapter<Item> {
         Item item = MyAppsList.get(position);
         holder.txtTitle.setText(item.getTitle());
         holder.imageItem.setImageBitmap((item.getImage()));
-        /*if (layoutResourceId == R.layout.row_list) {
+        if (layoutResourceId == R.layout.row_list) {
             holder.checkItem.setChecked(item.checked);
-        }*/
+        }
         return row;
     }
 
     static class RecordHolder {
         TextView txtTitle;
         ImageView imageItem;
-        //CheckBox checkItem;
+        CheckBox checkItem;
     }
 }
