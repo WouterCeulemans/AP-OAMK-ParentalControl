@@ -1,2 +1,4 @@
-- Load Apps in background
-- Reload Apps after selection changed
+- Load Apps in background				=> Done (Wouter)
+- Reload Apps after selection changed			=> Done (Wouter)
+- What if new app is installed (visibility)
+- Reduce load times by caching

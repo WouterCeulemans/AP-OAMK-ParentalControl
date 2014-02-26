@@ -9,6 +9,7 @@
     tools:context="be.ap.parentcontrollauncher.DisplayAppsScreen">
 
     <GridView
+        android:visibility="gone"
         android:id="@+id/gridview1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -18,5 +19,12 @@
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth" >
     </GridView>
+
+    <ProgressBar
+        android:id="@+id/progressbar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 </RelativeLayout>
 
