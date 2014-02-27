@@ -59,14 +59,14 @@
                         android:layout_above="@+id/txtPhone"
                         android:layout_alignParentRight="true"
                         android:textIsSelectable="false"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:layout_gravity="center_horizontal" />
 
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:id="@+id/imgViewContactImage"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:adjustViewBounds="false"
                         android:src="@drawable/no_user"
                         android:layout_gravity="center_horizontal" />
@@ -82,7 +82,7 @@
                         android:textColor="#FACC2E"
                         android:layout_above="@+id/txtAddress"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="10dp" />
+                        android:layout_marginTop="5dp" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -95,7 +95,7 @@
                         android:textColor="#FACC2E"
                         android:layout_above="@+id/txtEmail"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="10dp" />
+                        android:layout_marginTop="5dp" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                         android:textColor="#FACC2E"
                         android:layout_above="@+id/txtName"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="10dp" />
+                        android:layout_marginTop="5dp" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -121,14 +121,14 @@
                         android:textColor="#FACC2E"
                         android:layout_above="@+id/btnAdd"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="10dp" />
+                        android:layout_marginTop="5dp" />
 
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Add Contact"
                         android:id="@+id/btnAdd"
-                        android:width="200dp"
+                        android:width="220dp"
                         android:textColor="#FF8000"
                         android:background="#D8D8D8"
                         android:enabled="false"

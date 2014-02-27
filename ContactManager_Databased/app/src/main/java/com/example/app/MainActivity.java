@@ -71,6 +71,10 @@ public class MainActivity extends Activity
             public void onClick(View view)
             {
                 Contacts.add(new Contact(0, nameTxt.getText().toString(), phoneTxt.getText().toString(), emailTxt.getText().toString(), addressTxt.getText().toString(), imageUri));
+                nameTxt.setText("");
+                phoneTxt.setText("");
+                addressTxt.setText("");
+                emailTxt.setText("");
 
                 populateList();
 
