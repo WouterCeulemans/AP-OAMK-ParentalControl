@@ -44,6 +44,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.ap.parentcontrollauncher.DisplayAppsScreen" />
         </activity>
+
+        <provider
+            android:name=".contentprovider.ParentControlContentProvider"
+            android:authorities="be.ap.parentcontrollauncher.contentprovider" >
+        </provider>
     </application>
 
 </manifest>

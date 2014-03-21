@@ -80,4 +80,7 @@ public class Applications {
                 e.printStackTrace();
             }
     }
+
+    public static AppsAdapter appsAdapter;
+    public static ArrayList<Item> appList;
 }

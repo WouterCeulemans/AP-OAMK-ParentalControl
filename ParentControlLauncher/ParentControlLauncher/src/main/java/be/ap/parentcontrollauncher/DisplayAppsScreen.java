@@ -32,9 +32,7 @@ public class DisplayAppsScreen extends ActionBarActivity {
 
     //private ArrayList<Item> appList = new ArrayList<Item>();
     private GridView gridView;
-    private AppsAdapter appsAdapter;
     private ProgressBar progressBar;
-    private ArrayList<Item> listApps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +42,10 @@ public class DisplayAppsScreen extends ActionBarActivity {
         gridView = (GridView) findViewById(R.id.gridview1);
         progressBar = (ProgressBar) findViewById(R.id.progressbar1);
 
+        gridView.setAdapter(Applications.appsAdapter);
+        progressBar.setVisibility(View.GONE);
+        gridView.setVisibility(View.VISIBLE);
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -51,7 +53,6 @@ public class DisplayAppsScreen extends ActionBarActivity {
                 launchApp(app.packageName);
             }
         });
-        new LoadApplications().execute(this);
     }
 
     protected void launchApp(String packageName) {
@@ -98,52 +99,12 @@ public class DisplayAppsScreen extends ActionBarActivity {
 
         Log.d("TEST", "Load on Restart");
 
-        appsAdapter.clear();
-        listApps = Applications.GetSelectedApps(this);
-        for (Item item : listApps)
+        Applications.appsAdapter.clear();
+        Applications.appList = Applications.GetSelectedApps(this);
+        for (Item item : Applications.appList)
         {
-            appsAdapter.add(item);
+            Applications.appsAdapter.add(item);
         }
-        appsAdapter.notifyDataSetChanged();
-    }
-
-    private class LoadApplications extends AsyncTask<Context, Void, Pair>
-    {
-        @Override
-        protected Pair doInBackground(Context... param)
-        {
-            ArrayList<Item> apps;
-            Pair p = new Pair();
-            p.context = param[0];
-            File appListFile = new File(getFilesDir(), "app_list.txt");
-
-            if (appListFile.exists())
-            {
-                //Toon enkel deze apps
-                apps = Applications.GetSelectedApps(param[0]);
-            }
-            else
-            {
-                //Laad geinstalleerde apps
-                apps = Applications.GetInstalledApps(param[0]);
-                Applications.SaveVisibleApps(param[0], apps);
-            }
-            p.appList = apps;
-            return p;
-        }
-
-        protected void onPostExecute(Pair result) {
-            appsAdapter = new AppsAdapter(result.context, R.layout.row_grid, result.appList);
-            appsAdapter.setNotifyOnChange(true);
-            gridView.setAdapter(appsAdapter);
-            progressBar.setVisibility(View.GONE);
-            gridView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private class Pair
-    {
-        public Context context;
-        public ArrayList<Item> appList;
+        Applications.appsAdapter.notifyDataSetChanged();
     }
 }
