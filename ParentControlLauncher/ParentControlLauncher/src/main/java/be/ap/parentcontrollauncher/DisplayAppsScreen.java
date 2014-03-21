@@ -41,7 +41,7 @@ public class DisplayAppsScreen extends ActionBarActivity {
 
         gridView = (GridView) findViewById(R.id.gridview1);
         progressBar = (ProgressBar) findViewById(R.id.progressbar1);
-
+        Applications.appsAdapter = new AppsAdapter(this, R.layout.row_grid, Applications.appList);
         gridView.setAdapter(Applications.appsAdapter);
         progressBar.setVisibility(View.GONE);
         gridView.setVisibility(View.VISIBLE);
@@ -100,7 +100,7 @@ public class DisplayAppsScreen extends ActionBarActivity {
         Log.d("TEST", "Load on Restart");
 
         Applications.appsAdapter.clear();
-        Applications.appList = Applications.GetSelectedApps(this);
+        Applications.appList = Applications.GetAppsFromDB(getApplicationContext(), getContentResolver(), true);
         for (Item item : Applications.appList)
         {
             Applications.appsAdapter.add(item);

@@ -60,7 +60,7 @@ public class AppsAdapter extends ArrayAdapter<Item> {
         holder.txtTitle.setText(item.getTitle());
         holder.imageItem.setImageBitmap((item.getImage()));
         if (layoutResourceId == R.layout.row_list) {
-            holder.checkItem.setChecked(item.checked);
+            holder.checkItem.setChecked(item.visible);
         }
         return row;
     }

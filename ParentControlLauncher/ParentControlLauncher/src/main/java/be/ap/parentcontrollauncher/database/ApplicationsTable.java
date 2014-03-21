@@ -11,7 +11,7 @@ public class ApplicationsTable {
     //Database table
     public static final String TABLE_APPLICATIONS = "applications";
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_PACKAGE = "package";
     public static final String COLUMN_VISIBLE = "visible";
 
@@ -20,7 +20,7 @@ public class ApplicationsTable {
             + TABLE_APPLICATIONS
             + " ( "
             + COLUMN_ID + " integer primary key autoincrement, "
-            + COLUMN_NAME + " text not null, "
+            + COLUMN_TITLE + " text not null, "
             + COLUMN_PACKAGE + " text not null, "
             + COLUMN_VISIBLE + " integer not null"
             + ");";
