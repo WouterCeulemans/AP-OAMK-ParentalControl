@@ -7,6 +7,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity
 {
@@ -25,10 +26,17 @@ public class MainActivity extends Activity
 
         LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         // implementation of TOASTS
-        
+        if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        {
+            Toast toast= Toast.makeText(MainActivity.this, " You can improve the accuracy by turning on the GPS", Toast.LENGTH_SHORT);
+            toast.show();
+        }
         LocationListener ll = new myLocationListener();
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+
+
     }
+
         class myLocationListener implements LocationListener
         {
 
