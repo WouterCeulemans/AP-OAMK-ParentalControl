@@ -5,10 +5,11 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$PROJECT_DIR$/gradle/wrapper" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ParentControlLauncher" />
+            <option value="C:\Users\Wouter\Documents\Artesis\Semester 4\Project ICT 4\AP-OAMK-ParentalControl\ParentControlLauncher" />
+            <option value="C:\Users\Wouter\Documents\Artesis\Semester 4\Project ICT 4\AP-OAMK-ParentalControl\ParentControlLauncher\ParentControlLauncher" />
           </set>
         </option>
       </GradleProjectSettings>

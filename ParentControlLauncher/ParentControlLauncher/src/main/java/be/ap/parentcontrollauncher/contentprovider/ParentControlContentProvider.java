@@ -152,7 +152,7 @@ public class ParentControlContentProvider extends ContentProvider {
       }
 
     private void checkColumns(String[] projection) {
-        String[] available = {ApplicationsTable.COLUMN_VISIBLE, ApplicationsTable.COLUMN_PACKAGE, ApplicationsTable.COLUMN_NAME, ApplicationsTable.COLUMN_ID};
+        String[] available = {ApplicationsTable.COLUMN_VISIBLE, ApplicationsTable.COLUMN_PACKAGE, ApplicationsTable.COLUMN_TITLE, ApplicationsTable.COLUMN_ID};
 
         if (projection != null) {
             HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));

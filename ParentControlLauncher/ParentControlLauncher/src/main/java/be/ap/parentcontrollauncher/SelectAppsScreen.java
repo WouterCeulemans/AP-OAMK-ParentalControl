@@ -1,6 +1,7 @@
 package be.ap.parentcontrollauncher;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class SelectAppsScreen extends Activity {
     private ArrayList<Item> listApp = new ArrayList<Item>();
     private ListView listView;
     private AppsAdapter AppsAdapter;
+    public Pair p = new Pair();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,90 +37,37 @@ public class SelectAppsScreen extends Activity {
                 Item app = (Item) adapterView.getItemAtPosition(i);
                 CheckBox checkBox = (CheckBox) view.findViewById(R.id.item_check);
                 checkBox.setChecked(!checkBox.isChecked());
-                app.checked = !app.checked;
+                app.visible = !app.visible;
             }
         });
-        new LoadApplications().execute(this);
+        p.context = getApplicationContext();
+        p.contentResolver = getContentResolver();
+        p.ActivityContext = this;
+        new LoadApplications().execute(p);
     }
 
     @Override
     public void onBackPressed() {
         Log.d("TEST", "Back Pressed");
-        Iterator<Item> i = listApp.iterator();
 
-            try {
-                while (i.hasNext())
-                {
-                    Item app = i.next();
-                    if (!app.checked)
-                    {
-                        i.remove();
-                    }
-                }
-                //int i = 0;
-                /*for (Item app : listApp) {
-                    //v = listView.getAdapter().getView(i, null, null);
-                    //checkBox = (CheckBox) v.findViewById(R.id.item_check);
-                    if (!app.checked)
-                    {
-                        listApp.remove(app);
-                    }
-                    //i++;
-                }*/
-
-                Applications.SaveVisibleApps(this, listApp);
-            }
-            catch (Exception e) {
-
-            }
-        //Log.d("TEST", "File Saved");
+        Applications.UpdateAppsToDB(getContentResolver(), listApp);
         super.onBackPressed();
     }
 
-    private class LoadApplications extends AsyncTask<Context, Void, Pair>
+    private class LoadApplications extends AsyncTask<Pair, Void, Pair>
     {
         @Override
-        protected Pair doInBackground(Context... param)
+        protected Pair doInBackground(Pair... param)
         {
             ArrayList<Item> apps;
-            Pair p = new Pair();
-            p.context = param[0];
-            apps = Applications.GetInstalledApps(param[0]);
-
-            File appListFile = new File(getFilesDir(), "app_list.txt");
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(appListFile));
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    String[] itemInfo = line.split(",");
-                    for (int i = 0; i < apps.size(); i++) {
-                        //Log.d("FileName", "List: " + listArray.get(i).packageName);
-                        //Log.d("FileName", "Item: " + itemInfo[0]);
-                        if (apps.get(i).packageName.equals(itemInfo[0]))
-                        {
-                            apps.get(i).checked = true;
-                            //Log.d("Check", "App is checked");
-                            continue;
-                        }
-                    /*else
-                    {
-                        listArray.get(i).checked = false;
-                    }*/
-                    }
-                }
-                Log.d("File", "File read successfully");
-                p.appList = apps;
-            }
-            catch (Exception e) {
-                Log.d("Error", "Exception occured: " + e.getMessage());
-            }
-            return p;
+            apps = Applications.GetAppsFromDB(param[0].context, param[0].contentResolver, false);
+            param[0].appList = apps;
+            return param[0];
         }
 
         protected void onPostExecute(Pair result) {
             listApp = result.appList;
-            AppsAdapter = new AppsAdapter(result.context, R.layout.row_list, result.appList);
+            AppsAdapter = new AppsAdapter(result.ActivityContext, R.layout.row_list, result.appList);
             listView.setAdapter(AppsAdapter);
         }
     }
@@ -126,6 +75,8 @@ public class SelectAppsScreen extends Activity {
     private class Pair
     {
         public Context context;
+        public Context ActivityContext;
+        public ContentResolver contentResolver;
         public ArrayList<Item> appList;
     }
 }

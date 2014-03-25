@@ -9,19 +9,21 @@ public class Item {
     Bitmap image;
     String title;
     public String packageName;
-    boolean checked;
+    boolean visible;
+    int ID;
 
 
-    public Item(Bitmap image, String title, String packageName, boolean checked) {
+    public Item(Bitmap image, String title, String packageName, boolean visible, int id) {
         super();
         this.image = image;
         this.title = title;
         this.packageName = packageName;
-        this.checked = checked;
+        this.visible = visible;
+        this.ID = id;
     }
 
-    public Item(Bitmap image, String title, String packageName) {
-        this(image, title, packageName, false);
+    public Item(Bitmap image, String title, String packageName, boolean visible) {
+        this(image, title, packageName, visible, -1);
     }
 
     public Bitmap getImage() {
@@ -42,6 +44,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return packageName + "," + checked;
+        return packageName + "," + visible;
     }
 }
