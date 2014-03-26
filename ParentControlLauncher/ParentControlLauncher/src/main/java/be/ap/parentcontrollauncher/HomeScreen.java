@@ -25,6 +25,7 @@ public class HomeScreen extends Activity {
 
     public LoadApplications loadApps;
     private Pair p = new Pair();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ public class HomeScreen extends Activity {
 
         menu.add(0, 11, 0, "Apps")
                 .setIcon(android.R.drawable.ic_menu_gallery);
-        menu.add(0, 12, 0, "SMS")
+        menu.add(0, 12, 0, "Send app intent")
                 .setIcon(android.R.drawable.ic_menu_send);
         return true;
     }
@@ -55,24 +56,17 @@ public class HomeScreen extends Activity {
             case 11:
                 showAppsPage();
             case 12:
-                showSmsApp();
+                //showSmsApp();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     private void showAppsPage(){
-        while (loadApps.getStatus() != AsyncTask.Status.FINISHED) {}
+        while (loadApps.getStatus() != AsyncTask.Status.FINISHED) {
+        }
         Intent showApps = new Intent(this, DisplayAppsScreen.class);
         startActivity(showApps);
-    }
-
-    private void showSmsApp()
-    {
-        //Not yet implemented
-
-        //Intent smsApp = new Intent(this, SmsApp.class);
-        //startActivity(smsApp);
     }
 
     private class LoadApplications extends AsyncTask<Pair, Void, Pair>
@@ -82,8 +76,16 @@ public class HomeScreen extends Activity {
         {
             ArrayList<Item> apps;
 
-            apps = Applications.GetInstalledApps(param[0].context);
-            Applications.InsertAppsToDB(param[0].contentResolver, apps);
+            boolean emptyDB = Applications.IsEmptyDB(getContentResolver());
+            if (emptyDB)
+            {
+                apps = Applications.GetInstalledApps(param[0].context);
+                Applications.InsertAppsToDB(param[0].contentResolver, apps);
+            }
+            else
+            {
+                apps = Applications.GetAppsFromDB(param[0].context, param[0].contentResolver, true);
+            }
 
             param[0].appList = apps;
             return param[0];
