@@ -113,7 +113,11 @@ body
 
 #divContent
 {
-	width:430px;
+	font-size:1.1em;
+	font-weight:bold;
+	
+	height:	600px ;
+	width: 600px;
 	margin:0 auto;
 	background:#222;
 	border: 1px solid #000;
@@ -148,15 +152,6 @@ body
 	border-radius:15px;
 	-moz-border-radius:15px;
 	-webkit-border-radius:15px;
-}
-
-#divContent h5
-{
-	color:#FFF;
-	padding-top:0.8em;
-	padding-bottom:0;
-	padding-left:0;
-	padding-right:0;
 }
 
 #divContent p
