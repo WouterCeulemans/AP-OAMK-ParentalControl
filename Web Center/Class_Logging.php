@@ -115,8 +115,7 @@ class Login
 		
 		foreach ($this->_errors as $key->$value)
 		echo $value."<br>";
-	}
-	
+	}	
 }
 
 ?>

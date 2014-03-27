@@ -167,6 +167,16 @@ body
 	padding:0.7em;
 	line-height:1.4em;
 }
+
+#divContent p
+{
+	font-size:0.7em;
+	color:#999;
+	padding:0.7em;
+	line-height:1.4em;
+	text-decoration:none;
+	list-style-type:none;
+}
 #divFooter
 {
 	background: #222;
