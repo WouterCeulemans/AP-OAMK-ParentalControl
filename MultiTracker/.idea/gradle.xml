@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="C:\Users\Wouter\Documents\Artesis\Semester 4\Project ICT 4\AP-OAMK-ParentalControl\MultiTracker" />
+            <option value="C:\Users\Wouter\Documents\Artesis\Semester 4\Project ICT 4\AP-OAMK-ParentalControl\MultiTracker\app" />
           </set>
         </option>
       </GradleProjectSettings>

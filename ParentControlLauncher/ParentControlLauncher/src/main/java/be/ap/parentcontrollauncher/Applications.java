@@ -113,6 +113,17 @@ public class Applications {
         }
     }
 
+    public static boolean IsEmptyDB(ContentResolver contentResolver)
+    {
+        Cursor cursor = contentResolver.query(ParentControlContentProvider.CONTENT_URI, null, null, null, null);
+        if (cursor.getCount() > 0)
+        {
+            return false;
+        }
+        else
+            return true;
+    }
+
     public static AppsAdapter appsAdapter;
     public static ArrayList<Item> appList;
 }
