@@ -1,0 +1,176 @@
+@charset "utf-8";
+
+body, h1, h2, h3, h4, h5, h6, p, div, ul, il
+{
+	margin: 0;
+	padding:0;
+}
+
+body 
+	{
+		font-family: Verdana, Geneva, sans-serif;
+		background-color:#000;
+	}
+	
+#divWrapper
+{
+	width: 700px;
+	margin:20px	auto;
+}
+
+#divHeader
+{
+	width:700px;
+	text-align:center;
+}
+
+#divHeader img
+{
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+#divLine
+{
+	width:700px;
+	background:#999;
+	height: 1px;
+}
+
+#divLinks
+{
+	width:700px;
+	background:#666;
+}
+
+#divNav
+{
+	width:384px;
+	background:#666;
+	height:36px;
+	margin:0 auto;
+}
+	
+#divNav ul
+{
+	list-style-type:none;
+}
+
+#divNav ul li
+{
+	float:left;
+}
+
+#divNav ul li a
+{
+	display:block;
+	height:20px;
+	line-height:20px;
+	background-color:#000;/* is for internet explorer ... it doens't take gradient setup*/
+	width:80px;
+	font-size:0.8em;
+	font-weight:bold;
+	color:#FFF;
+	text-align:center;
+	text-decoration:none;
+	margin:7px;
+	
+	/*Border Radius*/
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border:1px solid #000;
+	
+	/*Gradiants*/
+	background:-moz-linear-gradient(top, #666, #333);
+	background:-webkit-gradient(linear, left top , left bottom, from(#666), to(#333));
+}
+
+#divNav ul li a:hover
+{
+	background:#333;
+	background:-moz-linear-gradient(top, #C, #666);
+	background:-webkit-gradient(linear, left top , left bottom, from(#000), to(#666));
+}
+
+#divNav ul li a.current, #divNav ul li a.current:hover
+{
+	background:#333;
+	background:-moz-linear-gradient(top, #000, #666);
+	background:-webkit-gradient(linear, left top , left bottom, from(#000), to(#666));
+	
+	color:#f63;
+	cursor:default;
+}
+
+#divHome
+{
+	width:700px;
+	background:#333;
+	padding-top:60px;
+	padding-bottom:60px;
+}
+
+#divContent
+{
+	width:430px;
+	margin:0 auto;
+	background:#222;
+	border: 1px solid #000;
+	
+	/*gradient*/
+	background:-moz-linear-gradient(top, #666, #333, #222);
+	background:-webkit-gradient(linear, left top , left bottom, from(#666), to(#222), color-stop(0.5,#333));
+	
+	border-readius:15px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	
+	/*shadows*/
+	box-shadow:3px 3px 10px #000;
+	-moz-box-shadow:3px 3px 10px #000;
+	-webkit-box-shadow:3px 3px 10px #000;
+	
+}
+
+#divContent img
+{
+	float:left;	
+	border:1px solid #000;
+	background-color:##333;
+	padding:20px;
+	margin:0.7em;
+	
+	/*gradient*/
+	background:-moz-linear-gradient(top, #000, #333);
+	background:-webkit-gradient(linear, left top , left bottom, from(#000), to(#333));
+	
+	/*border radius*/
+	border-radius:30px;
+	-moz-border-radius:30px;
+	-webkit-border-radius:30px;
+}
+
+#divContent h5
+{
+	color:#FFF;
+	padding-top:0.8em;
+	padding-bottom:0;
+	padding-left:0;
+	padding-right:0;
+}
+
+#divContent p
+{
+	font-size:0.7em;
+	color:#999;
+	padding:0.7em;
+	line-height:1.4em;
+}
+#divFooter
+{
+	background: #222;
+	height: 10px;
+	width:700px;
+	border-bottom:1px solid #333;
+}
