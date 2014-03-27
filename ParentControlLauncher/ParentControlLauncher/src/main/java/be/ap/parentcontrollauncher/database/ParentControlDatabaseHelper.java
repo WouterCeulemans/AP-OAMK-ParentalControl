@@ -7,11 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by Wouter on 28/02/14.
  */
-public class ApplicationsDatabaseHelper extends SQLiteOpenHelper{
+public class ParentControlDatabaseHelper extends SQLiteOpenHelper{
     private static final String DATABASE_NAME = "parentcontrol.db";
     private static final int DATABASE_VERSION = 1;
 
-    public ApplicationsDatabaseHelper (Context context){
+    public ParentControlDatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -19,6 +19,7 @@ public class ApplicationsDatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase database) {
         ApplicationsTable.onCreate(database);
+        LocationsTable.onCreate(database);
     }
 
     //Method is called during an upgrade of the database,
@@ -26,5 +27,6 @@ public class ApplicationsDatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion){
         ApplicationsTable.onUpgrade(database, oldVersion, newVersion);
+        LocationsTable.onUpgrade(database, oldVersion, newVersion);
     }
 }

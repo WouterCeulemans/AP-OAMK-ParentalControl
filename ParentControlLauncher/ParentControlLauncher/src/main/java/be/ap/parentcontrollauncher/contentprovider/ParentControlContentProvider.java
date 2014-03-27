@@ -13,8 +13,7 @@ import android.text.TextUtils;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import be.ap.parentcontrollauncher.Applications;
-import be.ap.parentcontrollauncher.database.ApplicationsDatabaseHelper;
+import be.ap.parentcontrollauncher.database.ParentControlDatabaseHelper;
 import be.ap.parentcontrollauncher.database.ApplicationsTable;
 
 /**
@@ -23,11 +22,13 @@ import be.ap.parentcontrollauncher.database.ApplicationsTable;
 public class ParentControlContentProvider extends ContentProvider {
 
     //database
-    private ApplicationsDatabaseHelper database;
+    private ParentControlDatabaseHelper database;
 
     //used for the UriMacher
     private static final int APPLICATIONS = 10;
     private static final int APPLICATIONS_ID = 20;
+    private static final int LOCATIONS = 30;
+    private static final int LOCATIONS_ID = 40;
 
     private static final String AUTHORITY = "be.ap.parentcontrollauncher.contentprovider";
 
@@ -44,7 +45,7 @@ public class ParentControlContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        database = new ApplicationsDatabaseHelper(getContext());
+        database = new ParentControlDatabaseHelper(getContext());
         return false;
     }
 

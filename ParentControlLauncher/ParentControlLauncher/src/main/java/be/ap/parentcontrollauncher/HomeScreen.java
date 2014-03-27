@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.File;
@@ -30,6 +31,15 @@ public class HomeScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
+        Button appButton = (Button)findViewById(R.id.AppButton);
+        appButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showAppsPage();
+            }
+        });
 
         p.context = getApplicationContext();
         p.contentResolver = getContentResolver();
@@ -63,10 +73,13 @@ public class HomeScreen extends Activity {
     }
 
     private void showAppsPage(){
-        while (loadApps.getStatus() != AsyncTask.Status.FINISHED) {
+        if (loadApps.getStatus() != AsyncTask.Status.FINISHED) {
+            Toast.makeText(getApplicationContext(), "Your apps are still loading", Toast.LENGTH_LONG).show();
         }
-        Intent showApps = new Intent(this, DisplayAppsScreen.class);
-        startActivity(showApps);
+        else {
+            Intent showApps = new Intent(this, DisplayAppsScreen.class);
+            startActivity(showApps);
+        }
     }
 
     private class LoadApplications extends AsyncTask<Pair, Void, Pair>

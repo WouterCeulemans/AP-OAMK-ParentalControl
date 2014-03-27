@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -38,6 +39,15 @@ public class DisplayAppsScreen extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_apps_screen);
+
+        Button settingsButton = (Button) findViewById(R.id.SettingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showSettingsPage();
+            }
+        });
 
         gridView = (GridView) findViewById(R.id.gridview1);
         progressBar = (ProgressBar) findViewById(R.id.progressbar1);

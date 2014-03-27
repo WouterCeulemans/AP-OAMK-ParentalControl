@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -30,12 +32,26 @@ public class Applications {
     {
         ArrayList<Item> appList = new ArrayList<Item>();
         List<ApplicationInfo> myApplications;
+        Bitmap APKIcon;
+        Drawable icon;
 
         final PackageManager pm = context.getPackageManager();
         myApplications = pm.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo packageInfo : myApplications)
         {
-            appList.add(new Item(((BitmapDrawable) packageInfo.loadIcon(pm)).getBitmap(), (String) pm.getApplicationLabel(packageInfo), packageInfo.packageName, true));
+            icon = packageInfo.loadIcon(pm);
+            if(icon instanceof BitmapDrawable) {
+                APKIcon = ((BitmapDrawable)icon).getBitmap();
+            }
+            else
+            {
+                Bitmap bitmap = Bitmap.createBitmap(icon.getIntrinsicWidth(),icon.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                icon.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+                icon.draw(canvas);
+                APKIcon = bitmap;
+            }
+            appList.add(new Item(APKIcon, (String) pm.getApplicationLabel(packageInfo), packageInfo.packageName, true));
         }
         return appList;
     }
@@ -116,11 +132,14 @@ public class Applications {
     public static boolean IsEmptyDB(ContentResolver contentResolver)
     {
         Cursor cursor = contentResolver.query(ParentControlContentProvider.CONTENT_URI, null, null, null, null);
+
         if (cursor.getCount() > 0)
         {
+            cursor.close(); //nexus 5
             return false;
         }
         else
+        cursor.close(); //nexus 5
             return true;
     }
 
