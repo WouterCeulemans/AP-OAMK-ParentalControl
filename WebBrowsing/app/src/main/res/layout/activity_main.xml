@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/imageButton3" />
+        android:layout_alignBottom="@+id/btnGo" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -28,7 +28,6 @@
         android:layout_below="@+id/btnForward"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp"
         android:layout_alignRight="@+id/btnForward"
         android:layout_alignEnd="@+id/btnForward" />
 
@@ -46,8 +45,9 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
+        android:id="@+id/btnBack"
         android:src="@drawable/arrowbackicon"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -55,28 +55,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnSettings"
+        android:src="@drawable/settingsicon"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/settingsicon" />
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton2"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageButton"
+        android:id="@+id/btnRefresh"
         android:src="@drawable/refreshicon"
-        android:layout_alignBottom="@+id/imageButton"
-        android:layout_toLeftOf="@+id/btnSettings" />
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/btnBack"
+        android:layout_above="@+id/txtUrlBar" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton3"
+        android:id="@+id/btnGo"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/btnSettings"
         android:src="@drawable/goicon"
-        android:layout_alignBottom="@+id/btnSettings" />
+        android:layout_alignBottom="@+id/btnSettings"
+        android:layout_toLeftOf="@+id/btnForward" />
 
 </RelativeLayout>
 
