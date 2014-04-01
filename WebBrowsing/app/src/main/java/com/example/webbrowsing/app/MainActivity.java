@@ -57,7 +57,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         {
             case R.id.btnGo:
                 //allow people to go to there own url like a bauwz
-                String theWebsite = "https://" + url.getText().toString();
+                String theWebsite = "http://" + url.getText().toString();
                 ourBrowser.loadUrl(theWebsite);
                 // for closing/hiding the keyboard
                 InputMethodManager imm =( InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
