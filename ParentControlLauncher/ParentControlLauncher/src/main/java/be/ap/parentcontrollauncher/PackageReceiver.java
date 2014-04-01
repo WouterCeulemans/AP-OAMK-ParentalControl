@@ -6,9 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 
 import be.ap.parentcontrollauncher.contentprovider.ParentControlContentProvider;
@@ -49,7 +46,7 @@ public class PackageReceiver extends BroadcastReceiver {
                 values.put(ApplicationsTable.COLUMN_TITLE, title);
                 values.put(ApplicationsTable.COLUMN_PACKAGE, data);
                 values.put(ApplicationsTable.COLUMN_VISIBLE, true);
-                context.getContentResolver().insert(ParentControlContentProvider.CONTENT_URI, values);
+                context.getContentResolver().insert(ParentControlContentProvider.CONTENT_URI_APPS, values);
 
                 Log.d("receiver", "App added to DB");
 
@@ -60,7 +57,7 @@ public class PackageReceiver extends BroadcastReceiver {
                 try {
 
                     String selection = ApplicationsTable.COLUMN_PACKAGE + " = '" + data + "'";
-                    context.getContentResolver().delete(ParentControlContentProvider.CONTENT_URI, selection, null);
+                    context.getContentResolver().delete(ParentControlContentProvider.CONTENT_URI_APPS, selection, null);
                     Log.d("receiver", "App removed from DB");
                 }
                 catch (Exception e)

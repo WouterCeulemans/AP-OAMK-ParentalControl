@@ -1,6 +1,8 @@
 package be.ap.parentcontrollauncher;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -26,11 +28,19 @@ public class HomeScreen extends Activity {
 
     public LoadApplications loadApps;
     private Pair p = new Pair();
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
+        //AlarmManager
+        alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, LocationService.class);
+        alarmIntent = PendingIntent.getService(this, 0, intent, 0);
+        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000 * 60 * 1, 1000 * 60 * 1, alarmIntent);
 
         Button appButton = (Button)findViewById(R.id.AppButton);
         appButton.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +135,7 @@ public class HomeScreen extends Activity {
         values.put(ApplicationsTable.COLUMN_TITLE, "Eerste app");
         values.put(ApplicationsTable.COLUMN_PACKAGE, "com.example.EersteApp");
         values.put(ApplicationsTable.COLUMN_VISIBLE, 1);
-        getContentResolver().insert(ParentControlContentProvider.CONTENT_URI, values);
+        getContentResolver().insert(ParentControlContentProvider.CONTENT_URI_APPS, values);
         Toast.makeText(getApplicationContext(), "App toegevoegd", Toast.LENGTH_SHORT).show();
     }
 
@@ -133,7 +143,7 @@ public class HomeScreen extends Activity {
     {
         try {
             Cursor cur;
-            cur = getContentResolver().query(ParentControlContentProvider.CONTENT_URI, null, null, null, null);
+            cur = getContentResolver().query(ParentControlContentProvider.CONTENT_URI_APPS, null, null, null, null);
             if (cur.getCount() > 0) {
                 cur.moveToFirst();
                 String id = cur.getString(cur.getColumnIndex(ApplicationsTable.COLUMN_ID));

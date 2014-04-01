@@ -11,12 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,11 +62,11 @@ public class Applications {
         Cursor cur;
         if (onlyVisibleApps) {
             String selectionClause = ApplicationsTable.COLUMN_VISIBLE + " > 0";
-            cur = contentResolver.query(ParentControlContentProvider.CONTENT_URI, null, selectionClause, null, null);
+            cur = contentResolver.query(ParentControlContentProvider.CONTENT_URI_APPS, null, selectionClause, null, null);
         }
         else
         {
-            cur = contentResolver.query(ParentControlContentProvider.CONTENT_URI, null, null, null, null);
+            cur = contentResolver.query(ParentControlContentProvider.CONTENT_URI_APPS, null, null, null, null);
         }
         if (cur.getCount() > 0) {
             while (cur.moveToNext())
@@ -112,7 +107,7 @@ public class Applications {
             values.put(ApplicationsTable.COLUMN_TITLE, item.title);
             values.put(ApplicationsTable.COLUMN_PACKAGE,item.packageName);
             values.put(ApplicationsTable.COLUMN_VISIBLE, item.visible);
-            contentResolver.insert(ParentControlContentProvider.CONTENT_URI, values);
+            contentResolver.insert(ParentControlContentProvider.CONTENT_URI_APPS, values);
         }
     }
 
@@ -125,13 +120,13 @@ public class Applications {
             values = new ContentValues();
             selection = ApplicationsTable.COLUMN_ID + " = " + item.ID;
             values.put(ApplicationsTable.COLUMN_VISIBLE, item.visible);
-            contentResolver.update(ParentControlContentProvider.CONTENT_URI, values, selection, null);
+            contentResolver.update(ParentControlContentProvider.CONTENT_URI_APPS, values, selection, null);
         }
     }
 
     public static boolean IsEmptyDB(ContentResolver contentResolver)
     {
-        Cursor cursor = contentResolver.query(ParentControlContentProvider.CONTENT_URI, null, null, null, null);
+        Cursor cursor = contentResolver.query(ParentControlContentProvider.CONTENT_URI_APPS, null, null, null, null);
 
         if (cursor.getCount() > 0)
         {
