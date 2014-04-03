@@ -20,6 +20,7 @@ public class ParentControlDatabaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase database) {
         ApplicationsTable.onCreate(database);
         LocationsTable.onCreate(database);
+        ContactsTable.onCreate(database);
     }
 
     //Method is called during an upgrade of the database,
@@ -28,5 +29,6 @@ public class ParentControlDatabaseHelper extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion){
         ApplicationsTable.onUpgrade(database, oldVersion, newVersion);
         LocationsTable.onUpgrade(database, oldVersion, newVersion);
+        ContactsTable.onUpgrade(database, oldVersion, newVersion);
     }
 }

@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import be.ap.parentcontrollauncher.database.ContactsTable;
 import be.ap.parentcontrollauncher.database.LocationsTable;
 import be.ap.parentcontrollauncher.database.ParentControlDatabaseHelper;
 import be.ap.parentcontrollauncher.database.ApplicationsTable;
@@ -30,14 +31,18 @@ public class ParentControlContentProvider extends ContentProvider {
     private static final int APPLICATIONS_ID = 20;
     private static final int LOCATIONS = 30;
     private static final int LOCATIONS_ID = 40;
+    private static final int CONTACTS = 50;
+    private static final int CONTACTS_ID = 60;
 
     private static final String AUTHORITY = "be.ap.parentcontrollauncher.contentprovider";
 
     private static final String BASE_PATH = "parentcontrol";
     private static final String PATH_APPLICATIONS = "applications";
     private static final String PATH_LOCATIONS = "locations";
+    private static final String PATH_CONTACTS = "contacts";
     public static final Uri CONTENT_URI_APPS = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH + "/" + PATH_APPLICATIONS);
     public static final Uri CONTENT_URI_LOCATIONS = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH + "/" + PATH_LOCATIONS);
+    public static final Uri CONTENT_URI_CONTACTS = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH + "/" + PATH_CONTACTS);
     public static final String APPLICATIONS_MIME_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/applications";
     public static final String APPLICATION_MIME_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/application";
 
@@ -47,6 +52,8 @@ public class ParentControlContentProvider extends ContentProvider {
         sUriMatcher.addURI(AUTHORITY, BASE_PATH + "/" + PATH_APPLICATIONS + "/#", APPLICATIONS_ID);
         sUriMatcher.addURI(AUTHORITY, BASE_PATH + "/" + PATH_LOCATIONS, LOCATIONS);
         sUriMatcher.addURI(AUTHORITY, BASE_PATH + "/" + PATH_LOCATIONS + "/#", LOCATIONS_ID);
+        sUriMatcher.addURI(AUTHORITY, BASE_PATH + "/" + PATH_CONTACTS, CONTACTS);
+        sUriMatcher.addURI(AUTHORITY, BASE_PATH + "/" + PATH_CONTACTS + "/#", CONTACTS_ID);
     }
 
     @Override
@@ -82,6 +89,12 @@ public class ParentControlContentProvider extends ContentProvider {
             case LOCATIONS_ID:
                 queryBuilder.setTables(LocationsTable.TABLE_LOCATIONS);
                 queryBuilder.appendWhere(LocationsTable.COLUMN_ID + "=" + uri.getLastPathSegment());
+            case CONTACTS:
+                queryBuilder.setTables(ContactsTable.TABLE_CONTACTS);
+                break;
+            case CONTACTS_ID:
+                queryBuilder.setTables(ContactsTable.TABLE_CONTACTS);
+                queryBuilder.appendWhere(ContactsTable.COLUMN_ID + "=" + uri.getLastPathSegment());
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
@@ -111,6 +124,9 @@ public class ParentControlContentProvider extends ContentProvider {
                 break;
             case LOCATIONS:
                 id = sqlDB.insert(LocationsTable.TABLE_LOCATIONS, null, values);
+                break;
+            case CONTACTS:
+                id = sqlDB.insert(ContactsTable.TABLE_CONTACTS, null, values);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -148,6 +164,18 @@ public class ParentControlContentProvider extends ContentProvider {
                 }
                 else {
                     rowsDeleted = sqlDB.delete(LocationsTable.TABLE_LOCATIONS, LocationsTable.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
+                }
+                break;
+            case CONTACTS:
+                rowsDeleted = sqlDB.delete(ContactsTable.TABLE_CONTACTS, selection, selectionArgs);
+                break;
+            case CONTACTS_ID:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    rowsDeleted = sqlDB.delete(ContactsTable.TABLE_CONTACTS, ContactsTable.COLUMN_ID + "=" + id, null);
+                }
+                else {
+                    rowsDeleted = sqlDB.delete(ContactsTable.TABLE_CONTACTS, ContactsTable.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
                 }
                 break;
             default:
@@ -188,6 +216,18 @@ public class ParentControlContentProvider extends ContentProvider {
                     rowsUpdated = sqlDB.update(LocationsTable.TABLE_LOCATIONS, values, LocationsTable.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
                 }
                 break;
+            case CONTACTS:
+                rowsUpdated = sqlDB.update(ContactsTable.TABLE_CONTACTS, values, selection, selectionArgs);
+                break;
+            case CONTACTS_ID:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    rowsUpdated = sqlDB.update(ContactsTable.TABLE_CONTACTS, values,ContactsTable.COLUMN_ID + "=" + id, null);
+                }
+                else {
+                    rowsUpdated = sqlDB.update(ContactsTable.TABLE_CONTACTS, values, ContactsTable.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
+                }
+                break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
@@ -197,7 +237,9 @@ public class ParentControlContentProvider extends ContentProvider {
 
     private void checkColumns(String[] projection) {
         String[] available = {ApplicationsTable.COLUMN_VISIBLE, ApplicationsTable.COLUMN_PACKAGE, ApplicationsTable.COLUMN_TITLE, ApplicationsTable.COLUMN_ID,
-                             LocationsTable.COLUMN_ID, LocationsTable.COLUMN_LAT, LocationsTable.COLUMN_LONG};
+                             LocationsTable.COLUMN_ID, LocationsTable.COLUMN_LAT, LocationsTable.COLUMN_LONG, ContactsTable.COLUMN_CALLMAX, ContactsTable.COLUMN_CALLAMOUNT,
+                             ContactsTable.COLUMN_FIRSTNAME, ContactsTable.COLUMN_ID, ContactsTable.COLUMN_LASTNAME, ContactsTable.COLUMN_PHONENUMBER, ContactsTable.COLUMN_TXTAMOUNT,
+                             ContactsTable.COLUMN_TXTMAX};
 
         if (projection != null) {
             HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));

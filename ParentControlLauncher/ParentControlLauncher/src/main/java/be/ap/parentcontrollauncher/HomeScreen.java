@@ -56,6 +56,9 @@ public class HomeScreen extends Activity {
 
         loadApps = new LoadApplications();
         loadApps.execute(p);
+
+        JSONHandler jsonHandler = new JSONHandler(this);
+        jsonHandler.Deserialize(jsonHandler.Serialize());
     }
 
     @Override
