@@ -100,8 +100,9 @@ public class MainActivity extends Activity
 	import android.view.View;
 	import android.view.View.OnClickListener;
 	import android.widget.Button;
+    import android.widget.EditText;
 
-	public class MainActivity extends Activity {
+public class MainActivity extends Activity {
 
 	    final Context context = this;
 	    private Button btn;
@@ -112,6 +113,8 @@ public class MainActivity extends Activity
 	        setContentView(R.layout.activity_main);
 
 	        btn = (Button) findViewById(R.id.button);
+            Button callButton = (Button)findViewById(R.id.CallButton);
+            final EditText phoneNumber = (EditText)findViewById(R.id.PhoneNumberTxt);
 
 	        PhoneCallListener phoneCallListener = new PhoneCallListener();
 	        TelephonyManager telManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
@@ -130,6 +133,15 @@ public class MainActivity extends Activity
 	            }
 
 	        });
+
+            callButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent phoneCallIntent = new Intent(Intent.ACTION_CALL);
+                    phoneCallIntent.setData(Uri.parse("tel:" + phoneNumber.getText().toString().trim()));
+                    startActivity(phoneCallIntent);
+                }
+            });
 
 	    }
 

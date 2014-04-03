@@ -4,10 +4,25 @@
     	    android:layout_height="fill_parent"
     	    android:orientation="vertical" >
 
+
+
     	    <Button
     	        android:id="@+id/button"
     	        android:layout_width="wrap_content"
     	        android:layout_height="wrap_content"
     	        android:text="Call 123456" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/PhoneNumberTxt" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Call number"
+        android:id="@+id/CallButton" />
 
 </LinearLayout>
