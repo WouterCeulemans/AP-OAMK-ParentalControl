@@ -9,9 +9,10 @@ namespace SQL_Database_Manager
 {
     class ClientHandler
     {
+        private readonly string    _db = Program.Db;
         private readonly TcpClient _clientSocket;
-        private const string Db = @"server=192.168.0.106;userid=root;password=bx7QBSruC;database=parentcontrol";
-        MySqlConnection _conn;
+        private MySqlConnection    _conn;
+
 
         public ClientHandler (TcpClient clientSocket)
         {
@@ -55,96 +56,66 @@ namespace SQL_Database_Manager
 
                 networkStream.Close ();
                 _clientSocket.Close ();
-                Console.WriteLine      ("{0} | Info | User Disconnected", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                Program.File.WriteLine ("{0} | Info | User Disconnected", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                Program.File.Flush ();
+                Program.WriteInfo (String.Format ("{0} | Info | User Disconnected", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
             }
             catch (Exception)
             {
                 _clientSocket.Close ();
-                Console.WriteLine      ("{0} | Error | User Lost Connection", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                Program.File.WriteLine ("{0} | Error | User Lost Connection", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                Program.File.Flush ();
+                Program.WriteInfo (String.Format ("{0} | Error | User Lost Connection", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
             }
         }
 
         private void Create (IList<string> data)
         {
-            _conn = new MySqlConnection (Db);
-            _conn.Open ();
-
+            _conn = new MySqlConnection (_db);
             var query = String.Format ("insert into users (ID,Name) Values(\"{0}\",\"{1}\");", data [1], data [2]);
             try
             {
+                _conn.Open ();
                 var cmd = new MySqlCommand (query, _conn);
                 cmd.ExecuteScalar ();
             }
             catch (Exception)
             {
-                Console.WriteLine      ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                Program.File.WriteLine ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                Program.File.Flush ();
+                Program.WriteInfo (String.Format ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
             }
             _conn.Close ();
         }
 
         private void Push (Device device)
         {
-            _conn = new MySqlConnection (Db);
-            _conn.Open ();
-            foreach (var app in device.Apps)
+            _conn = new MySqlConnection (_db);
+            try
             {
-                var query = String.Format ("insert into apps (ID,PackageName,Name,Visible) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\") on duplicate key update Name=\"{2}\", Visible=\"{3}\";",
-                                           device.DeviceId, app.PackageName, app.Name, app.Visible);
-                try
+                _conn.Open ();
+                foreach (var app in device.Apps)
                 {
+                    var query = String.Format ("insert into apps (ID,PackageName,Name,Visible) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\") on duplicate key update Name=\"{2}\", Visible=\"{3}\";",
+                                               device.DeviceId, app.PackageName, app.Name, app.Visible);
+
                     var cmd = new MySqlCommand (query, _conn);
                     cmd.ExecuteScalar ();
                 }
-                catch (Exception)
+                foreach (var contact in device.Contacts)
                 {
-                    Console.WriteLine      ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                    Program.File.WriteLine ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                    Program.File.Flush ();
-                    _conn.Close ();
-                    break;
+                    var query = String.Format ("insert into contacts (ID,Contact_ID,SurName,Name,Number,TxtAmount,TxtMax,CallAmount,CallMax) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\") on duplicate key update SurName=\"{2}\",Name=\"{3}\",Number=\"{4}\",TxtAmount=\"{5}\",TxtMax=\"{6}\",CallAmount=\"{7}\",CallMax=\"{8}\";",
+                                               device.DeviceId, contact.ContactId, contact.SurName, contact.Name, contact.Number, contact.TxtAmount, contact.TxtMax, contact.CallAmount, contact.CallMax);
+                    var cmd = new MySqlCommand (query, _conn);
+                    cmd.ExecuteScalar ();
                 }
+                foreach (var coordinate in device.Locations)
+                {
+                    var query =
+                        String.Format ("insert into coordinates (ID,Pos_ID,Latitude,Longitude) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\") on duplicate key update Latitude=\"{2}\",Longitude=\"{3}\";",
+                                       device.DeviceId, coordinate.PosId, coordinate.Lat, coordinate.Long);
+                    var cmd = new MySqlCommand (query, _conn);
+                    cmd.ExecuteScalar ();
+                }
+
             }
-            foreach (var contact in device.Contacts)
+            catch (Exception)
             {
-                var query = String.Format ("insert into contacts (ID,Contact_ID,SurName,Name,Number,TxtAmount,TxtMax,CallAmount,CallMax) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\") on duplicate key update SurName=\"{2}\",Name=\"{3}\",Number=\"{4}\",TxtAmount=\"{5}\",TxtMax=\"{6}\",CallAmount=\"{7}\",CallMax=\"{8}\";",
-                                           device.DeviceId, contact.ContactId, contact.SurName, contact.Name, contact.Number, contact.TxtAmount, contact.TxtMax, contact.CallAmount, contact.CallMax);
-                try
-                {
-                    var cmd = new MySqlCommand (query, _conn);
-                    cmd.ExecuteScalar ();
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine      ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                    Program.File.WriteLine ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                    Program.File.Flush ();
-                    _conn.Close ();
-                    break;
-                }
-            }
-            foreach (var coordinate in device.Locations)
-            {
-                var query = String.Format ("insert into coordinates (ID,Pos_ID,Latitude,Longitude) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\") on duplicate key update Latitude=\"{2}\",Longitude=\"{3}\";",
-                                           device.DeviceId, coordinate.PosId, coordinate.Lat, coordinate.Long);
-                try
-                {
-                    var cmd = new MySqlCommand (query, _conn);
-                    cmd.ExecuteScalar ();
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine      ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                    Program.File.WriteLine ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                    Program.File.Flush ();
-                    _conn.Close ();
-                    break;
-                }
+                Program.WriteInfo (String.Format ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
             }
             _conn.Close ();
         }
@@ -164,10 +135,10 @@ namespace SQL_Database_Manager
         private App      [] GetAppList      (string id) 
         {
             var query = String.Format ("select packagename,name,visible from apps where id=\"{0}\";", id);
-            _conn = new MySqlConnection (Db);
-            _conn.Open  ();
+            _conn = new MySqlConnection (_db);
             try
             {
+                _conn.Open ();
                 var cmd     = new MySqlCommand  (query, _conn);
                 var obj     = cmd.ExecuteReader ();
                 var appList = new List<App>     ();
@@ -185,9 +156,7 @@ namespace SQL_Database_Manager
             }
             catch (Exception)
             {
-                Console.WriteLine      ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                Program.File.WriteLine ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                Program.File.Flush ();
+                Program.WriteInfo (String.Format ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
                 _conn.Close ();
                 return new App[0];
             }
@@ -195,10 +164,10 @@ namespace SQL_Database_Manager
         private Contact  [] GetContactList  (string id) 
         {
             var query = String.Format ("select Contact_ID,SurName,Name,Number,TxtAmount,TxtMax,CallAmount,CallMax from contacts where id=\"{0}\";", id);
-            _conn = new MySqlConnection (Db);
-            _conn.Open ();
+            _conn = new MySqlConnection (_db);
             try
             {
+                _conn.Open ();
                 var cmd         = new MySqlCommand  (query, _conn);
                 var obj         = cmd.ExecuteReader ();
                 var contactList = new List<Contact> ();
@@ -221,8 +190,7 @@ namespace SQL_Database_Manager
             }
             catch (Exception)
             {
-                Console.WriteLine      ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                Program.File.WriteLine ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
+                Program.WriteInfo (String.Format ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
                 Program.File.Flush ();
                 _conn.Close ();
                 return new Contact[0];
@@ -231,10 +199,10 @@ namespace SQL_Database_Manager
         private Location [] GetLocationList (string id) 
         {
             var query = String.Format ("select Pos_ID,Latitude,Longitude from coordinates where id=\"{0}\";", id);
-            _conn = new MySqlConnection (Db);
-            _conn.Open ();
+            _conn = new MySqlConnection (_db);
             try
             {
+                _conn.Open ();
                 var cmd          = new MySqlCommand   (query, _conn);
                 var obj          = cmd.ExecuteReader  ();
                 var locationList = new List<Location> ();
@@ -252,9 +220,7 @@ namespace SQL_Database_Manager
             }
             catch (Exception)
             {
-                Console.WriteLine      ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                Program.File.WriteLine ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"));
-                Program.File.Flush ();
+                Program.WriteInfo (String.Format ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
                 _conn.Close ();
                 return new Location[0];
             }
