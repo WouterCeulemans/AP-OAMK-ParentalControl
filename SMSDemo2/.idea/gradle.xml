@@ -3,13 +3,13 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="LOCAL" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="C:\Users\nick\Copy\SEM4\Project ICT\AP-OAMK-ParentalControl\SMSDemo2" />
+            <option value="C:\Users\nick\Copy\SEM4\Project ICT\AP-OAMK-ParentalControl\SMSDemo2\app" />
           </set>
         </option>
       </GradleProjectSettings>
