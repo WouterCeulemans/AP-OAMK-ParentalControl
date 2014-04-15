@@ -174,3 +174,9 @@ body
 	width:700px;
 	border-bottom:1px solid #333;
 }
+
+#divMargin
+{
+	margin-top:20px;
+	margin-bottom:20px;
+}
