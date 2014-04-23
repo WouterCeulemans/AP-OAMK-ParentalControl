@@ -5,7 +5,7 @@ namespace System.INI
 {
     public class INIFile
     {
-        public string Path;
+        private readonly string _path;
 
         [DllImport ("kernel32")]
         private static extern long WritePrivateProfileString (string section, string key, string val, string filePath);
@@ -14,18 +14,19 @@ namespace System.INI
 
         public INIFile (string filePath)
         {
-            Path = filePath;
+            _path = filePath;
         }
 
         public void SetValue (string section, string key, string value)
         {
-            WritePrivateProfileString (section, key, value, Path);
+            WritePrivateProfileString (section, key, value, _path);
         }
 
         public string GetValue (string section, string key)
         {
             var temp = new StringBuilder (255);
-            GetPrivateProfileString (section, key, "", temp, 255, Path);
+            GetPrivateProfileString (section, key, "", temp, 255, _path);
+            if (temp.ToString() == "") throw new Exception("Key has empty Value");
             return temp.ToString ();
         }
     }

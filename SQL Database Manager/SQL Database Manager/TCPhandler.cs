@@ -33,15 +33,15 @@ namespace SQL_Database_Manager
                 Console.WriteLine (Encoding.UTF8.GetString (bytes, 0, bytesRead));
                 switch (data [0])
                 {
-                    case "get"   :
+                    case "get"   : 
                     {
-                        var root = new Rootobject {Device = new [] {Get (data [1])}};
-                        var _string = JsonConvert.SerializeObject (root);
+                        var root      = new Rootobject {Device = new [] {Get (data [1])}};
+                        var _string   = JsonConvert.SerializeObject (root);
                         var sendBytes = Encoding.UTF8.GetBytes(_string);
                         networkStream.Write(sendBytes, 0, sendBytes.Length);
                         break;
                     }
-                    case "create":
+                    case "create": 
                     {
                         Create (data);
                         break;
@@ -191,7 +191,7 @@ namespace SQL_Database_Manager
             catch (Exception)
             {
                 Program.WriteInfo (String.Format ("{0} | Error | SQL Error", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
-                Program.File.Flush ();
+                Program.LogFile.Flush ();
                 _conn.Close ();
                 return new Contact[0];
             }
