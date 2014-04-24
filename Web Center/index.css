@@ -174,3 +174,26 @@ body
 	width:700px;
 	border-bottom:1px solid #333;
 }
+
+#tabInlog
+{
+	text-align:center;
+	table-layout:auto;
+	background="#000";
+	color:#FFF;	
+}
+
+
+
+#divTabInlog
+{
+	text-align:center;
+	color:#CCC;
+	font-family:Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+	text-shadow:#FC3;
+	background-color:#333;
+	padding:16px;
+	margin:0.7em;
+	
+
+}
