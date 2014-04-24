@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
+using System.INI;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.IO;
-using System.INI;
-using MySql.Data.MySqlClient;
 
 namespace SQL_Database_Manager
 {
@@ -48,18 +48,24 @@ namespace SQL_Database_Manager
                 Directory.CreateDirectory ("./config");
             if (!Directory.Exists ("./logs"))
                 Directory.CreateDirectory ("./logs");
-
+            _ini = new INIFile ("./config/config.ini");
             LogFile = new StreamWriter ("./logs/SQLiteServer_" + DateTime.Now.ToString ("yyyy-MM-d_HH_mm_ss") + ".log");
+            
             if (!File.Exists ("./config/config.ini"))
             {
-                WriteInfo (String.Format ("{0} | Error | config.ini not found; continuing with default values", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
+                WriteInfo (String.Format ("{0} | Error | config.ini not found; Continuing with default values and writing default config file", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
                 _portNum = 8080;
                 _ip = IPAddress.Parse ("0.0.0.0");
-                Db  = String.Format   ("server={0};user={1};password={2};database={3}", "localhost", "root", "", "ParentalControl");
+                Db  = String.Format   ("server={0};user={1};password={2};database={3}", "localhost", "root", "", "ParentalControlDb");
+                _ini.SetValue ("Server"  , "Port"        , "8080"             );
+                _ini.SetValue ("Server"  , "ListeningIP" , "0.0.0.0"          );
+                _ini.SetValue ("Database", "Address"     , "localhost"        );
+                _ini.SetValue ("Database", "User"        , "root"             );
+                _ini.SetValue ("Database", "Password"    , ""                 );
+                _ini.SetValue ("Database", "DatabaseName", "ParentalControlDb");
             }
             else
             {
-                _ini = new INIFile ("./config/config.ini");
                 try   
                 {
                     _portNum = int.Parse (_ini.GetValue ("Server", "Port"));
@@ -82,7 +88,7 @@ namespace SQL_Database_Manager
                 var host      = "localhost";
                 var user      = "root";
                 var password  = "";
-                _databaseName = "ParentalControl";
+                _databaseName = "ParentalControlDb";
 
                 try   
                 {
@@ -114,7 +120,7 @@ namespace SQL_Database_Manager
                 }
                 catch 
                 {
-                    WriteInfo (String.Format ("{0} | Error | Error in config file fallback to ParentalControl ", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
+                    WriteInfo (String.Format ("{0} | Error | Error in config file fallback to ParentalControlDb ", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
                 }
                 Db = String.Format ("server={0};user={1};password={2};database={3}",
                                        host, user, password, _databaseName);

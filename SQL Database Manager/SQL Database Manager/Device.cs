@@ -15,7 +15,7 @@
 
     public class App        
     {
-        public string Name           { get; set; }
+        public string Title          { get; set; }
         public string PackageName    { get; set; }
         public string Visible        { get; set; }
     }
@@ -23,8 +23,8 @@
     public class Location   
     {
         public string PosId          { get; set; }
-        public string Long           { get; set; }
-        public string Lat            { get; set; }
+        public string Longitude      { get; set; }
+        public string Latitude       { get; set; }
     }
 
     public class Contact    

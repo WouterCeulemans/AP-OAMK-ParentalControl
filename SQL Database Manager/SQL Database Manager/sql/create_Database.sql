@@ -1,7 +1,7 @@
 CREATE TABLE `apps` (
   `ID` 			varchar(20) NOT NULL,
   `PackageName` varchar(50) NOT NULL,
-  `Name` 		varchar(20) NOT NULL,
+  `Name` 		varchar(50) NOT NULL,
   `Visible` 	int 		NOT NULL,
   PRIMARY KEY (`ID`,`PackageName`)
 );

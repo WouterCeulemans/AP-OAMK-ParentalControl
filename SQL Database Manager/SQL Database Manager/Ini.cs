@@ -10,7 +10,7 @@ namespace System.INI
         [DllImport ("kernel32")]
         private static extern long WritePrivateProfileString (string section, string key, string val, string filePath);
         [DllImport ("kernel32")]
-        private static extern int GetPrivateProfileString (string section, string key, string def, StringBuilder retVal, int size, string path);
+        private static extern int  GetPrivateProfileString   (string section, string key, string def, StringBuilder retVal, int size, string path);
 
         public INIFile (string filePath)
         {
@@ -26,7 +26,7 @@ namespace System.INI
         {
             var temp = new StringBuilder (255);
             GetPrivateProfileString (section, key, "", temp, 255, _path);
-            if (temp.ToString() == "") throw new Exception("Key has empty Value");
+            if (temp.ToString () == "") throw new Exception ("Key has empty Value");
             return temp.ToString ();
         }
     }
