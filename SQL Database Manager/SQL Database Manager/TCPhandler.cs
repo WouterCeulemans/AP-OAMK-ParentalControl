@@ -128,8 +128,7 @@ namespace SQL_Database_Manager
             {
                 DeviceId = id,
                 Apps = GetAppList (id),
-                Contacts = GetContactList (id),
-                Locations = GetLocationList (id)
+                Contacts = GetContactList (id)
             };
             return device;
         }
@@ -196,35 +195,6 @@ namespace SQL_Database_Manager
                 Program.LogFile.Flush ();
                 _conn.Close ();
                 return new Contact[0];
-            }
-        }
-        private Location [] GetLocationList (string id)          
-        {
-            var query = String.Format ("select Pos_ID,Latitude,Longitude from coordinates where id=\"{0}\";", id);
-            _conn     = new MySqlConnection (_db);
-            try
-            {
-                _conn.Open ();
-                var cmd          = new MySqlCommand   (query, _conn);
-                var obj          = cmd.ExecuteReader  ();
-                var locationList = new List<Location> ();
-                while (obj.Read ())
-                {
-                    locationList.Add (new Location
-                    {
-                        PosId     = obj.GetString (0),
-                        Latitude  = obj.GetString (1),
-                        Longitude = obj.GetString (2)
-                    });
-                }
-                _conn.Close ();
-                return locationList.ToArray ();
-            }
-            catch (Exception e)
-            {
-                Program.WriteInfo (String.Format ("{0} | Error | SQL Error: {1}", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss"), e.Message));
-                _conn.Close ();
-                return new Location[0];
             }
         }
     }
