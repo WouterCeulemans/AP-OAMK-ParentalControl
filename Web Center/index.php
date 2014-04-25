@@ -1,78 +1,77 @@
-<?php
-session_start();
-?>
-<!doctype html>
+<?php session_start();?>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Parental Web Center</title>
-<link href="index.css" rel="stylesheet" type="text/css">
-<link href="layout.css" rel="stylesheet" type="text/css">
+    <meta charset="utf-8"></meta>
+    <title>Parental Web Center</title>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+    <link href="layout.css" rel="stylesheet" type="text/css" />
+    <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js"></script>
 </head>
 
 <body>
-	<?php
+    <?php
         if (isset($_GET["Logout"]))
-            if ($_GET["Logout"]== 1)
-            {
-                session_start();
-                session_destroy();
-            }
+        {
+            session_start();
+            session_destroy();
+        }
         if (isset($_GET["LoginError"]))
             if ($_GET["LoginError"] == 99)
                 print @"<div id='dialog-message' title='Error'>
-	                        <p>You need to login before you can use this site.</p>
+                            <p>You need to login before you can use this site.</p>
                         </div>";
             else if($_GET["LoginError"] == 20)
                 print @"<div id='dialog-message' title='Login Error'>
-	                        <p>Wrong username or password.</p>
+                            <p>Wrong username or password.</p>
                         </div>";
     ?>
-
 <div id="divWrapper">
-	<div id="divHeader">
+    <div id="divHeader">
     <img src="Images/Header.png" width="500" height="200"/>
     </div>
     
-    <div id="divLine"></div>
+    <div id="divLine" />
     <div id="divLinks">
-    	<div id="divNav">
-        	<ul>
-            	<li><a href="Index.html" class="current">Home</a></li>
-                <li><a href="Settings.html"				>Settings</a></li>
-                <li><a href="Spybot.html"				>Spybot</a></li>
-                <li><a href="Tracker.html"				>Tracker</a></li>
+        <div id="divNav">
+            <ul>
+                <li><a href="Index.php" class="current">Home</a></li>
+                <?php if (isset($_SESSION["LoggedIn"])): ?>
+                <li><a href="settings.php"				>Settings</a></li>
+                <li><a href="Spybot.php"				>Spybot</a></li>
+                <li><a href="Tracker.php"				>Tracker</a></li>
+                <?php endif ?>
             </ul>
-    	</div>
-    </div>
-    <div id="divLine"></div>
-	<?php
-	if (!isset($_SESSION["User"]))
-	echo @"<div id='divLogin'>
-    	<div id='divContent'>
-			<form  method='post' action='login.php' name='Login'>
-				<table>
-					<tr><td>Username: </td><td><input type='text'     name='User'  /> <br /></td></tr>
-					<tr><td>Password: </td><td><input type='password' name='Pass'  /> <br /></td></tr>
-					<tr><td><input type='submit' value='Login' /></td><td><a class='LinkButton' href='register.php'>Register</a></td></tr>
-				</table>
-			</form>
         </div>
-    </div>";
-	?>
+    </div>
+    <div id="divLine" />
+    <?php if (isset($_SESSION["LoggedIn"])): ?>
+        <div id='divLogin'>
+            <div id='divContent'>
+                <form  method='post' action='login.php' name='Login'>
+                    <table>
+                        <tr><td>Username: </td><td><input type='text'     name='User'  /> <br /></td></tr>
+                        <tr><td>Password: </td><td><input type='password' name='Pass'  /> <br /></td></tr>
+                        <tr><td><input type='submit' value='Login' /></td><td><a class='LinkButton' href='register.php'>Register</a></td></tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    <?php endif ?>
     <div id="divHome">
-    	<div id="divContent">
-        	<img src="Images/UserIcon.png" width="100" height="100"/>
-        	<h5>Name</h5>
-        	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada accumsan lectus, a interdum metus tincidunt in. Donec eu nisl nibh. Nullam pulvinar molestie libero quis mollis. Cras et magna risus. Donec vel fermentum mauris. Sed urna odio, tempus eget condimentum vel, semper eget nisi. Nam nec fringilla nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin libero dui, euismod pharetra lacus nec, aliquam interdum lacus. Fusce imperdiet arcu egestas, vehicula orci id, semper nunc. Nulla nec laoreet nibh. Suspendisse blandit nisi at odio elementum, posuere dictum ligula tempus. 
-        	</p>
+        <div id="divContent">
+            <img src="Images/UserIcon.png" width="100" height="100"/>
+            <h5>Name</h5>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada accumsan lectus, a interdum metus tincidunt in. Donec eu nisl nibh. Nullam pulvinar molestie libero quis mollis. Cras et magna risus. Donec vel fermentum mauris. Sed urna odio, tempus eget condimentum vel, semper eget nisi. Nam nec fringilla nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin libero dui, euismod pharetra lacus nec, aliquam interdum lacus. Fusce imperdiet arcu egestas, vehicula orci id, semper nunc. Nulla nec laoreet nibh. Suspendisse blandit nisi at odio elementum, posuere dictum ligula tempus. 
+            </p>
         </div>
     </div>
     
     <div id="divHome">
-     	<div id="divContent">
-        	<h3>Parental Control Product.
-            	<p>
+        <div id="divContent">
+            <h3>Parental Control Product.
+                <p>
                 Ever wondered what your child i doing on his phone all that time ?
                 </p>
                 <p>
@@ -89,7 +88,8 @@ session_start();
                 </p>
                 <p>
                 Are you sure at all time your child is safe when it goes home by bus or bycicle?
-                <br>
+                </p>
+                <p>
                 We can keep going about questions you ask yourself dayly that keeps you uneasy the whole day. 
                 </p>
                 
@@ -103,7 +103,7 @@ session_start();
         </div>
     </div>
     
-    <div id="divFooter"></div>    
+    <div id="divFooter" />    
 </div>
 
 </body>
