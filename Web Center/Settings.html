@@ -1,76 +1,69 @@
-<?php
-session_start();
-if (!isset($_SESSION["User"]))
-    header("location:index.php?LoginError=99");
-?>
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Parental Web Center</title>
-<link href="settings.css" rel="stylesheet" type="text/css">
-<link href="layout.css" rel="stylesheet" type="text/css">
+    <meta charset="utf-8">
+    <title>Parental Web Center</title>
+    <link href="settings.css" rel="stylesheet" type="text/css">
+    <link href="layout.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 
-<div id="divWrapper">
-	<div id="divHeader">
-    <img src="Images/Header.png" width="500" height="200"/>
-    </div>
-    
-    <div id="divLine"></div>
-    <div id="divLinks">
-    	<div id="divNav">
-        	<ul>
-            	<li><a href="Index.html"					>Home</a></li>
-                <li><a href="Settings.html" class="current"	>Settings</a></li>
-                <li><a href="Spybot.html"					>Spybot</a></li>
-                <li><a href="Tracker.html"					>Tracker</a></li>
-            </ul>
-    	</div>
-    </div>
-    <div id="divLine"></div>
-    <div id="divHome">
-    	<div id="divContent">
-        <a href="Settings.php">
-        	<img src="Images/SettingIcon.png" width="90" height="90"/>			     	</a>
-        	<h5>Settings</h5>
-            <p>
-            click on the icon to navigate to the settings setup
-            <br>
-            here you will be aplying the settings you wish to be active on the device , which you are currently monitoring.
-            <br>
-            remeber that the monitored device must always give permission when you add settings.
-            <br>
-        	</p>
+    <div id="divWrapper">
+        <div id="divHeader">
+            <img src="Images/Header.png" width="500" height="200" />
         </div>
-        
-<div id="divMargin">
-<div id="divContent">
-	<h5>Childeren's privacy</h5>    
-        
-        <p>
-        The Children’s Online Privacy Protection Act (COPPA) gives parents control over what information websites can collect from their kids.  The COPPA Rule — with new provisions in effect on July 1, 2013 —  puts additional protections in place and streamlines other procedures that companies covered by the rule need to follow.   If you run a website designed for kids or have a website geared to a general audience but collect information from someone you know is under 13, you must comply with COPPA’s requirements.  Questions?  Send them to CoppaHotLine@ftc.gov.
-		</p>
-        
-        
-        
-</div>
-</div>
 
-<div id="divMargin">
-<div id="divContent">
-	<h5>Data Security</h5>    
-        <p>
-        Many companies keep sensitive personal information about customers or employees in their files or on their network.  Having a sound security plan in place to collect only what you need, keep it safe, and dispose of it securely can help you meet your legal obligations to protect that sensitive data.  The FTC has free resources for businesses of any size.
-		</p>
-</div>
-</div>
-        
+        <div id="divLine"></div>
+        <div id="divLinks">
+            <div id="divNav">
+                <ul>
+                    <li><a href="Index.php">Home</a></li>
+                    <li><a href="Settings.html" class="current">Settings</a></li>
+                    <li><a href="Spybot.php">Spybot</a></li>
+                    <li><a href="Tracker.php">Tracker</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="divLine"></div>
+        <div id="divHome">
+            <div id="divContent">
+                <a href="Settings.php">
+                    <img src="Images/SettingIcon.png" width="90" height="90" />
+                </a>
+                <h5>Settings</h5>
+                <p>
+                    click on the icon to navigate to the settings setup
+                    <br>
+                    here you will be aplying the settings you wish to be active on the device , which you are currently monitoring.
+                    <br>
+                    remeber that the monitored device must always give permission when you add settings.
+                    <br>
+                </p>
+            </div>
+
+            <div id="divMargin">
+                <div id="divContent">
+                    <h5>Childeren's privacy</h5>
+
+                    <p>
+                        The Children’s Online Privacy Protection Act (COPPA) gives parents control over what information websites can collect from their kids.  The COPPA Rule — with new provisions in effect on July 1, 2013 —  puts additional protections in place and streamlines other procedures that companies covered by the rule need to follow.   If you run a website designed for kids or have a website geared to a general audience but collect information from someone you know is under 13, you must comply with COPPA’s requirements.  Questions?  Send them to CoppaHotLine@ftc.gov.
+                    </p>
+                </div>
+            </div>
+
+            <div id="divMargin">
+                <div id="divContent">
+                    <h5>Data Security</h5>
+                    <p>
+                        Many companies keep sensitive personal information about customers or employees in their files or on their network.  Having a sound security plan in place to collect only what you need, keep it safe, and dispose of it securely can help you meet your legal obligations to protect that sensitive data.  The FTC has free resources for businesses of any size.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <div id="divFooter"></div>
     </div>
-    <div id="divFooter"></div>    
-</div>
 
 </body>
 </html>
