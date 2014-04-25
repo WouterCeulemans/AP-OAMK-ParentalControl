@@ -14,14 +14,17 @@ $(document).ready(function () {
 });
 
 function GetCoordinates() {
+    var e = document.getElementById('devid');
+    var devid =  e.options[e.selectedIndex].value;
     $.ajax({
         type: "GET",
-        url: "getCoordinates.php?devid=" + document.getElementById('devid').value,
+        url: "getCoordinates.php?devid=" + devid,
         success: callback
     });
 };
 
 function callback(data, status) {
+    
     var jsArr = JSON.parse(data);
     clearOverlays();
     map.setCenter(new google.maps.LatLng(parseFloat(jsArr[0].x), parseFloat(jsArr[0].y)), 5);

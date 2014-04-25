@@ -8,15 +8,28 @@
         <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" />
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js"></script>
+        <script language="javascript" type="text/javascript">
+        $(function () {
+            $("#dialog-message").dialog({
+                modal: false,
+                buttons: {
+                    Ok: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        });
+        </script>
+        <script language="javascript" type="text/javascript">
+        function onButtonClick ()
+        {
+            window.location.href="register.php";
+        }
+        </script>
     </head>
 
     <body>
         <?php
-            if (isset($_GET["Logout"]))
-            {
-                session_start();
-                session_destroy();
-            }
             if (isset($_GET["LoginError"]))
                 if ($_GET["LoginError"] == 99)
                     print @"<div id='dialog-message' title='Error'>
@@ -30,7 +43,7 @@
         <div id="divHeader">
             <img src="Images/Header.png" width="500" height="200"/>
             <?php if (isset($_SESSION["LoggedIn"])): ?>
-            <form action="index.php&Logout=1"><input type="submit" value="Log Out" /></form>
+            <form action="logout.php"><input type="submit" value="Log Out" /></form>
             <?php endif ?>
             <div id="divLine" ></div>
             <div id="divLinks">
@@ -42,21 +55,23 @@
                         <li><a href="spybot.php"   >Spybot  </a></li>
                         <li><a href="tracker.php"  >Tracker </a></li>
                         <?php else: ?>
-                        <li><a href="info.html" >Settings</a></li>
+                        <li><a href="info.html" >Info</a></li>
                         <?php endif ?>
                     </ul>
                 </div>
             </div>
+            <div id="divLine" ></div>
         </div>
-        <div id="divLine" ></div>
+        
         <?php if (!isset($_SESSION["LoggedIn"])): ?>
             <div id='divLogin'>
                 <div class='divContent'>
                     <form  method='post' action='login.php' name='Login'>
                         <table>
-                            <tr><td>Username: </td><td><input type='text'     name='User'  /> <br /></td></tr>
-                            <tr><td>Password: </td><td><input type='password' name='Pass'  /> <br /></td></tr>
-                            <tr><td><input type='submit' value='Login' /></td><td><a class='LinkButton' href='register.php'>Register</a></td></tr>
+                                <tr><td>Username: </td><td><input type='text'     name='User'  /> <br /></td></tr>
+                                <tr><td>Password: </td><td><input type='password' name='Pass'  /> <br /></td></tr>
+                                <tr><td><input type='submit' value='Login' /></td>   
+                                <td><input type="Button" value="Register" onclick="onButtonClick()" /></form></td></tr>
                         </table>
                     </form>
                 </div>

@@ -1,13 +1,12 @@
 .divContent
 {
-    height:	600px !important;
-    width: 600px !important;
+    height: 600px;
+    width: 500px !important;
 }
 #map_canvas {
     margin-left: auto;
     margin-right: auto;
     height: 500px;
     width: 500px; 
-    border: solid;
-    border-radius: 6px;
+    border: none;
 }

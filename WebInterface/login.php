@@ -2,13 +2,17 @@
 if (isset($_POST["User"]) && isset($_POST["Pass"]))
 {
     if ($_POST["User"] == '')
-    {
         print "<meta http-equiv='refresh' content='0;URL=index.php?LoginError=20'>";
-    }
     else
     {
         include "dbconfig.php";
         $result     = mysql_query("SELECT * FROM users WHERE Name='$_POST[User]'");
+        if (mysql_num_rows ($result) != 1)
+        {
+            header("location: index.php?LoginError=20");
+            mysql_close($dbhandle);
+            exit();
+        }
         while ($row = mysql_fetch_array($result)) 
         {
             if ($row{'Pass'} == sha1( $_POST["Pass"], $raw_output = false))
@@ -31,7 +35,5 @@ if (isset($_POST["User"]) && isset($_POST["Pass"]))
     }
 }
 else
-{
     header("location: index.php?LoginError=99");
-}
 ?>

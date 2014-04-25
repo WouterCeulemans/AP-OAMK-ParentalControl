@@ -5,7 +5,7 @@ if (!isset($_SESSION["LoggedIn"]))
 ?>
 <html>
     <head>
-        <meta charset="utf-8" />
+        <meta charset="utf-8" >
         <meta name="viewport" content="width=500, user-scalable=0">
         <title>Parental Web Center</title>
         <link href="layout.css" rel="stylesheet" type="text/css" />
@@ -14,7 +14,7 @@ if (!isset($_SESSION["LoggedIn"]))
         <div id="divHeader">
             <img src="Images/Header.png" width="500" height="200"/>
 			<?php if (isset($_SESSION["LoggedIn"])): ?>
-			<form action="index.php&Logout=1"><input type="submit" value="Log Out" /></form>
+			<form action="logout.php"><input type="submit" value="Log Out" /></form>
 			<?php endif ?>
             <div id="divLine"></div>
             <div id="divLinks">
@@ -29,6 +29,7 @@ if (!isset($_SESSION["LoggedIn"]))
             </div>
             <div id="divLine"></div>
         </div>
+		
         <div class="divContent">
             <img class="contentImg" src="Images/BrowserIcon.png" width="90" height="90"/>
             <h5>Webbrowsing</h5>
@@ -68,6 +69,6 @@ if (!isset($_SESSION["LoggedIn"]))
             Contact your network service provider			
             </p>
         </div>
-    <div id="divFooter"></div>    
-</body>
+		<div id="divFooter"></div>    
+	</body>
 </html>

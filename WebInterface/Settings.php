@@ -15,7 +15,7 @@ if (!isset($_SESSION["LoggedIn"]))
         <div id="divHeader">
             <img src="Images/Header.png" width="500" height="200"/>
 			<?php if (isset($_SESSION["LoggedIn"])): ?>
-			<form action="index.php&Logout=1"><input type="submit" value="Log Out" /></form>
+			<form action="logout.php"><input type="submit" value="Log Out" /></form>
 			<?php endif ?>
             <div id="divLine"></div>
             <div id="divLinks">
@@ -30,6 +30,7 @@ if (!isset($_SESSION["LoggedIn"]))
             </div>
             <div id="divLine"></div>
         </div>
+		
         <div class="divContent">
             <div class="tabs">
                <h3>Add Device</h3>
