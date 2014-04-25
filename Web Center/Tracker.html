@@ -1,9 +1,15 @@
+<?php
+session_start();
+if (!isset($_SESSION["User"]))
+    header("location:index.php?LoginError=99");
+?>
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
 <title>Parental Web Center</title>
 <link href="tracker.css" rel="stylesheet" type="text/css">
+<link href="layout.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>

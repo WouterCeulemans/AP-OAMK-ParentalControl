@@ -1,9 +1,15 @@
+<?php
+session_start();
+if (!isset($_SESSION["User"]))
+    header("location:index.php?LoginError=99");
+?>
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
 <title>Parental Web Center</title>
 <link href="settings.css" rel="stylesheet" type="text/css">
+<link href="layout.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -56,13 +62,9 @@
 <div id="divMargin">
 <div id="divContent">
 	<h5>Data Security</h5>    
-        
         <p>
         Many companies keep sensitive personal information about customers or employees in their files or on their network.  Having a sound security plan in place to collect only what you need, keep it safe, and dispose of it securely can help you meet your legal obligations to protect that sensitive data.  The FTC has free resources for businesses of any size.
 		</p>
-        
-        
-        
 </div>
 </div>
         

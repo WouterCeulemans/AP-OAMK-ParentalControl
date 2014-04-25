@@ -1,33 +1,110 @@
+<?php
+session_start();
+?>
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>Parental Web Center</title>
+<link href="index.css" rel="stylesheet" type="text/css">
+<link href="layout.css" rel="stylesheet" type="text/css">
 </head>
 
-<?php 
-	session_start();
-	if(isset($_SESSION['id']))
-	{
-		//redirection to login page twitter or facebook 
-		header("location: home.php");
-	}
-	if (array_key_exists("login", $_GET))
-	{
-		$oauth_provider = $_GET['oauth_provider'];
-		if($oauth_provider == 'twitter')
-		{
-			header("Location : login-twitter.php");
-		}
-		else if ($oauth_provider == 'facebook')
-		{
-			header("Location : login-facebook.php");
-		}
-	}
-?>
-<a href="">Twitter_Login</a>
-<a href="">Facebook</a>
-
 <body>
+	<?php
+        if (isset($_GET["Logout"]))
+            if ($_GET["Logout"]== 1)
+            {
+                session_start();
+                session_destroy();
+            }
+        if (isset($_GET["LoginError"]))
+            if ($_GET["LoginError"] == 99)
+                print @"<div id='dialog-message' title='Error'>
+	                        <p>You need to login before you can use this site.</p>
+                        </div>";
+            else if($_GET["LoginError"] == 20)
+                print @"<div id='dialog-message' title='Login Error'>
+	                        <p>Wrong username or password.</p>
+                        </div>";
+    ?>
+
+<div id="divWrapper">
+	<div id="divHeader">
+    <img src="Images/Header.png" width="500" height="200"/>
+    </div>
+    
+    <div id="divLine"></div>
+    <div id="divLinks">
+    	<div id="divNav">
+        	<ul>
+            	<li><a href="Index.html" class="current">Home</a></li>
+                <li><a href="Settings.html"				>Settings</a></li>
+                <li><a href="Spybot.html"				>Spybot</a></li>
+                <li><a href="Tracker.html"				>Tracker</a></li>
+            </ul>
+    	</div>
+    </div>
+    <div id="divLine"></div>
+	<?php
+	if (!isset($_SESSION["User"]))
+	echo @"<div id='divLogin'>
+    	<div id='divContent'>
+			<form  method='post' action='login.php' name='Login'>
+				<table>
+					<tr><td>Username: </td><td><input type='text'     name='User'  /> <br /></td></tr>
+					<tr><td>Password: </td><td><input type='password' name='Pass'  /> <br /></td></tr>
+					<tr><td><input type='submit' value='Login' /></td><td><a class='LinkButton' href='register.php'>Register</a></td></tr>
+				</table>
+			</form>
+        </div>
+    </div>";
+	?>
+    <div id="divHome">
+    	<div id="divContent">
+        	<img src="Images/UserIcon.png" width="100" height="100"/>
+        	<h5>Name</h5>
+        	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada accumsan lectus, a interdum metus tincidunt in. Donec eu nisl nibh. Nullam pulvinar molestie libero quis mollis. Cras et magna risus. Donec vel fermentum mauris. Sed urna odio, tempus eget condimentum vel, semper eget nisi. Nam nec fringilla nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin libero dui, euismod pharetra lacus nec, aliquam interdum lacus. Fusce imperdiet arcu egestas, vehicula orci id, semper nunc. Nulla nec laoreet nibh. Suspendisse blandit nisi at odio elementum, posuere dictum ligula tempus. 
+        	</p>
+        </div>
+    </div>
+    
+    <div id="divHome">
+     	<div id="divContent">
+        	<h3>Parental Control Product.
+            	<p>
+                Ever wondered what your child i doing on his phone all that time ?
+                </p>
+                <p>
+                Don't relly trust you child with its smartphone ? 
+                </p>
+                <p>
+                Want to keep your child safe from illigale websites?
+                </p>
+                <p>
+                Thinks he/She is seeing the wrong people ?  
+                </p>
+                <p>
+                Never wonder why your child is so late at home ?
+                </p>
+                <p>
+                Are you sure at all time your child is safe when it goes home by bus or bycicle?
+                <br>
+                We can keep going about questions you ask yourself dayly that keeps you uneasy the whole day. 
+                </p>
+                
+                <p>
+                We offer you an application that makes sure you can rest you mind at ease.
+                All you need or want to know is possible these days, you just need that cuting edge technology! which we offer you. 
+                
+                Check out our Info Page if your are intrested in monitoring your childs cellphone to make sure, the child is doing what it is supose to do, or that your child is safe at least. Because , anything , can happen at anytime.... right?
+                </p>
+            </h3>
+        </div>
+    </div>
+    
+    <div id="divFooter"></div>    
+</div>
+
 </body>
 </html>
