@@ -16,19 +16,14 @@ $(document).ready(function () {
 function GetCoordinates() {
     $.ajax({
         type: "GET",
-        url: "GetCoordinates.php?devid=" + document.getElementById('devid').value,
+        url: "getCoordinates.php?devid=" + document.getElementById('devid').value,
         success: callback
     });
 };
 
 function callback(data, status) {
-    alert("callback");
-    alert(data);
     var jsArr = JSON.parse(data);
-    alert(data);
-    alert(jsArr[0].x);
     clearOverlays();
-    alert(jsArr[0].x);
     map.setCenter(new google.maps.LatLng(parseFloat(jsArr[0].x), parseFloat(jsArr[0].y)), 5);
     for (var i = 0; i < jsArr.length; i++) {
         markers[i] = new google.maps.Marker({

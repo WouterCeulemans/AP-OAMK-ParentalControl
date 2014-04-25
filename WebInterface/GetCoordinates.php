@@ -7,7 +7,7 @@ if (isset($_SESSION["LoggedIn"]))
 
 	$index = 0;
 	$c = Array();
-	while ($row = mysql_fetch_array($result)) 
+	while ($row = mysql_fetch_assoc($result)) 
 	{
 		$c[$index]["x"]  = $row["LATITUDE"];
 		$c[$index]["y"]  = $row["LONGITUDE"];
@@ -16,4 +16,4 @@ if (isset($_SESSION["LoggedIn"]))
 	}
 	print json_encode($c);
 }
-?>!
+?>

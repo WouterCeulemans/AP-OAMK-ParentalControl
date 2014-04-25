@@ -1,31 +1,31 @@
 ﻿<!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Parental Web Center</title>
-    <link href="layout.css" rel="stylesheet" type="text/css">
-</head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=500, user-scalable=0">
+        <title>Parental Web Center</title>
+        <link href="layout.css" rel="stylesheet" type="text/css">
+    </head>
 
-<body>
+    <body>
         <div id="divHeader">
             <img src="Images/Header.png" width="500" height="200" />
+            <div id="divLine"></div>
+            <div id="divLinks">
+                <div id="divNav">
+                    <ul>
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="settings.html" class="current">Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="divLine"></div>
         </div>
 
-        <div id="divLine"></div>
-        <div id="divLinks">
-            <div id="divNav">
-                <ul>
-                    <li><a href="Index.php">Home</a></li>
-                    <li><a href="Settings.html" class="current">Settings</a></li>
-                    <li><a href="Spybot.php">Spybot</a></li>
-                    <li><a href="Tracker.php">Tracker</a></li>
-                </ul>
-            </div>
-        </div>
-        <div id="divLine"></div>
+        
             <div class="divContent">
-                <a href="Settings.php">
-                    <img src="Images/SettingIcon.png" width="90" height="90" />
+                <a href="settings.php">
+                    <img class="contentImg" src="Images/SettingIcon.png" width="90" height="90" />
                 </a>
                 <h5>Settings</h5>
                 <p>
@@ -56,7 +56,6 @@
                     </p>
                 </div>
             </div>
-
         <div id="divFooter"></div>
-</body>
+    </body>
 </html>
