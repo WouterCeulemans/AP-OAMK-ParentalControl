@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.app" >
+    package="be.ap.contactapp" >
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:label="Contacts"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.app.MainActivity"
+            android:name=".MainActivity"
             android:label="Contacts" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.app;
+package be.ap.contactapp;
 
 import android.net.Uri;
 

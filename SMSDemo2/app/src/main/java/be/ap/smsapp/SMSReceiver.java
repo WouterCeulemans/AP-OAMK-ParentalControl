@@ -1,4 +1,4 @@
-package com.example.app;
+package be.ap.smsapp;
 
 /**
  * Created by nick on 19/02/14.

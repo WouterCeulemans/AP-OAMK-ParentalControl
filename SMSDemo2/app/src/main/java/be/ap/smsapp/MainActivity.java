@@ -1,4 +1,4 @@
-package com.example.app;
+package be.ap.smsapp;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -6,15 +6,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.telephony.gsm.SmsManager;
-import android.telephony.gsm.SmsMessage;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -69,6 +64,26 @@ public class MainActivity extends Activity
                 );
 
 
+    }
+
+    protected Boolean CheckSmsAvailable(String number)
+    {
+        Integer TxtAmount = 0;
+        Integer TxtMax = 0;
+        String selection = Database.COLUMN_PHONENUMBER + " = " + number;
+        Cursor cur = this.getContentResolver().query(Database.CONTENT_URI_CONTACTS, null, selection, null, null);
+        if (cur.getCount() > 0) {
+            while (cur.moveToNext()) {
+                TxtAmount = cur.getInt(cur.getColumnIndex(Database.COLUMN_TXTAMOUNT));
+                TxtMax = cur.getInt(cur.getColumnIndex(Database.COLUMN_TXTMAX));
+            }
+            cur.close();
+        }
+            if (TxtAmount < TxtMax)
+                //txtamount verhogen en updaten
+                return true;
+            else
+                return false;
     }
 
     protected void sendMsg(String theNumber, String myMsg)

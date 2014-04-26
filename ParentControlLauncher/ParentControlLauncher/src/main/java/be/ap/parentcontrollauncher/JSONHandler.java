@@ -44,11 +44,17 @@ public class JSONHandler {
         rootObject.Locations = getLocations();
         //rootObject.Contacts = getContacts();
 
+        //JsonObject DeviceJson = new JsonObject();
+
         String json = gson.toJson(rootObject);
         JsonParser parser = new JsonParser();
         JsonObject jsonObj = parser.parse(json).getAsJsonObject();
-        jsonObj.addProperty("DeviceID", rootObject.DeviceID);
-        return jsonObj.toString();
+        //jsonObj.addProperty("DeviceID", rootObject.DeviceID);
+
+        String SendJson = "{\"Device\":[" + jsonObj.toString() + "]}";
+
+        //DeviceJson.addProperty("Device", String.valueOf(jsonObj));
+        return SendJson;
     }
 
     public RootObject Deserialize (String json)

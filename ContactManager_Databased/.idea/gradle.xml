@@ -3,13 +3,13 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="LOCAL" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="$PROJECT_DIR$/../ParentControlLauncher/gradle/wrapper" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="C:\Users\Wouter\Documents\Artesis\Semester 4\Project ICT 4\AP-OAMK-ParentalControl\ContactManager_Databased" />
+            <option value="C:\Users\Wouter\Documents\Artesis\Semester 4\Project ICT 4\AP-OAMK-ParentalControl\ContactManager_Databased\app" />
           </set>
         </option>
       </GradleProjectSettings>

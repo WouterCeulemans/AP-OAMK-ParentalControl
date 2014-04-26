@@ -1,4 +1,4 @@
-package com.SimplCall.app;
+package be.ap.callapp;
 
 /* ik zie het verschil niet met mijn code , "grijs" werkt niet , de internet source code , werkt wel.
 

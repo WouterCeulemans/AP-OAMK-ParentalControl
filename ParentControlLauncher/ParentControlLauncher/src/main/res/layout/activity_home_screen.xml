@@ -22,16 +22,56 @@
     android:layout_weight="1"/>
 
     <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    >
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apps"
+        android:id="@+id/AppButton"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SMS App"
+        android:id="@+id/SmsButton"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Call App"
+        android:id="@+id/CallButton"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact App"
+        android:id="@+id/ContactButton"
+        />
+</LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-    >
+        >
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send json"
+        android:id="@+id/SendButton"
+        />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Apps"
-            android:id="@+id/AppButton"
-        />
+            android:text="Create Device ID"
+            android:id="@+id/SendIDButton"
+            />
     </LinearLayout>
 
 
