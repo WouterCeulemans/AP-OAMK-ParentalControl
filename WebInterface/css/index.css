@@ -1,0 +1,16 @@
+﻿#DeviceTable th
+{
+    text-align: left;
+}
+#DeviceTable td
+{
+    font-size: 0.9em;
+}
+#UserBox p
+{
+    font-size: 12px;
+}
+#UserBox 
+{
+    min-height: 120px;
+}

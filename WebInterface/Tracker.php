@@ -8,12 +8,13 @@ if (!isset($_SESSION["LoggedIn"]))
         <meta charset="utf-8" />
         <meta name="viewport" content="width=500, user-scalable=0">
         <title>Parental Web Center</title>
-        <link href="tracker.css" rel="stylesheet" type="text/css" />
-        <link href="layout.css"  rel="stylesheet" type="text/css" />
+        <link href="./css/layout.css" rel="stylesheet" type="text/css" />
+        <link href="./themes/lightTheme.css" rel="stylesheet" type="text/css" />
+		<link href="./css/tracker.css" rel="stylesheet" type="text/css" />
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js"></script>
         <script src="http://maps.google.com/maps/api/js?sensor=false"></script>  
-        <script src="tracker.js"></script>
+        <script src="./js/tracker.js"></script>
     </head>
 
     <body>
@@ -35,7 +36,7 @@ if (!isset($_SESSION["LoggedIn"]))
             </div>
             <div id="divLine"></div>
         </div>
-
+		<div class="divContentHeader"> </div>
         <div class="divContent"
             <table>
                 <tr>
@@ -47,6 +48,7 @@ if (!isset($_SESSION["LoggedIn"]))
                     {
                         echo "<option value='$row[ID]'>$row[Name]</option>";
                     }
+                    mysql_close($dbhandle);
                     ?>
                     </select></td>
                     <td><input type="button" value="Send" style="margin: 0px;margin-bottom: 5px; margin-top: 5px;" onclick="GetCoordinates()"></td>

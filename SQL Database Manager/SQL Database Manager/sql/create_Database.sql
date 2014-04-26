@@ -36,7 +36,10 @@ CREATE TABLE `devices` (
 
 CREATE TABLE `users` (
   `ID`          int         NOT NULL AUTO_INCREMENT,
-  `Name`        varchar(20) NOT NULL,
+  `UserName`    varchar(20) NOT NULL,
   `Pass`        varchar(50) NOT NULL,
+  `email`       varchar(50) NOT NULL,
+  `Name`        varchar(20) NOT NULL,
+  `LastName`    varchar(20) NOT NULL,
   PRIMARY KEY (`ID`)
 );

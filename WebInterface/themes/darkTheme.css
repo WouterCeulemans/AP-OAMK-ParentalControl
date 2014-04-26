@@ -1,30 +1,12 @@
-body, h1, h2, h3, h4, h5, h6, p, div, ul, li
-{
-    margin: 0;
-    padding: 0;
-}
-
 body 
 {
     font-family: Verdana, Geneva, sans-serif;
     background-color: #000;
 }
 
-#divHeader
-{
-    text-align: center;
-}
-
-#divHeader img
-{
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
 #divLine
 {
     background: #999;
-    height: 1px;
 }
 
 #divLinks
@@ -34,10 +16,7 @@ body
 
 #divNav
 {
-    max-width: 384px;
     background: #666;
-    height: 36px;
-    margin: 0 auto;
 }
     
 #divNav ul
@@ -45,23 +24,12 @@ body
     list-style-type: none;
 }
 
-#divNav ul li
-{
-    float: left;
-}
-
 #divNav ul li a
 {
-    display: block;
-    height: 20px;
-    line-height: 20px;
     background-color: #000;
-    width: 80px;
     font-size: 0.8em;
     font-weight: bold;
     color: #FFF;
-    text-align: center;
-    text-decoration: none;
     margin: 7px;
     
     border-radius: 5px;
@@ -85,38 +53,27 @@ body
     background: -moz-linear-gradient(top, #000, #666);
     background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#666));
     color: #f63;
-    cursor: default;
 }
 
 .contentImg
 {
-    float: left;	
     border: 1px solid #000;
     background-color: #333;
-    padding: 16px;
-    margin: 0.7em;
     
     background: -moz-linear-gradient(top, #000, #333);
     background: -webkit-gradient(linear, left top , left bottom, from(#000), to(#333));
     
     border-radius: 15px;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
 }
 
 .divContent p
 {
-    font-size: 0.7em;
     color: #999;
-    padding: 0.7em;
-    line-height: 1.4em;
 }
 
 #divFooter
 {
-
     background: #222;
-    height: 10px;
     border-top: 1px solid #999;
     border-bottom: 1px solid #333;
 }
@@ -124,37 +81,43 @@ body
 .divContent h5, h3, h1
 {
     color: #FFF;
-    padding-top: 0.8em;
-    padding-bottom: 0;
-    padding-left: 0;
-    padding-right: 0;
 }
-
+.divContentHeader 
+{
+    background: #333;
+    box-sizing: border-box;
+    border-radius: 15px 15px 0 0;
+}
 .divContent
 {
-    width:450px;
     background: #333;
-    padding-top: 30px;
-    padding-bottom: 30px;
-
-    margin: 30px auto 30px auto;
-    background: #222;
     border: 1px solid #000;
     
     background: -moz-linear-gradient(top, #666, #333, #222);
     background: -webkit-gradient(linear, left top , left bottom, from(#666), to(#222), color-stop(0.5,#333));
     
-    border-radius: 15px;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
+    border-radius: 0 0 15px 15px;
     
     box-shadow: 3px 3px 10px #000;
     -moz-box-shadow: 3px 3px 10px #000;
     -webkit-box-shadow: 3px 3px 10px #000;
 }
 
-#divMargin
+h3 {
+    color: #C90 !important;
+}
+
+.tabs {
+    border: 1px outset #C90;
+    color: #C90;
+    background: -moz-linear-gradient(top, #000, #333);
+    background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#333));
+    border-radius: 15px;
+    box-shadow: 3px 3px 10px #000;
+    -moz-box-shadow: 3px 3px 10px #000;
+    -webkit-box-shadow: 3px 3px 10px #000;
+}
+table 
 {
-    margin-top:20px;
-    margin-bottom:20px;
+    color: #C90 !important;
 }

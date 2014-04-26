@@ -8,8 +8,9 @@ if (!isset($_SESSION["LoggedIn"]))
 		<meta charset="utf-8">
         <meta name="viewport" content="width=500, user-scalable=0">
         <title>Settings</title>
-        <link href="layout.css" rel="stylesheet" type="text/css" />
-        <link href="settings.css" rel="stylesheet" type="text/css" />
+        <link href="./css/layout.css" rel="stylesheet" type="text/css" />
+        <link href="./css/settings.css" rel="stylesheet" type="text/css" />
+        <link href="./themes/lightTheme.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <div id="divHeader">
@@ -30,14 +31,14 @@ if (!isset($_SESSION["LoggedIn"]))
             </div>
             <div id="divLine"></div>
         </div>
-		
+		<div class="divContentHeader"> </div>
         <div class="divContent">
             <div class="tabs">
                <h3>Add Device</h3>
                 <form method="post" action="addDevice.php">
                     <table>
                         <tr>
-                            <td>Device: </td>
+                            <td>Device IMEI: </td>
                             <td><input type="text" name="Device"/></td>
                             <td><input type='submit'/></td>
                         </tr>

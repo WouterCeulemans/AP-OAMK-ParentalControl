@@ -1,0 +1,19 @@
+.divContentHeader
+{
+    width: 500px !important;
+}
+
+.divContent
+{
+    width: 500px !important;
+    padding-bottom: 0;
+    border-radius: 0;
+}
+
+#map_canvas {
+    margin-left: auto;
+    margin-right: auto;
+    height: 498px;
+    width: 498px; 
+    border: none;
+}
