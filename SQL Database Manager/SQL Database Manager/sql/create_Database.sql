@@ -41,5 +41,6 @@ CREATE TABLE `users` (
   `email`       varchar(50) NOT NULL,
   `Name`        varchar(20) NOT NULL,
   `LastName`    varchar(20) NOT NULL,
+  `Theme`   	varchar(5) NOT NULL DEFAULT `light`,
   PRIMARY KEY (`ID`)
 );
