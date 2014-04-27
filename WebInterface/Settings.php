@@ -10,12 +10,12 @@ if (!isset($_SESSION["LoggedIn"]))
         <title>Settings</title>
         <link href="./css/layout.css" rel="stylesheet" type="text/css" />
         <link href="./css/settings.css" rel="stylesheet" type="text/css" />
-		<?php
-		include "./php/dbconfig.php";
-		$result = mysql_query("SELECT Theme FROM users WHERE ID='$_SESSION[ID]'");
-		$row = mysql_fetch_assoc($result);
-		echo "<link href='./themes/$row[Theme]Theme.css' rel='stylesheet' type='text/css' />";
-		?>
+        <?php
+        include "./php/dbconfig.php";
+        $result = mysql_query("SELECT Theme FROM users WHERE ID='$_SESSION[ID]'");
+        $row = mysql_fetch_assoc($result);
+        echo "<link href='./themes/$row[Theme]Theme.css' rel='stylesheet' type='text/css' />";
+        ?>
         <script src="./js/settings.js"></script>
         <script src="./js/sideMenu.js"></script>
     </head>
@@ -29,7 +29,7 @@ if (!isset($_SESSION["LoggedIn"]))
                 <li><a href="spybot.php"   >Spybot  </a></li>
                 <li><a href="tracker.php"  >Tracker </a></li>
                 <li><a href="preferences.php">Preferences </a></li>
-				<div class="Padding"></div>	
+                <div class="Padding"></div>	
                 <li><form action="./php/logout.php"><input type="submit" value="Log Out" /></form></li>
             </ul>
         </div>	
@@ -44,7 +44,7 @@ if (!isset($_SESSION["LoggedIn"]))
                             <li><a href="settings.php" class="current">Settings</a></li>
                             <li><a href="spybot.php"				  >Spybot  </a></li>
                             <li><a href="tracker.php"			      >Tracker </a></li>
-							<li><a href="preferences.php"             >Preferences</a></li>
+                            <li><a href="preferences.php"             >Preferences</a></li>
                             <li><form action="./php/logout.php"><input type="submit" value="Log Out" /></form></li>
                         </ul>
                     </div>
@@ -66,7 +66,7 @@ if (!isset($_SESSION["LoggedIn"]))
                         </form>
                     </div>
                     <div class="tabs">
-                       <h3>Add Device</h3>
+                       <h3>Change Device Name</h3>
                         <form method="post" action="./php/changeDevName.php" name="Change Name">
                             <table>
                                 <tr>

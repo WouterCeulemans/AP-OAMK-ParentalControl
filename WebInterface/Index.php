@@ -24,7 +24,7 @@
         <script language="javascript" type="text/javascript">
         $(function () {
             $("#dialog-message").dialog({
-                modal: false,
+                modal: true,
                 buttons: {
                     Ok: function () {
                         $(this).dialog("close");
@@ -46,7 +46,7 @@
                 <li><a href="spybot.php"   >Spybot  </a></li>
                 <li><a href="tracker.php"  >Tracker </a></li>
                 <li><a href="preferences.php" >Preferences</a></li>
-				<div class="Padding"></div>	
+                <div class="Padding"></div>	
                 <li><form action="./php/logout.php"><input type="submit" value="Log Out" /></form></li>
                 <?php else: ?>
                 <li><a href="info.html" >Info</a></li>

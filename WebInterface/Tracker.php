@@ -33,7 +33,7 @@ if (!isset($_SESSION["LoggedIn"]))
                 <li><a href="spybot.php"   >Spybot  </a></li>
                 <li><a href="tracker.php">Tracker </a></li>
                 <li><a href="preferences.php">Preferences </a></li>
-				<div class="Padding"></div>	
+                <div class="Padding"></div>	
                 <li><form action="./php/logout.php"><input type="submit" value="Log Out" /></form></li>
             </ul>
         </div>	

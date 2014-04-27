@@ -98,7 +98,59 @@
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
 }
+
 table 
 {
     color: #f58812;
+}
+
+#divNav ul li a, #divNav ul li form input
+{
+    text-align: center;
+}
+
+#SideMenu {
+    background: #32394a;
+}
+
+#SideMenu li a, #SideMenu ul form input {
+    color: #fff;
+    font-weight: bold;
+    text-align: left;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    border-bottom: 1px solid #242a37;
+    background: -webkit-gradient(linear, center top, center bottom, from(#3e485e), to(#323a4d));
+    background: -webkit-linear-gradient(#3e485e, #323a4d)
+}
+
+#SideMenu ul form input {
+    font: inherit;
+    font-weight: bold;
+    white-space: inherit;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    border-bottom: 1px solid #242a37;
+}
+
+#SideMenu li a.current {
+    background: #262c3a;
+}
+
+._356 {
+    background: #434b5c;
+    background-image: -webkit-gradient(linear, center top, center bottom, from(#434b5c), to(#394152));
+    background-image: -webkit-linear-gradient(#434b5c, #394152);
+    background-repeat: no-repeat;
+    color: #7a8292;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .6);
+}
+
+#SideMenu .Padding {
+    background-image: -webkit-linear-gradient(#434b5b, #242b39);
+}
+
+#MenuButton 
+{
+    background: url("../Images/Button.png");
+    background-size: 25px 25px;
 }

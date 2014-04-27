@@ -8,7 +8,7 @@ function onButtonClick () {
 }
 
 function show_loop() {
-    i += 1;
+    i += 8;
     document.getElementById("divWrapper").style.left = i;
     document.getElementById("SideMenu").style.left = i - 256;
     if (i < 256)

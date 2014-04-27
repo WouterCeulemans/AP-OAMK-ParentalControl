@@ -9,12 +9,12 @@ if (!isset($_SESSION["LoggedIn"]))
         <meta name="viewport" content="width=500, user-scalable=0">
         <title>Parental Web Center</title>
         <link href="./css/layout.css" rel="stylesheet" type="text/css" />
-		<?php
-		include "./php/dbconfig.php";
-		$result = mysql_query("SELECT Theme FROM users WHERE ID='$_SESSION[ID]'");
-		$row = mysql_fetch_assoc($result);
-		echo "<link href='./themes/$row[Theme]Theme.css' rel='stylesheet' type='text/css' />";
-		?>
+        <?php
+        include "./php/dbconfig.php";
+        $result = mysql_query("SELECT Theme FROM users WHERE ID='$_SESSION[ID]'");
+        $row = mysql_fetch_assoc($result);
+        echo "<link href='./themes/$row[Theme]Theme.css' rel='stylesheet' type='text/css' />";
+        ?>
         <script src="./js/sideMenu.js"></script>
     </head>
     <body>
@@ -26,8 +26,8 @@ if (!isset($_SESSION["LoggedIn"]))
                 <li><a href="settings.php" >Settings</a></li>
                 <li><a href="spybot.php" class="current"  >Spybot  </a></li>
                 <li><a href="tracker.php"  >Tracker </a></li>
-				<li><a href="preferences.php">Preferences </a></li>
-				<div class="Padding"></div>	
+                <li><a href="preferences.php">Preferences </a></li>
+                <div class="Padding"></div>	
                 <li><form action="./php/logout.php"><input type="submit" value="Log Out" /></form></li>
             </ul>
         </div>	
@@ -42,7 +42,7 @@ if (!isset($_SESSION["LoggedIn"]))
                             <li><a href="settings.php" 				>Settings</a></li>
                             <li><a href="spybot.php" class="current">Spybot</a></li>
                             <li><a href="tracker.php"				>Tracker</a></li>
-							<li><a href="preferences.php"           >Preferences</a></li>
+                            <li><a href="preferences.php"           >Preferences</a></li>
                             <li><form action="./php/logout.php"><input type="submit" value="Log Out" /></form></li>
                         </ul>
                     </div>
