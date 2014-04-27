@@ -5,43 +5,55 @@
         <title>Parental Web Center</title>
         <link href="./css/layout.css" rel="stylesheet" type="text/css" />
         <link href="./themes/lightTheme.css" rel="stylesheet" type="text/css" />
+        <script src="./js/sideMenu.js"></script>
     </head>
 
     <body>
-        <div id="divHeader">
-            <img src="Images/Header.png" width="500" height="200" />
-            <div id="divLine"></div>
-            <div id="divLinks">
-                <div id="divNav">
-                    <ul>
-                        <li><a href="index.php">Home</a></li>
-                        <li><a href="info.html" class="current">Info</a></li>
-                    </ul>
+        <div id="SideMenu">
+            <div class="Padding"></div>	
+            <ul>
+                <h5 class="_356">Links</h5>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="info.html" class="current">Info</a></li>
+            </ul>
+        </div>	
+        <div id="divWrapper">
+            <div id="divHeader">
+                <img src="Images/Header.png" width="500" height="200" />
+                <div id="divLinks">
+                    <div onclick="onButtonClick()" id="MenuButton"></div>
+                    <div id="divNav">
+                        <ul>
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="info.html" class="current">Info</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div id="divLine"></div>
-        </div>
-        <div id="divMargin">
-            <div class="divContentHeader"> </div>
-            <div class="divContent">
-                <h3>Childeren's privacy</h3>
-                <p>
-                    The Children’s Online Privacy Protection Act (COPPA) gives parents control over what information websites can collect from their kids.  
-                    The COPPA Rule — with new provisions in effect on July 1, 2013 —  puts additional protections in place and streamlines other procedures that 
-                    companies covered by the rule need to follow.   If you run a website designed for kids or have a website geared to a general audience but collect 
-                    information from someone you know is under 13, you must comply with COPPA’s requirements.  Questions?  Send them to CoppaHotLine@ftc.gov.
-                </p>
-            </div>
-        </div>
-        <div id="divMargin">
-            <div class="divContentHeader"> </div>
-            <div class="divContent">
-                <h3>Data Security</h3>
-                <p>
-                    Many companies keep sensitive personal information about customers or employees in their files or on their network.
-                    Having a sound security plan in place to collect only what you need, keep it safe, and dispose of it securely can
-                    help you meet your legal obligations to protect that sensitive data.  The FTC has free resources for businesses of any size.
-                </p>
+            <div id="divContentWrapper">
+                <div id="divMargin">
+                    <div class="divContentHeader"> </div>
+                    <div class="divContent">
+                        <h3>Childeren's privacy</h3>
+                        <p>
+                            The Children’s Online Privacy Protection Act (COPPA) gives parents control over what information websites can collect from their kids.
+                            The COPPA Rule — with new provisions in effect on July 1, 2013 —  puts additional protections in place and streamlines other procedures that
+                            companies covered by the rule need to follow.   If you run a website designed for kids or have a website geared to a general audience but collect
+                            information from someone you know is under 13, you must comply with COPPA’s requirements.  Questions?  Send them to CoppaHotLine@ftc.gov.
+                        </p>
+                    </div>
+                </div>
+                <div id="divMargin">
+                    <div class="divContentHeader"> </div>
+                    <div class="divContent">
+                        <h3>Data Security</h3>
+                        <p>
+                            Many companies keep sensitive personal information about customers or employees in their files or on their network.
+                            Having a sound security plan in place to collect only what you need, keep it safe, and dispose of it securely can
+                            help you meet your legal obligations to protect that sensitive data.  The FTC has free resources for businesses of any size.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="divFooter"></div>

@@ -1,6 +1,6 @@
 ﻿var map;
 var markers = [];
-var points = [];
+var points  = [];
 var polyline = new google.maps.Polyline();
 
 $(document).ready(function () {
@@ -18,13 +18,12 @@ function GetCoordinates() {
     var devid =  e.options[e.selectedIndex].value;
     $.ajax({
         type: "GET",
-        url: "getCoordinates.php?devid=" + devid,
+        url: "./php/getCoordinates.php?devid=" + devid,
         success: callback
     });
 };
 
 function callback(data, status) {
-    
     var jsArr = JSON.parse(data);
     clearOverlays();
     map.setCenter(new google.maps.LatLng(parseFloat(jsArr[0].x), parseFloat(jsArr[0].y)), 5);

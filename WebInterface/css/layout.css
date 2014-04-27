@@ -4,27 +4,27 @@ body, h1, h2, h3, h4, h5, h6, div, ul, li
     padding: 0;
 }
 
+body, html
+{
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
 #divHeader
 {
     text-align: center;
 }
 
-#divHeader img
+#divLinks
 {
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-#divLine
-{
-    height: 1px;
+    height: 36px;
 }
 
 #divNav
 {
-    max-width: 384px;
     height: 36px;
     margin: 0 auto;
+    display: table;
 }
     
 #divNav ul
@@ -37,19 +37,29 @@ body, h1, h2, h3, h4, h5, h6, div, ul, li
     float: left;
 }
 
-#divNav ul li a
+#divNav ul li form
 {
+    margin-bottom: 0;
+}
+
+#divNav ul li form input {
+    height: 22px;
+}
+
+#divNav ul li a, #divNav ul li form input
+{
+    padding: 0;
     display: block;
-    height: 20px;
     line-height: 20px;
-    width: 80px;
+    width: 100px;
     text-align: center;
     text-decoration: none;
     margin: 7px;
 }
 
-#divNav ul li a.current, #divNav ul li a.current:hover {
-    cursor: default;
+#divNav ul li a:hover, #divNav ul li input:hover,
+#SideMenu ul li a:hover, #SideMenu ul li input:hover {
+    cursor: pointer;
 }
 
 .contentImg
@@ -60,7 +70,7 @@ body, h1, h2, h3, h4, h5, h6, div, ul, li
 
 .divContentHeader 
 {
-    width:450px;
+    width: 450px;
     height: 30px;
     margin: 30px auto 0 auto;
     box-sizing: border-box;
@@ -69,9 +79,9 @@ body, h1, h2, h3, h4, h5, h6, div, ul, li
 
 .divContent
 {
-    width:450px;
+    width: 450px;
     padding-bottom: 10px;
-    margin: 0 auto 30px auto;
+    margin: 0 auto 0 auto;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
@@ -91,6 +101,7 @@ body, h1, h2, h3, h4, h5, h6, div, ul, li
 
 #divFooter
 {
+    position: relative;
     height: 25px;
 }
 
@@ -98,4 +109,115 @@ body, h1, h2, h3, h4, h5, h6, div, ul, li
 {
     margin-top:20px;
     margin-bottom:20px;
+}
+
+#divWrapper
+{
+    position: relative;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -26px;
+}
+
+#divContentWrapper 
+{
+    padding-bottom: 60px;    
+}
+
+#SideMenu {
+    z-index: 1;
+    left: -256px;
+    float:left; 
+    height: 100%;
+    width: 256px;
+    background: #ededed;
+    position: fixed;
+    background: #32394a;
+    top: 0;
+}
+
+#SideMenu ul
+{
+    display: block;
+    list-style-type: none;
+}
+
+#SideMenu li a, #SideMenu ul form input {
+    width: 236px;
+    display: block;
+    padding: 10px;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: left;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    border-bottom: 1px solid #242a37;
+    background: -webkit-gradient(linear, center top, center bottom, from(#3e485e), to(#323a4d));
+    background: -webkit-linear-gradient(#3e485e, #323a4d)
+}
+
+#SideMenu ul form
+{
+    margin-bottom: 0;
+}
+
+#SideMenu ul form input {
+    width: 256px;
+    margin: 0;
+    font: inherit;
+    font-weight: bold;
+    white-space: inherit;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    border-bottom: 1px solid #242a37;
+}
+
+#SideMenu li a.current {
+    background: #262c3a;
+}
+
+._356 {
+    background: #434b5c;
+    background-image: -webkit-gradient(linear, center top, center bottom, from(#434b5c), to(#394152));
+    background-image: -webkit-linear-gradient(#434b5c, #394152);
+    background-repeat: no-repeat;
+    color: #7a8292;
+    line-height: 17px;
+    padding-left: 10px;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .6);
+}
+
+#SideMenu .Padding {
+    height: 38px;
+    background-image: -webkit-linear-gradient(#434b5b, #242b39);
+}
+
+@media screen and (max-width: 500px) {
+    #divNav {
+        visibility: hidden;
+    }
+    #divHeader img
+    {
+        height: 0 !important;
+    }
+}
+
+@media screen and (min-width: 501px) {
+    #SideMenu, #MenuButton {
+        visibility: hidden;
+    }
+    #divWrapper {
+        left: 0 !important;
+    }
+}
+
+#MenuButton 
+{
+    margin: 5px;
+    height: 25px; 
+    width: 25px; 
+    background: url("../Images/Button.png");
+    background-size: 25px 25px;
+    float: left;
 }

@@ -2,7 +2,7 @@
 session_start();
 if (isset($_SESSION["LoggedIn"]))
 {
-	include "dbconfig.php";
+	include "./dbconfig.php";
 	$result = mysql_query("SELECT * FROM coordinates WHERE ID='$_GET[devid]'");
 
 	$index = 0;
@@ -15,5 +15,7 @@ if (isset($_SESSION["LoggedIn"]))
 		$index++;
 	}
 	print json_encode($c);
+	mysql_close($dbhandle);
+	exit();
 }
 ?>

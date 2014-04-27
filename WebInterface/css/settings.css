@@ -1,6 +1,6 @@
-﻿h3 {
+﻿.tabs h3 {
     width: 350px;
-    margin: 0 0 10px 5px ;
+    margin: 10px 0 10px 5px ;
 }
 
 .tabs {
@@ -11,7 +11,7 @@
     margin-top: 10px;
 }
 
-table 
+.tabs table 
 { 
     margin: 10px;
 }
