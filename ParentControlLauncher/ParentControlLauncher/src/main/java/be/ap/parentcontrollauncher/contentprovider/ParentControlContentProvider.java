@@ -239,7 +239,7 @@ public class ParentControlContentProvider extends ContentProvider {
         String[] available = {ApplicationsTable.COLUMN_VISIBLE, ApplicationsTable.COLUMN_PACKAGE, ApplicationsTable.COLUMN_TITLE, ApplicationsTable.COLUMN_ID,
                              LocationsTable.COLUMN_ID, LocationsTable.COLUMN_LAT, LocationsTable.COLUMN_LONG, ContactsTable.COLUMN_CALLMAX, ContactsTable.COLUMN_CALLAMOUNT,
                              ContactsTable.COLUMN_FIRSTNAME, ContactsTable.COLUMN_ID, ContactsTable.COLUMN_LASTNAME, ContactsTable.COLUMN_PHONENUMBER, ContactsTable.COLUMN_TXTAMOUNT,
-                             ContactsTable.COLUMN_TXTMAX};
+                             ContactsTable.COLUMN_TXTMAX, ContactsTable.COLUMN_BLOCKED};
 
         if (projection != null) {
             HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));

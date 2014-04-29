@@ -3,17 +3,20 @@ package be.ap.smsapp;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.telephony.gsm.SmsManager;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends Activity
@@ -23,6 +26,7 @@ public class MainActivity extends Activity
     EditText msgTxt;
     EditText numTxt;
     IntentFilter intentFilter;
+    SmsManager sm = SmsManager.getDefault();
 
     private BroadcastReceiver intentReceiver = new BroadcastReceiver()
     {
@@ -58,7 +62,14 @@ public class MainActivity extends Activity
                                 {
                                     String myMsg        = msgTxt.getText().toString();
                                     String theNumber    = numTxt.getText().toString();
-                                    sendMsg(theNumber, myMsg);
+                                    if (CheckSmsAvailable(theNumber)) {
+                                        if (myMsg.length() < 160)
+                                            sendMsg(theNumber, myMsg);
+                                        else
+                                            sendMultipartMsg(theNumber, myMsg);
+                                    }
+                                    else
+                                        Toast.makeText(getApplicationContext(), "Limit reached or number blocked", Toast.LENGTH_SHORT).show();
                                 }
                             }
                 );
@@ -70,20 +81,35 @@ public class MainActivity extends Activity
     {
         Integer TxtAmount = 0;
         Integer TxtMax = 0;
+        Integer Blocked = 0;
         String selection = Database.COLUMN_PHONENUMBER + " = " + number;
         Cursor cur = this.getContentResolver().query(Database.CONTENT_URI_CONTACTS, null, selection, null, null);
         if (cur.getCount() > 0) {
             while (cur.moveToNext()) {
                 TxtAmount = cur.getInt(cur.getColumnIndex(Database.COLUMN_TXTAMOUNT));
                 TxtMax = cur.getInt(cur.getColumnIndex(Database.COLUMN_TXTMAX));
+                Blocked = cur.getInt(cur.getColumnIndex(Database.COLUMN_BLOCKED));
             }
             cur.close();
         }
-            if (TxtAmount < TxtMax)
-                //txtamount verhogen en updaten
+        if (IntToBoolean(Blocked)) {
+            if (TxtAmount < TxtMax) {
+                ContentValues values = new ContentValues();
+                values.put(Database.COLUMN_TXTAMOUNT, TxtAmount);
+                getContentResolver().update(Database.CONTENT_URI_CONTACTS, values, selection, null);
                 return true;
-            else
+            } else
                 return false;
+        } else
+            return false;
+    }
+
+    private Boolean IntToBoolean(Integer integer)
+    {
+        if (integer <= 0)
+            return false;
+        else
+            return true;
     }
 
     protected void sendMsg(String theNumber, String myMsg)
@@ -143,5 +169,60 @@ public class MainActivity extends Activity
         //unregister the receiver
         unregisterReceiver(intentReceiver);
         super.onPause();
+    }
+
+    private void sendMultipartMsg(String theNumber, String myMsg)
+    {
+        String SENT         = "Message Sent";
+        String DELIVERED    = "Message Delivered";
+
+        PendingIntent sentPI        =   PendingIntent.getBroadcast(this, 0  , new Intent(SENT)      , 0);
+        PendingIntent deliveredPI   =   PendingIntent.getBroadcast(this, 0  , new Intent(DELIVERED) , 0);
+
+
+        ArrayList<String> parts =sm.divideMessage(myMsg);
+        int numParts = parts.size();
+
+        ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
+        ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
+
+        registerReceiver(new BroadcastReceiver()
+        {
+            public void onReceive(Context arg0, Intent arg1)
+            {
+                switch(getResultCode())
+                {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(MainActivity.this, "SMS sent", Toast.LENGTH_LONG).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        Toast.makeText(getBaseContext(), "Generic Failure", Toast.LENGTH_LONG).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        Toast.makeText(getBaseContext(),"No Service", Toast.LENGTH_LONG).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(SENT));
+
+        registerReceiver(new BroadcastReceiver() {
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode()) {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), "SMS delivered", Toast.LENGTH_LONG).show();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Toast.makeText(getBaseContext(), " SMS not delivered", Toast.LENGTH_LONG).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(DELIVERED));
+
+        for (int i = 0; i < numParts; i++) {
+            sentIntents.add(PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0));
+            deliveryIntents.add(PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0));
+        }
+
+        sm.sendMultipartTextMessage(theNumber, null, parts, sentIntents, deliveryIntents);
     }
 }

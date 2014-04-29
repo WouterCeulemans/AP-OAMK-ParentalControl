@@ -126,6 +126,7 @@ public class JSONHandler {
                 contact.TxtMax = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_TXTMAX));
                 contact.CallAmount = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_CALLAMOUNT));
                 contact.CallMax = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_CALLMAX));
+                contact.Blocked = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_BLOCKED));
 
                 contacts.add(contact);
             }

@@ -18,6 +18,7 @@ public class ContactsTable {
     public static final String COLUMN_TXTMAX = "txtmax";
     public static final String COLUMN_CALLAMOUNT = "callamount";
     public static final String COLUMN_CALLMAX = "callmax";
+    public static final String COLUMN_BLOCKED = "blocked";
 
     //Database creation SQL Statement
     private static final String DATABASE_CREATE = "create table "
@@ -30,7 +31,8 @@ public class ContactsTable {
             + COLUMN_TXTAMOUNT + " integer not null, "
             + COLUMN_TXTMAX + " integer not null, "
             + COLUMN_CALLAMOUNT + " integer not null, "
-            + COLUMN_CALLMAX + " integer not null"
+            + COLUMN_CALLMAX + " integer not null, "
+            + COLUMN_BLOCKED + " integer not null"
             + ");";
 
     public static void onCreate(SQLiteDatabase database) {

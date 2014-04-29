@@ -12,4 +12,5 @@ public class Contact {
     public int TxtMax;
     public int CallAmount;
     public int CallMax;
+    public int Blocked;
 }

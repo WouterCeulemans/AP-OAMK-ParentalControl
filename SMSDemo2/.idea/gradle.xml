@@ -8,8 +8,8 @@
         <option name="gradleHome" value="" />
         <option name="modules">
           <set>
-            <option value="C:\Users\nick\Copy\SEM4\Project ICT\AP-OAMK-ParentalControl\SMSDemo2" />
-            <option value="C:\Users\nick\Copy\SEM4\Project ICT\AP-OAMK-ParentalControl\SMSDemo2\app" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
       </GradleProjectSettings>
