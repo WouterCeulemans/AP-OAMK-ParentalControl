@@ -85,7 +85,7 @@ public class HomeScreen extends Activity {
         sendIDBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestUpdate();
+                SendIDDevice();
             }
         });
 
@@ -93,7 +93,7 @@ public class HomeScreen extends Activity {
         alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, LocationService.class);
         alarmIntent = PendingIntent.getService(this, 0, intent, 0);
-        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000 * 60 * 1, 1000 * 60 * 1, alarmIntent);
+        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000 * 60 * 15, 1000 * 60 * 15, alarmIntent);
 
         Button appButton = (Button)findViewById(R.id.AppButton);
         appButton.setOnClickListener(new View.OnClickListener() {

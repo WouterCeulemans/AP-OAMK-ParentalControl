@@ -40,9 +40,11 @@ public class JSONHandler {
         Gson gson = new Gson();
         RootObject rootObject = new RootObject();
         rootObject.DeviceID = telephonyManager.getDeviceId();
-        rootObject.Apps = getApps();
+        //rootObject.Apps = getApps();
+        rootObject.Apps = new ArrayList<App>();
         rootObject.Locations = getLocations();
         //rootObject.Contacts = getContacts();
+        rootObject.Contacts = new ArrayList<Contact>();
 
         //JsonObject DeviceJson = new JsonObject();
 
@@ -132,6 +134,7 @@ public class JSONHandler {
             }
             cur.close();
         }
+        cur.close();
         return contacts;
     }
 }

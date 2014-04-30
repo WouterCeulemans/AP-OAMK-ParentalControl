@@ -32,6 +32,7 @@ public class NetClient {
                 socket = new Socket(host, port);
                 output = new PrintWriter(socket.getOutputStream());
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                Log.i("NetClient", "Connected to server");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -45,6 +46,7 @@ public class NetClient {
                     input.close();
                     output.close();
                     socket.close();
+                    Log.i("NetClient", "Disconnected from server");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -56,6 +58,7 @@ public class NetClient {
         if (message != null) {
             output.write(message);
             output.flush();
+            Log.i("NetClient", "Data send to server");
         }
     }
 
