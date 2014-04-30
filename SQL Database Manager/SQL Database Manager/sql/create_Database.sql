@@ -16,6 +16,7 @@ CREATE TABLE `contacts` (
   `TxtMax`      int,
   `CallAmount`  int,
   `CallMax`     int,
+  `Blocked`     tinyint(1)  NOT NULL DEFAULT 0,
   PRIMARY KEY (`ID`,`Contact_ID`)
 );
 
