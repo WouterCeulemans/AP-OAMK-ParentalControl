@@ -1,92 +1,73 @@
-﻿body 
-{
+﻿body {
     font-family: 'Maven Pro', sans-serif;
+}
+
+#divWrapper, body {
     background: #e9eaed;
 }
 
-#divWrapper 
-{
-    background: #e9eaed;
-}
-
-#divHeader
-{
+#divHeader {
     background: #EFEDAB;
 }
 
-#divLinks
-{
+#divLinks {
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
+}
+
+#divLinks {
     background: #f58812;
 }
 
-#divNav
-{
-    background: #f58812;
-}
-    
-#divNav ul
-{
-    list-style-type: none;
-}
-
-#divNav ul li a, #divNav ul li form input
-{
+#divNav ul li a, #divDev ul li a {
     text-transform: uppercase;
     background-color: #000;
     font-size: 0.8em;
     font-weight: bold;
     color: #FFF;
-    
-    border: 1px solid #000;
-    
-    background: -moz-linear-gradient(top, #666, #333);
-    background: -webkit-gradient(linear, left top , left bottom, from(#666), to(#333));
+    border: 1px solid #fdb74a;
+    background: #fdb74a;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
 }
 
-#divNav ul li a:hover, #divNav ul li input:hover
-{
-    background: #333;
-    background: -moz-linear-gradient(top, #CCC, #666);
-    background: -webkit-gradient(linear, left top , left bottom, from(#000), to(#666));
+#divNav ul li a:hover, #divDev ul li a:hover {
+    border: 1px solid #fe9917;
+    background: #fe9917;
 }
 
-#divNav ul li a.current, #divNav ul li a.current:hover,
-#divNav ul li input.current, #divNav ul li input.current:hover {
-    background: #333;
-    background: -moz-linear-gradient(top, #000, #666);
-    background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#666));
-    color: #f63;
+#divNav ul li a.current, #divNav ul li a.current:hover, #divDev ul li a.current, #divDev ul li a.current:hover {
+    border: 1px solid #cc181e;
+    background: #cc181e;
+    color: #FFF;
 }
 
-.divContentHeader 
-{
+.divContentHeader {
     background: #f58812;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
+    -ms-border-radius: 10px 10px 0 0;
     border-radius: 10px 10px 0 0;
 }
 
-.divContent
-{
+.divContent {
     background: #FFF;
     border: 1px solid #f58812;
+    -ms-border-radius: 0 0 10px 10px;
     border-radius: 0 0 10px 10px;
 }
 
-.divContent p
-{
+.divContent p {
     color: #999;
 }
 
-.divContent h5,.divContent  h3,.divContent  h1
-{
+.divContent h5,.divContent  h3,.divContent  h1 {
     color: #f58812;
     text-transform: uppercase;
 }
 
-#divFooter
-{
+#divFooter {
     background: #f58812;
     border-top: 1px solid #000;
 }
@@ -94,18 +75,17 @@
 .tabs {
     border: 1px solid #f58812;
     background: #ededed;
-    border-radius: 5px;
+    -ms-border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    border-radius: 5px;
 }
 
-table 
-{
+table {
     color: #f58812;
 }
 
-#divNav ul li a, #divNav ul li form input
-{
+#divNav ul li a {
     text-align: center;
 }
 
@@ -113,23 +93,15 @@ table
     background: #32394a;
 }
 
-#SideMenu li a, #SideMenu ul form input {
+#SideMenu li a {
     color: #fff;
     font-weight: bold;
     text-align: left;
+    border-top: 1px solid #fffffe;
     border-top: 1px solid rgba(255, 255, 255, .08);
     border-bottom: 1px solid #242a37;
     background: -webkit-gradient(linear, center top, center bottom, from(#3e485e), to(#323a4d));
     background: -webkit-linear-gradient(#3e485e, #323a4d)
-}
-
-#SideMenu ul form input {
-    font: inherit;
-    font-weight: bold;
-    white-space: inherit;
-    border: 0;
-    border-top: 1px solid rgba(255, 255, 255, .08);
-    border-bottom: 1px solid #242a37;
 }
 
 #SideMenu li a.current {
@@ -142,15 +114,42 @@ table
     background-image: -webkit-linear-gradient(#434b5c, #394152);
     background-repeat: no-repeat;
     color: #7a8292;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, .6);
 }
 
 #SideMenu .Padding {
     background-image: -webkit-linear-gradient(#434b5b, #242b39);
 }
 
-#MenuButton 
-{
+#MenuButton {
     background: url("../Images/Button.png");
+    -ms-background-size: 25px 25px;
     background-size: 25px 25px;
+}
+
+input[type="submit"], input[type="button"] {
+    border: 1px solid #fdb74a;
+    background: #fdb74a;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    color: #FFF;
+}
+
+input[type="submit"]:hover, input[type="submit"]:hover,
+input[type="button"]:hover, input[type="button"]:hover {
+    border: 1px solid #fe9917;
+    background: #fe9917;
+}
+
+#divLogin a {
+    font-size: 0.8em;
+    color: #FFF;
+    border: 1px solid #fdb74a;
+    background: #fdb74a;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#divLogin a:hover {
+    border: 1px solid #fe9917;
+    background: #fe9917;
 }

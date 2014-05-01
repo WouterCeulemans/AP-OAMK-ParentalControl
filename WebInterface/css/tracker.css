@@ -3,10 +3,10 @@
     width: 500px !important;
 }
 
-.divContent
-{
+.divContent {
     width: 500px !important;
     padding-bottom: 0;
+    -ms-border-radius: 0;
     border-radius: 0;
 }
 

@@ -18,7 +18,7 @@ function GetCoordinates() {
     var devid =  e.options[e.selectedIndex].value;
     $.ajax({
         type: "GET",
-        url: "./php/getCoordinates.php?devid=" + devid,
+        url: "/php/getCoordinates.php?devid=" + devid,
         success: callback
     });
 };

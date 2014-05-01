@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 if (!isset($_SESSION["LoggedIn"]))
     header("location: /index.php?LoginError=99");
@@ -28,7 +28,7 @@ if (!isset($_SESSION["LoggedIn"]))
             <div class="Padding"></div>	
             <ul>
                 <h5 class="_356">Links</h5>
-                <li><a href="/index.php" class="current">Home</a></li>
+                <li><a href="/index.php">Home</a></li>
                 <?php if (isset($_SESSION["LoggedIn"])): ?>
                 <li><a href="/account.php">Account</a></li>
                 <!--li><a href="/spybot.php">Spybot</a></li-->
@@ -38,7 +38,7 @@ if (!isset($_SESSION["LoggedIn"]))
                 include "/php/dbconfig.php";
                 $result = mysql_query("SELECT Name, ID FROM devices WHERE User_ID='$_SESSION[ID]'");
                 while ($row = mysql_fetch_assoc($result)) 
-                echo "<li><a href='/devsettings.php?devid=$row[ID]&devname=$row[Name]' >$row[Name]</a></li>";
+                echo "<li><a href='/devsettings.php?devid=$row[ID]&devname=$row[Name]'>$row[Name]</a></li>";
                 mysql_close($dbhandle);
                 ?>
                 <div class="Padding"></div>	
@@ -47,7 +47,7 @@ if (!isset($_SESSION["LoggedIn"]))
                 <li><a href="/info.html">Info</a></li>
                 <?php endif ?>
             </ul>
-        </div>	
+        </div>
         </div>	
         <div id="divWrapper">
             <div id="divHeader">
@@ -56,14 +56,14 @@ if (!isset($_SESSION["LoggedIn"]))
                     <div onclick="onButtonClick()" id="MenuButton"></div>
                     <div id="divNav">
                         <ul>
-                            <li><a href="/index.php" class="current">Home</a></li>
+                            <li><a href="/index.php">Home</a></li>
                             <?php if (isset($_SESSION["LoggedIn"])): ?>
                             <li><a href="/account.php">Account</a></li>
-                            <!--li><a href="/spybot.php">Spybot  </a></li-->
-                            <li><a href="/tracker.php">Tracker </a></li>
-                            <li><a href="/php/logout.php">Log Out </a></li>
+                            <!--li><a href="/spybot.php">Spybot</a></li-->
+                            <li><a href="/tracker.php">Tracker</a></li>
+                            <li><a href="/php/logout.php">Log Out</a></li>
                             <?php else: ?>
-                            <li><a href="/info.html">Info    </a></li>
+                            <li><a href="/info.html">Info</a></li>
                             <?php endif ?>
                         </ul>
                     </div>
@@ -81,10 +81,7 @@ if (!isset($_SESSION["LoggedIn"]))
                 </div>
             </div>
             <div id="divContentWrapper"> 
-                <div class="divContentHeader"> </div>
-                <div class="divContent">
-                
-                </div>
+                <p>404</p>
             </div>
         </div>
         <div id="divFooter"></div>

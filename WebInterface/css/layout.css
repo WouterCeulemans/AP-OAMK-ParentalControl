@@ -1,53 +1,39 @@
-body, h1, h2, h3, h4, h5, h6, div, ul, li
-{
+body, h1, h2, h3, h4, h5, h6, div, ul, li {
     margin: 0;
     padding: 0;
 }
 
-body, html
-{
+body, html {
     min-height: 100%;
     overflow-x: hidden;
 }
 
-#divHeader
-{
+#divHeader {
     text-align: center;
 }
 
-#divLinks
-{
-    height: 36px;
+#divLinks {
+    min-height: 36px;
 }
 
-#divNav
-{
-    height: 36px;
+#divNav, #divDev {
     margin: 0 auto;
     display: table;
 }
+
+#divNav {
+    min-height: 36px;
+}
     
-#divNav ul
-{
+#divNav ul, #divDev ul {
     list-style-type: none;
 }
 
-#divNav ul li
-{
+#divNav ul li, #divDev ul li {
     float: left;
 }
 
-#divNav ul li form
-{
-    margin-bottom: 0;
-}
-
-#divNav ul li form input {
-    height: 22px;
-}
-
-#divNav ul li a, #divNav ul li form input
-{
+#divNav ul li a, #divDev ul li a {
     padding: 0;
     display: block;
     line-height: 20px;
@@ -56,37 +42,34 @@ body, html
     margin: 7px;
 }
 
-#divNav ul li a:hover, #divNav ul li input:hover,
-#SideMenu ul li a:hover, #SideMenu ul li input:hover {
+#divNav ul li a:hover, #SideMenu ul li a:hover, #divDev ul li a:hover {
     cursor: pointer;
 }
 
-.contentImg
-{
+.contentImg {
     float: left;
     padding: 10px;
 }
 
-.divContentHeader 
-{
+.divContentHeader {
     width: 450px;
     height: 30px;
     margin: 30px auto 0 auto;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.divContent
-{
+.divContent {
     width: 450px;
     padding-bottom: 10px;
     margin: 0 auto 0 auto;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.divContent h3
-{
+.divContent h3 {
     margin-top: 10px;
     margin-left: 10px;
 }
@@ -98,20 +81,17 @@ body, html
     line-height: 1.4em;
 }
 
-#divFooter
-{
+#divFooter {
     position: relative;
     height: 25px;
 }
 
-#divMargin
-{
+#divMargin {
     margin-top:20px;
     margin-bottom:20px;
 }
 
-#divWrapper
-{
+#divWrapper {
     position: relative;
     min-height: 100%;
     height: auto !important;
@@ -119,8 +99,7 @@ body, html
     margin: 0 auto -26px;
 }
 
-#divContentWrapper 
-{
+#divContentWrapper {
     padding-bottom: 60px;    
 }
 
@@ -132,29 +111,20 @@ body, html
     width: 256px;
     position: fixed;
     top: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
-#SideMenu ul
-{
+#SideMenu ul {
     display: block;
     list-style-type: none;
 }
 
-#SideMenu li a, #SideMenu ul form input {
+#SideMenu li a {
     width: 236px;
     display: block;
     padding: 10px;
     text-decoration: none;
-}
-
-#SideMenu ul form
-{
-    margin-bottom: 0;
-}
-
-#SideMenu ul form input {
-    width: 256px;
-    margin: 0;
 }
 
 ._356 {
@@ -168,10 +138,13 @@ body, html
 }
 
 @media screen and (max-width: 500px) {
-    #divNav {
+    #divNav, #divDev {
         visibility: hidden;
     }
-    #divHeader img
+    #divNav,#divLinks {
+        height: 36px;
+    }
+    #divHeader img, #divDev
     {
         height: 0 !important;
     }
@@ -186,10 +159,81 @@ body, html
     }
 }
 
-#MenuButton 
-{
+#MenuButton {
     margin: 5px;
     height: 25px; 
     width: 25px;
-    float: left;
+    position: absolute;
+}
+
+#recaptcha_area {
+    margin: 0 auto;
+}
+
+.tabs h3 {
+    width: 350px;
+    margin: 10px 0 10px 5px ;
+}
+
+.tabs {
+    width: 350px;
+    margin: 50px auto ;
+    padding: 0 10px 0 10px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.tabs table { 
+    margin: 10px;
+    width: 324px;
+}
+
+#DeviceTable th {
+    text-align: left;
+}
+
+#DeviceTable td {
+    font-size: 0.9em;
+}
+
+#UserBox p {
+    font-size: 12px;
+}
+
+#UserBox {
+    min-height: 120px;
+}
+
+#divLogin table {
+    margin: 10px auto 0 auto;
+}
+
+#divLogin a, #divLogin input[type="submit"] {
+    padding: 0;
+    display: block;
+    line-height: 20px;
+    text-decoration: none;
+    text-align: center;
+    float: right;
+}
+
+#divLogin a, #divLogin input[type="submit"] {
+    width: 60px;
+}
+
+#divLogin #middle {
+    width: 106px;
+}
+
+#divLogin a {
+    height: 20px;
+    width: 66px;
+}
+
+#divLogin a:hover {
+    cursor: pointer;
+}
+
+.right {
+    float: right;
 }
