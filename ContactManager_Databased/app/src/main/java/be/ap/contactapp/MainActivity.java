@@ -2,6 +2,7 @@ package be.ap.contactapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,7 +27,7 @@ public class MainActivity extends Activity
 {
     EditText nameTxt, phoneTxt, addressTxt, emailTxt;
     ImageView contactImageImageView;
-    List<Contact> Contacts = new ArrayList<Contact>();
+    List<ContactClass> contactClasses = new ArrayList<ContactClass>();
     ListView contactListView;
     Uri imageUri = null ;
 
@@ -47,7 +48,7 @@ public class MainActivity extends Activity
 
         tabHost.setup();
 
-        TabHost.TabSpec tabSpec = tabHost.newTabSpec("New Contact");
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec("New ContactClass");
         tabSpec.setContent(R.id.tabCreator);
         tabSpec.setIndicator("NewContact");
         tabHost.addTab(tabSpec);
@@ -63,7 +64,7 @@ public class MainActivity extends Activity
             @Override
             public void onClick(View view)
             {
-                Contacts.add(new Contact(0, nameTxt.getText().toString(), phoneTxt.getText().toString(), emailTxt.getText().toString(), addressTxt.getText().toString(), imageUri));
+                contactClasses.add(new ContactClass(0, nameTxt.getText().toString(), phoneTxt.getText().toString(), emailTxt.getText().toString(), addressTxt.getText().toString(), imageUri));
                 nameTxt.setText("");
                 phoneTxt.setText("");
                 addressTxt.setText("");
@@ -104,7 +105,7 @@ public class MainActivity extends Activity
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Contact Image"), 1);
+                startActivityForResult(Intent.createChooser(intent, "Select ContactClass Image"), 1);
             }
         });
     } 
@@ -123,15 +124,15 @@ public class MainActivity extends Activity
 
     private void populateList()
     {
-        ArrayAdapter<Contact> adapter = new ContactListAdapter();
+        ArrayAdapter<ContactClass> adapter = new ContactListAdapter();
         contactListView.setAdapter(adapter);
     }
 
-    private class ContactListAdapter extends ArrayAdapter<Contact>
+    private class ContactListAdapter extends ArrayAdapter<ContactClass>
     {
         public ContactListAdapter()
         {
-            super(MainActivity.this, R.layout.listview_item, Contacts);
+            super(MainActivity.this, R.layout.listview_item, contactClasses);
         }
         @Override
         public View getView(int position , View view, ViewGroup parent)
@@ -140,22 +141,28 @@ public class MainActivity extends Activity
             {
                 view = getLayoutInflater().inflate(R.layout.listview_item, parent, false);
             }
-            Contact currentContact = Contacts.get(position);
+            ContactClass currentContactClass = contactClasses.get(position);
 
             TextView name = ( TextView) view.findViewById(R.id.contactName);
-            name.setText(currentContact.getName());
+            name.setText(currentContactClass.getName());
             TextView phone = (TextView) view.findViewById(R.id.phoneNumber);
-            phone.setText(currentContact.get_phone());
+            phone.setText(currentContactClass.get_phone());
             TextView email = (TextView) view.findViewById(R.id.emailAddress);
-            email.setText(currentContact.get_email());
+            email.setText(currentContactClass.get_email());
             TextView address = (TextView) view.findViewById(R.id.cAddress);
-            address.setText(currentContact.get_address());
+            address.setText(currentContactClass.get_address());
 
             ImageView ivContactImage = (ImageView) view.findViewById(R.id.ivContactImage);
-            ivContactImage.setImageURI(currentContact.get_imageUri());
+            ivContactImage.setImageURI(currentContactClass.get_imageUri());
 
             return view;
         }
+    }
+
+
+    private ArrayList<Contact> GetAllContactsAndroid()
+    {
+        Cursor cur =
     }
 
     /*@Override

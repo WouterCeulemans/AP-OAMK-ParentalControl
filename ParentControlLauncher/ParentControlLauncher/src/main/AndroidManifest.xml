@@ -52,7 +52,9 @@
 
         <provider
             android:name=".contentprovider.ParentControlContentProvider"
-            android:authorities="be.ap.parentcontrollauncher.contentprovider" >
+            android:authorities="be.ap.parentcontrollauncher.contentprovider"
+            android:readPermission="be.ap.parentcontrollauncher.contentprovider.READ_DATABASE"
+            android:writePermission="be.ap.parentcontrollauncher.contentprovider.WRITE_DATABASE">
         </provider>
         
         <receiver android:name="PackageReceiver">

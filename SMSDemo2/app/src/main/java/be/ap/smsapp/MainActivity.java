@@ -94,6 +94,7 @@ public class MainActivity extends Activity
         }
         if (IntToBoolean(Blocked)) {
             if (TxtAmount < TxtMax) {
+                TxtAmount++;
                 ContentValues values = new ContentValues();
                 values.put(Database.COLUMN_TXTAMOUNT, TxtAmount);
                 getContentResolver().update(Database.CONTENT_URI_CONTACTS, values, selection, null);

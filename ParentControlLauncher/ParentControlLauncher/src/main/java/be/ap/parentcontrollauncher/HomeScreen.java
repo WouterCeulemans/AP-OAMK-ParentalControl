@@ -13,12 +13,17 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 import android.telephony.TelephonyManager;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -48,6 +53,11 @@ public class HomeScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
+        netClient = new NetClient("81.83.164.27", 8041);
+
+        TextView logViewer = (TextView)findViewById(R.id.trackerLog);
+        logViewer.setMovementMethod(new ScrollingMovementMethod());
 
         Button smsAppBtn = (Button)findViewById(R.id.SmsButton);
         smsAppBtn.setOnClickListener(new View.OnClickListener() {
@@ -85,15 +95,26 @@ public class HomeScreen extends Activity {
         sendIDBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SendIDDevice();
+                SendDeviceID sendID = new SendDeviceID();
+                sendID.execute();
+            }
+        });
+
+        Button clearLogBtn = (Button)findViewById(R.id.clearLogButton);
+        clearLogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView logView = (TextView)findViewById(R.id.trackerLog);
+                logView.setText("");
             }
         });
 
         //AlarmManager
         alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, LocationService.class);
+        intent.putExtra("messenger", new Messenger(handler)); // Traker logging
         alarmIntent = PendingIntent.getService(this, 0, intent, 0);
-        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000 * 60 * 15, 1000 * 60 * 15, alarmIntent);
+        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000 * 60 * 1, 1000 * 60 * 1, alarmIntent);
 
         Button appButton = (Button)findViewById(R.id.AppButton);
         appButton.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +128,6 @@ public class HomeScreen extends Activity {
         p.context = getApplicationContext();
         p.contentResolver = getContentResolver();
 
-        netClient = new NetClient("81.83.164.27", 8041);
 
         loadApps = new LoadApplications();
         loadApps.execute(p);
@@ -257,10 +277,10 @@ public class HomeScreen extends Activity {
 
     private void SendIDDevice()
     {
-        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+        /*TelephonyManager telephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
         netClient.ConnectWithServer();
         netClient.SendDataToServer("create;" + telephonyManager.getDeviceId() +";Device Name;");
-        netClient.DisConnectWithServer();
+        netClient.DisConnectWithServer();*/
     }
 
     private void RequestUpdate()
@@ -331,4 +351,31 @@ public class HomeScreen extends Activity {
             Toast.makeText(getApplicationContext(), "Geen gegevens", Toast.LENGTH_SHORT).show();
         }
     }*/
-}
+
+
+    //Tracker logging
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Bundle reply = msg.getData();
+            TextView logView = (TextView)findViewById(R.id.trackerLog);
+
+            logView.append("Provider: " + reply.getString("Provider") + "; Lat: " + reply.getDouble("Lat") + "; Long: " + reply.getDouble("Long") + "\n");
+        }
+    };
+
+
+    private class SendDeviceID extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... param) {
+
+            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+            netClient.ConnectWithServer();
+            netClient.SendDataToServer("create;" + telephonyManager.getDeviceId() +";Device Name;");
+            netClient.DisConnectWithServer();
+
+            return null;
+        }
+    }
+
+    }

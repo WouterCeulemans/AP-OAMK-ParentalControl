@@ -50,23 +50,23 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
         onCreate(db);
     }
-    public void createContact(Contact contact)
+    public void createContact(ContactClass contactClass)
     {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put(KEY_NAME,        contact.getName()                   );
-        values.put(KEY_PHONE,       contact.get_phone()                 );
-        values.put(KEY_EMAIL,       contact.get_email()                 );
-        values.put(KEY_ADDRESS,     contact.get_address()               );
-        values.put(KEY_IMAGEURI,    contact.get_imageUri().toString()   );
+        values.put(KEY_NAME,        contactClass.getName()                   );
+        values.put(KEY_PHONE,       contactClass.get_phone()                 );
+        values.put(KEY_EMAIL,       contactClass.get_email()                 );
+        values.put(KEY_ADDRESS,     contactClass.get_address()               );
+        values.put(KEY_IMAGEURI,    contactClass.get_imageUri().toString()   );
 
         db.insert(TABLE_CONTACTS, null, values);
         db.close();
     }
 
-    public Contact getContact(int id)
+    public ContactClass getContact(int id)
     {
         SQLiteDatabase db = getReadableDatabase();
         //cursor gaat naar elke rij en zal daar zaken gaan selecteren                                                                      '?' = is what we gonna replace in the next parameter.
@@ -75,14 +75,14 @@ public class DatabaseHandler extends SQLiteOpenHelper
         {
             cursor.moveToFirst();
         }
-        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1),(cursor.getString(2)),(cursor.getString(3)),(cursor.getString(4)), Uri.parse(cursor.getString(5)));
-        return contact;
+        ContactClass contactClass = new ContactClass(Integer.parseInt(cursor.getString(0)), cursor.getString(1),(cursor.getString(2)),(cursor.getString(3)),(cursor.getString(4)), Uri.parse(cursor.getString(5)));
+        return contactClass;
     }
 
-    public void deleteContact(Contact contact)
+    public void deleteContact(ContactClass contactClass)
     {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(TABLE_CONTACTS, KEY_ID + " =?", new String[] { String.valueOf(contact.getId()) } );
+        db.delete(TABLE_CONTACTS, KEY_ID + " =?", new String[] { String.valueOf(contactClass.getId()) } );
         db.close();
     }
 
@@ -96,24 +96,24 @@ public class DatabaseHandler extends SQLiteOpenHelper
         return cursor.getCount();
     }
 
-    public int updateContact(Contact contact)
+    public int updateContact(ContactClass contactClass)
     {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put(KEY_NAME,        contact.getName()                   );
-        values.put(KEY_PHONE,       contact.get_phone()                 );
-        values.put(KEY_EMAIL,       contact.get_email()                 );
-        values.put(KEY_ADDRESS,     contact.get_address()               );
-        values.put(KEY_IMAGEURI,    contact.get_imageUri().toString()   );
+        values.put(KEY_NAME,        contactClass.getName()                   );
+        values.put(KEY_PHONE,       contactClass.get_phone()                 );
+        values.put(KEY_EMAIL,       contactClass.get_email()                 );
+        values.put(KEY_ADDRESS,     contactClass.get_address()               );
+        values.put(KEY_IMAGEURI,    contactClass.get_imageUri().toString()   );
 
-        return db.update(TABLE_CONTACTS, values, KEY_ID + "=?", new String[] { String.valueOf(contact.getId()) } );
+        return db.update(TABLE_CONTACTS, values, KEY_ID + "=?", new String[] { String.valueOf(contactClass.getId()) } );
     }
 
-    public List<Contact> getAllContacts()
+    public List<ContactClass> getAllContacts()
     {
-        List<Contact> contacts = new ArrayList<Contact>();
+        List<ContactClass> contactClasses = new ArrayList<ContactClass>();
 
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery(" SELECT * FROM" + TABLE_CONTACTS, null);
@@ -121,11 +121,11 @@ public class DatabaseHandler extends SQLiteOpenHelper
         {
             do
             {
-                Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1),(cursor.getString(2)),(cursor.getString(3)),(cursor.getString(4)), Uri.parse(cursor.getString(5)));
-                contacts.add(contact);
+                ContactClass contactClass = new ContactClass(Integer.parseInt(cursor.getString(0)), cursor.getString(1),(cursor.getString(2)),(cursor.getString(3)),(cursor.getString(4)), Uri.parse(cursor.getString(5)));
+                contactClasses.add(contactClass);
             }
             while (cursor.moveToNext());
         }
-        return contacts;
+        return contactClasses;
     }
 }

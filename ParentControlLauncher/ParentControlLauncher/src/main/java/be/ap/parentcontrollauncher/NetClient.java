@@ -1,10 +1,15 @@
 package be.ap.parentcontrollauncher;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -15,7 +20,7 @@ public class NetClient {
     private String host;
     private Integer port;
     private Socket socket = null;
-    private PrintWriter output = null;
+    private BufferedWriter output = null;
     private BufferedReader input = null;
     final int BUFFER_SIZE = 2048;
 
@@ -30,11 +35,14 @@ public class NetClient {
         try {
             if (socket == null) {
                 socket = new Socket(host, port);
-                output = new PrintWriter(socket.getOutputStream());
+                socket.setReceiveBufferSize(16384);
+                socket.setSendBufferSize(16384);
+                //output = new PrintWriter(socket.getOutputStream());
+                output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 Log.i("NetClient", "Connected to server");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -47,7 +55,7 @@ public class NetClient {
                     output.close();
                     socket.close();
                     Log.i("NetClient", "Disconnected from server");
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -55,10 +63,15 @@ public class NetClient {
     }
 
     public void SendDataToServer(String message) {
-        if (message != null) {
-            output.write(message);
-            output.flush();
-            Log.i("NetClient", "Data send to server");
+        try {
+            if (message != null) {
+                output.write(message);
+                output.flush();
+                Log.i("NetClient", "Data send to server");
+            }
+        }
+        catch (Exception e) {
+            Log.i("NetClient", "Error while sending data:  " + e.getMessage());
         }
     }
 
@@ -73,7 +86,7 @@ public class NetClient {
             }
 
             return message;
-        } catch (IOException e) {
+        } catch (Exception e) {
             return "Error receiving response:  " + e.getMessage();
         }
     }

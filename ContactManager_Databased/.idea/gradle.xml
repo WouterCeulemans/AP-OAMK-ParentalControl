@@ -8,8 +8,8 @@
         <option name="gradleHome" value="$PROJECT_DIR$/../ParentControlLauncher/gradle/wrapper" />
         <option name="modules">
           <set>
-            <option value="C:\Users\Wouter\Documents\Artesis\Semester 4\Project ICT 4\AP-OAMK-ParentalControl\ContactManager_Databased" />
-            <option value="C:\Users\Wouter\Documents\Artesis\Semester 4\Project ICT 4\AP-OAMK-ParentalControl\ContactManager_Databased\app" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
       </GradleProjectSettings>

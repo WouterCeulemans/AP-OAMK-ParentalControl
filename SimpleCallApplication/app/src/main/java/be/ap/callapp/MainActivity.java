@@ -90,11 +90,14 @@ public class MainActivity extends Activity
 
 
 	import android.app.Activity;
-	import android.content.Context;
+    import android.content.ContentValues;
+    import android.content.Context;
 	import android.content.Intent;
-	import android.net.Uri;
+    import android.database.Cursor;
+    import android.net.Uri;
 	import android.os.Bundle;
-	import android.telephony.PhoneStateListener;
+    import android.provider.CallLog;
+    import android.telephony.PhoneStateListener;
 	import android.telephony.TelephonyManager;
 	import android.util.Log;
 	import android.view.View;
@@ -104,6 +107,7 @@ public class MainActivity extends Activity
 
 public class MainActivity extends Activity {
 
+        Integer CallAmount;
 	    final Context context = this;
 	    private Button btn;
 
@@ -137,9 +141,11 @@ public class MainActivity extends Activity {
             callButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent phoneCallIntent = new Intent(Intent.ACTION_CALL);
-                    phoneCallIntent.setData(Uri.parse("tel:" + phoneNumber.getText().toString().trim()));
-                    startActivity(phoneCallIntent);
+                    if (CheckCallAvailable(phoneNumber.getText().toString().trim())) {
+                        Intent phoneCallIntent = new Intent(Intent.ACTION_CALL);
+                        phoneCallIntent.setData(Uri.parse("tel:" + phoneNumber.getText().toString().trim()));
+                        startActivity(phoneCallIntent);
+                    }
                 }
             });
 
@@ -174,6 +180,11 @@ public class MainActivity extends Activity {
 
 	                if (phoneCalling) {
 
+                        CallAmount += getDuration(incomingNumber.toString().trim());
+                        ContentValues values = new ContentValues();
+                        values.put(Database.COLUMN_CALLAMOUNT, CallAmount);
+                        String selection = Database.COLUMN_PHONENUMBER + " = " + incomingNumber.toString().trim();
+                        getContentResolver().update(Database.CONTENT_URI_CONTACTS, values, selection, null);
 	                    Log.i(TAG, "restart app");
 
 	                    // restart app
@@ -191,5 +202,54 @@ public class MainActivity extends Activity {
 	        }
 	    }
 
-	}
+    protected Boolean CheckCallAvailable(String number)
+    {
+        CallAmount = 0;
+        Integer CallMax = 0;
+        Integer Blocked = 0;
+        String selection = Database.COLUMN_PHONENUMBER + " = " + number;
+        Cursor cur = this.getContentResolver().query(Database.CONTENT_URI_CONTACTS, null, selection, null, null);
+        if (cur.getCount() > 0) {
+            while (cur.moveToNext()) {
+                CallAmount = cur.getInt(cur.getColumnIndex(Database.COLUMN_CALLAMOUNT));
+                CallMax = cur.getInt(cur.getColumnIndex(Database.COLUMN_CALLMAX));
+                Blocked = cur.getInt(cur.getColumnIndex(Database.COLUMN_BLOCKED));
+            }
+            cur.close();
+        }
+        if (IntToBoolean(Blocked)) {
+            if (CallAmount < CallMax) {
+                return true;
+            } else
+                return false;
+        } else
+            return false;
+    }
+
+    private Boolean IntToBoolean(Integer integer)
+    {
+        if (integer <= 0)
+            return false;
+        else
+            return true;
+    }
+
+    private Integer getDuration(String number)
+    {
+        Integer duration;
+        String selection = CallLog.Calls.NUMBER + " = '" + number + "'";
+        Cursor cur = getContentResolver().query(CallLog.Calls.CONTENT_URI, null, selection, null, null);
+        if (cur.moveToFirst())
+        {
+            duration = cur.getColumnIndex(CallLog.Calls.DURATION);
+            cur.close();
+            return duration;
+        }
+        else {
+            duration = 0;
+            cur.close();
+            return duration;
+        }
+    }
+}
 

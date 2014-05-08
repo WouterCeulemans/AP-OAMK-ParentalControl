@@ -9,7 +9,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
+import android.widget.TextView;
 
 import be.ap.parentcontrollauncher.contentprovider.ParentControlContentProvider;
 import be.ap.parentcontrollauncher.database.ApplicationsTable;
@@ -31,6 +35,11 @@ public class LocationService extends IntentService implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
 
+    //tracker logging
+    Bundle data;
+    Messenger messenger;
+    Message msg;
+
     public LocationService() {
         super("LocationService");
         mContext = this;
@@ -38,13 +47,54 @@ public class LocationService extends IntentService implements LocationListener {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        data = new Bundle();
         Location newLocation = getLocation();
         if (newLocation != null)
         {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                messenger = (Messenger) bundle.get("messenger");
+                msg = Message.obtain();
+
+                //tracker logging
+                data.putDouble("Lat", newLocation.getLatitude());
+                data.putDouble("Long", newLocation.getLongitude());
+
+                msg.setData(data); //put the data here
+                try {
+                    messenger.send(msg);
+                } catch (RemoteException e) {
+                    Log.i("error", "error");
+                }
+
+            }
+
             //latitude = newLocation.getLatitude();
             //longitude = newLocation.getLongitude();
             AddLocationToDB(newLocation);
             Log.d("Location", "Lat: " + newLocation.getLatitude() + "   Long: " + newLocation.getLongitude());
+
+
+        }
+        else
+        {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                messenger = (Messenger) bundle.get("messenger");
+                msg = Message.obtain();
+
+                //tracker logging
+                data.putDouble("Lat", 0);
+                data.putDouble("Long", 0);
+
+                msg.setData(data); //put the data here
+                try {
+                    messenger.send(msg);
+                } catch (RemoteException e) {
+                    Log.i("error", "error");
+                }
+            }
+
         }
     }
 
@@ -62,6 +112,10 @@ public class LocationService extends IntentService implements LocationListener {
                 this.canGetLocation = true;
                 if (isNetworkEnabled) {
                     Log.d("Network", "Network");
+
+                    //tracker logging
+                    data.putString("Provider", "Network");
+
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                     if (locationManager != null) {
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -72,6 +126,11 @@ public class LocationService extends IntentService implements LocationListener {
                 if (isGPSEnabled) {
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                     Log.d("GPS Enabled", "GPS Enabled");
+
+                    //tracker logging
+                    data.putString("Provider", "GPS");
+
+
                     if (locationManager != null) {
                         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     }

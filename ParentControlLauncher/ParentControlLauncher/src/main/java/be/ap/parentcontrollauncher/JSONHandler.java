@@ -40,11 +40,11 @@ public class JSONHandler {
         Gson gson = new Gson();
         RootObject rootObject = new RootObject();
         rootObject.DeviceID = telephonyManager.getDeviceId();
-        //rootObject.Apps = getApps();
-        rootObject.Apps = new ArrayList<App>();
+        rootObject.Apps = getApps();
+        //rootObject.Apps = new ArrayList<App>();
         rootObject.Locations = getLocations();
-        //rootObject.Contacts = getContacts();
-        rootObject.Contacts = new ArrayList<Contact>();
+        rootObject.Contacts = getContacts();
+        //rootObject.Contacts = new ArrayList<Contact>();
 
         //JsonObject DeviceJson = new JsonObject();
 
@@ -84,8 +84,8 @@ public class JSONHandler {
 
                 apps.add(app);
             }
-            cur.close();
         }
+        cur.close();
         return apps;
     }
 
@@ -105,8 +105,8 @@ public class JSONHandler {
 
                locations.add(location);
             }
-            cur.close();
         }
+        cur.close();
         return locations;
     }
 
@@ -132,7 +132,6 @@ public class JSONHandler {
 
                 contacts.add(contact);
             }
-            cur.close();
         }
         cur.close();
         return contacts;
