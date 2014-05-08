@@ -48,7 +48,6 @@ public class HomeScreen extends Activity {
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
     private NetClient netClient;
-    SendDeviceID sendID;
     SendJson sendJson;
 
     @Override
@@ -91,15 +90,6 @@ public class HomeScreen extends Activity {
             public void onClick(View v) {
                 sendJson = new SendJson();
                 sendJson.execute(getBaseContext());
-            }
-        });
-
-        Button sendIDBtn = (Button)findViewById(R.id.SendIDButton);
-        sendIDBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendID = new SendDeviceID();
-                sendID.execute();
             }
         });
 
@@ -367,19 +357,6 @@ public class HomeScreen extends Activity {
         }
     };
 
-
-    private class SendDeviceID extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... param) {
-            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
-            netClient.ConnectWithServer();
-            netClient.SendDataToServer("create;" + telephonyManager.getDeviceId() +";Device Name;");
-            netClient.DisConnectWithServer();
-
-            return null;
-        }
-    }
-
     private class SendJson extends AsyncTask<Context, Void, Void> {
         @Override
         protected Void doInBackground(Context... param) {
@@ -391,5 +368,4 @@ public class HomeScreen extends Activity {
             return null;
         }
     }
-
-    }
+}

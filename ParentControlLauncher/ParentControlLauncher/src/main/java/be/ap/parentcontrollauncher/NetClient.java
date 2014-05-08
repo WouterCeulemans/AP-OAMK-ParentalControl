@@ -33,7 +33,6 @@ public class NetClient {
     public void ConnectWithServer()
     {
         try {
-
                 socket = new Socket(host, port);
                 socket.setReceiveBufferSize(16384);
                 socket.setSendBufferSize(16384);

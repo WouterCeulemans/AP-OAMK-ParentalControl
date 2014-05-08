@@ -85,13 +85,6 @@
         android:text="Send json"
         android:id="@+id/SendButton"
         />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create Device ID"
-            android:id="@+id/SendIDButton"
-            />
     </LinearLayout>
 
 

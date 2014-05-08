@@ -1,8 +1,11 @@
 package be.ap.parentcontrollauncher;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -10,9 +13,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,15 +44,6 @@ public class DisplayAppsScreen extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_apps_screen);
-
-        Button settingsButton = (Button) findViewById(R.id.SettingsButton);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                showSettingsPage();
-            }
-        });
 
         gridView = (GridView) findViewById(R.id.gridview1);
         progressBar = (ProgressBar) findViewById(R.id.progressbar1);
@@ -79,20 +75,21 @@ public class DisplayAppsScreen extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        super.onCreateOptionsMenu(menu);
-
-        menu.add(0, 11, 0, "Settings")
-                .setIcon(android.R.drawable.ic_menu_preferences);
-
-        return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.display_apps_screen_actions, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         //Handle item selection
         switch (item.getItemId()){
-            case 11:
+            case R.id.action_select_apps:
                 showSettingsPage();
+                return true;
+            case R.id.action_register_device:
+                ShowRegisterDeviceDialog();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -101,6 +98,24 @@ public class DisplayAppsScreen extends ActionBarActivity {
     private void showSettingsPage(){
         Intent showSettings = new Intent(this, SelectAppsScreen.class);
         startActivity(showSettings);
+    }
+
+    private void ShowRegisterDeviceDialog()
+    {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Register Device");
+        alertDialog.setMessage("Are you sure you want to register your device?");
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                new SendDeviceID().execute();
+            }
+        });
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alertDialog.show();
     }
 
     @Override
@@ -116,5 +131,31 @@ public class DisplayAppsScreen extends ActionBarActivity {
             Applications.appsAdapter.add(item);
         }
         Applications.appsAdapter.notifyDataSetChanged();
+    }
+
+    private class SendDeviceID extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog progressDialog;
+        @Override
+        protected void onPreExecute()
+        {
+             progressDialog = ProgressDialog.show(DisplayAppsScreen.this, "Registering Device", "Pleas wait...", true, false);
+        }
+
+        @Override
+        protected Void doInBackground(Void... param) {
+            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+            NetClient netClient = new NetClient("81.83.164.27", 8041);
+            netClient.ConnectWithServer();
+            netClient.SendDataToServer("create;" + telephonyManager.getDeviceId() +";Device Name;");
+            netClient.DisConnectWithServer();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            progressDialog.dismiss();
+        }
     }
 }
