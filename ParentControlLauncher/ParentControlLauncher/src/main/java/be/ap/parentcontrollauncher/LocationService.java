@@ -121,9 +121,10 @@ public class LocationService extends IntentService implements LocationListener {
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                     }
                     locationManager.removeUpdates(this);
+
                 }
                 // if GPS Enabled get lat/long using GPS Services
-                if (isGPSEnabled) {
+                else if (isGPSEnabled) {
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                     Log.d("GPS Enabled", "GPS Enabled");
 

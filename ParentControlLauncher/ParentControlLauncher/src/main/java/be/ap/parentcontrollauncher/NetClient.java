@@ -33,15 +33,15 @@ public class NetClient {
     public void ConnectWithServer()
     {
         try {
-            if (socket == null) {
+
                 socket = new Socket(host, port);
                 socket.setReceiveBufferSize(16384);
                 socket.setSendBufferSize(16384);
+
                 //output = new PrintWriter(socket.getOutputStream());
                 output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 Log.i("NetClient", "Connected to server");
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

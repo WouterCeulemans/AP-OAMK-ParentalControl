@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -36,6 +37,8 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Database.InsertToContactToDB(getContentResolver(), GetAllContactsAndroid());
 
         nameTxt                 = (EditText)  findViewById(R.id.txtName);
         phoneTxt                = (EditText)  findViewById(R.id.txtPhone);
@@ -162,7 +165,35 @@ public class MainActivity extends Activity
 
     private ArrayList<Contact> GetAllContactsAndroid()
     {
-        Cursor cur =
+        ArrayList<Contact> Contacts = new ArrayList<Contact>();
+        Contact contact;
+        Cursor cur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        if (cur.getCount() > 0)
+        {
+            while (cur.moveToNext())
+            {
+                String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
+                String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                    Cursor pCur = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
+                    if (pCur.moveToFirst()) {
+                        String phoneNo = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                        contact = new Contact();
+                        contact.FirstName = name;
+                        contact.PhoneNumber = phoneNo;
+                        contact.Blocked = 0;
+                        contact.CallAmount = 0;
+                        contact.TxtAmount = 0;
+                        contact.TxtMax = 10;
+                        contact.CallMax = 100;
+                        Contacts.add(contact);
+                    }
+                }
+            }
+        }
+
+        return Contacts;
     }
 
     /*@Override
