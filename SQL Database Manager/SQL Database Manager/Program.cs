@@ -24,6 +24,9 @@ namespace SQL_Database_Manager
             TestDatabaseConnection ();
 
             var listener = new TcpListener (_ip, _portNum);
+            var thread = new Thread (GetInput);
+            thread.Start();
+
             try                 
             {
                 listener.Start ();
@@ -192,6 +195,16 @@ namespace SQL_Database_Manager
             Console.WriteLine (info);
             LogFile.WriteLine    (info);
             LogFile.Flush ();
+        }
+
+        private static void GetInput()
+        {
+            for (;;)
+                if (Console.ReadKey (true).Key == ConsoleKey.Escape)
+                {
+                    WriteInfo (String.Format ("{0} | Info | Got stop signal. Exiting application. ", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
+                    Environment.Exit (0);
+                }
         }
     }
 }
