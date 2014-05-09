@@ -14,19 +14,30 @@ namespace SQL_Database_Manager
         private readonly TcpClient _clientSocket;
         private MySqlConnection    _conn;
 
-
         public ClientHandler            (TcpClient clientSocket) 
         {
             _clientSocket = clientSocket;
-            _clientSocket.ReceiveTimeout = 100;
+            _clientSocket.ReceiveTimeout    = 100;
+            _clientSocket.ReceiveBufferSize = 16384;
         }
 
-        public void         Process         (Object o)           
+        public void Process (Object o)
         {
             try
             {
-                Thread.Sleep (2000);
-                if (_clientSocket.Available <= 0) return;
+                var prev = 0;
+                var timeout = 100;
+                while (_clientSocket.Available == 0 && timeout > 0)
+                {
+                    Thread.Sleep (100);
+                    timeout --;
+                }
+                    Console.WriteLine (prev);
+                while (_clientSocket.Available > prev) {
+                    prev = _clientSocket.Available; 
+                    Console.WriteLine (prev);
+                    Thread.Sleep (100);
+                }
                 var networkStream = _clientSocket.GetStream ();
                 var bytes         = new byte[_clientSocket.ReceiveBufferSize];
                 var bytesRead     = networkStream.Read (bytes, 0, _clientSocket.ReceiveBufferSize);
@@ -60,10 +71,11 @@ namespace SQL_Database_Manager
                 _clientSocket.Close ();
                 Program.WriteInfo (String.Format ("{0} | Info | User Disconnected", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 _clientSocket.Close ();
                 Program.WriteInfo (String.Format ("{0} | Error | User Lost Connection", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
+                Program.WriteInfo (e.ToString ());
             }
         }
 
@@ -90,30 +102,31 @@ namespace SQL_Database_Manager
             try
             {
                 _conn.Open ();
-                foreach (var app in device.Apps)
-                {
-                    var query = String.Format ("insert into apps (ID,PackageName,Name,Visible) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\") on duplicate key update Name=\"{2}\", Visible=\"{3}\";",
-                                               device.DeviceId, app.PackageName, app.Title, app.Visible);
-
-                    var cmd = new MySqlCommand (query, _conn);
-                    cmd.ExecuteScalar ();
-                }
-                foreach (var contact in device.Contacts)
-                {
-                    var query = String.Format ("insert into contacts (ID,Contact_ID,SurName,Name,Number,TxtAmount,TxtMax,CallAmount,CallMax) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\") on duplicate key update SurName=\"{2}\",Name=\"{3}\",Number=\"{4}\",TxtAmount=\"{5}\",TxtMax=\"{6}\",CallAmount=\"{7}\",CallMax=\"{8}\";",
-                                               device.DeviceId, contact.ContactId, contact.SurName, contact.Name, contact.Number, contact.TxtAmount, contact.TxtMax, contact.CallAmount, contact.CallMax);
-                    var cmd = new MySqlCommand (query, _conn);
-                    cmd.ExecuteScalar ();
-                }
-                foreach (var coordinate in device.Locations)
-                {
-                    var query =
-                        String.Format ("insert into coordinates (ID,Pos_ID,Latitude,Longitude) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\") on duplicate key update Latitude=\"{2}\",Longitude=\"{3}\";",
-                                       device.DeviceId, coordinate.PosId, coordinate.Latitude, coordinate.Longitude);
-                    var cmd = new MySqlCommand (query, _conn);
-                    cmd.ExecuteScalar ();
-                }
-
+                if (device.Apps != null)
+                    foreach (var app in device.Apps)
+                    {
+                        var query = String.Format ("insert into apps (ID,PackageName,Name,Visible) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\") on duplicate key update Name=\"{2}\", Visible=\"{3}\";",
+                                                   device.DeviceId, app.PackageName, app.Title, app.Visible);
+                        var cmd = new MySqlCommand (query, _conn);
+                        cmd.ExecuteScalar ();
+                    }
+                if (device.Contacts != null)
+                    foreach (var contact in device.Contacts)
+                    {
+                        var query = String.Format ("insert into contacts (ID,Contact_ID,SurName,Name,Number,TxtAmount,TxtMax,CallAmount,CallMax) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\") on duplicate key update SurName=\"{2}\",Name=\"{3}\",Number=\"{4}\",TxtAmount=\"{5}\",TxtMax=\"{6}\",CallAmount=\"{7}\",CallMax=\"{8}\";",
+                                                   device.DeviceId, contact.ContactId, contact.SurName, contact.Name, contact.Number, contact.TxtAmount, contact.TxtMax, contact.CallAmount, contact.CallMax);
+                        var cmd = new MySqlCommand (query, _conn);
+                        cmd.ExecuteScalar ();
+                    }
+                if (device.Locations != null)
+                    foreach (var coordinate in device.Locations)
+                    {
+                        var query =
+                            String.Format ("insert into coordinates (ID,Pos_ID,Latitude,Longitude) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\") on duplicate key update Latitude=\"{2}\",Longitude=\"{3}\";",
+                                           device.DeviceId, coordinate.PosId, coordinate.Latitude, coordinate.Longitude);
+                        var cmd = new MySqlCommand (query, _conn);
+                        cmd.ExecuteScalar ();
+                    }
             }
             catch (Exception e)
             {
@@ -124,10 +137,10 @@ namespace SQL_Database_Manager
 
         private Device      Get             (string id)          
         {
-            var device       = new Device
+            var device= new Device
             {
                 DeviceId = id,
-                Apps = GetAppList (id),
+                Apps     = GetAppList (id),
                 Contacts = GetContactList (id)
             };
             return device;
