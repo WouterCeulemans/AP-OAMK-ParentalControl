@@ -6,6 +6,9 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
+    <permission android:name="be.ap.parentcontrollauncher.contentprovider.READ_DATABASE"/>
+    <permission android:name="be.ap.parentcontrollauncher.contentprovider.WRITE_DATABASE"/>
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -54,7 +57,8 @@
             android:name=".contentprovider.ParentControlContentProvider"
             android:authorities="be.ap.parentcontrollauncher.contentprovider"
             android:readPermission="be.ap.parentcontrollauncher.contentprovider.READ_DATABASE"
-            android:writePermission="be.ap.parentcontrollauncher.contentprovider.WRITE_DATABASE">
+            android:writePermission="be.ap.parentcontrollauncher.contentprovider.WRITE_DATABASE"
+            android:exported="true">
         </provider>
         
         <receiver android:name="PackageReceiver">
@@ -66,6 +70,7 @@
         </receiver>
 
         <service android:name=".LocationService"></service>
+        <service android:name=".SendDataService"></service>
     </application>
 
 </manifest>

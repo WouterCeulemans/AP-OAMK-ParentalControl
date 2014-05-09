@@ -18,9 +18,17 @@ public class ParentControlDatabaseHelper extends SQLiteOpenHelper{
     //Method is called during creation of the database
     @Override
     public void onCreate(SQLiteDatabase database) {
+        try {
+
+
         ApplicationsTable.onCreate(database);
         LocationsTable.onCreate(database);
         ContactsTable.onCreate(database);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     //Method is called during an upgrade of the database,

@@ -35,11 +35,11 @@ public class JSONHandler {
         telephonyManager = (TelephonyManager)context.getSystemService(context.TELEPHONY_SERVICE);
     }
 
-    public String Serialize()
+    public String[] Serialize()
     {
         Gson gson = new Gson();
-        RootObject rootObject = new RootObject();
-        rootObject.DeviceID = telephonyManager.getDeviceId();
+        /*RootObject rootObject = new RootObject();
+        rootObject.DeviceID = telephonyManager.getDeviceId().toString();
         rootObject.Apps = getApps();
         //rootObject.Apps = new ArrayList<App>();
         rootObject.Locations = getLocations();
@@ -55,8 +55,39 @@ public class JSONHandler {
 
         String SendJson = "{\"Device\":[" + jsonObj.toString() + "]}";
 
-        //DeviceJson.addProperty("Device", String.valueOf(jsonObj));
-        return SendJson;
+        //DeviceJson.addProperty("Device", String.valueOf(jsonObj)); */
+
+
+        String[] results = new String[3];
+        JsonParser jsonParser = new JsonParser();
+
+        //AppsJson
+        DeviceAppsObject deviceAppsObject = new DeviceAppsObject();
+        deviceAppsObject.DeviceID = telephonyManager.getDeviceId().toString();
+        deviceAppsObject.Apps = getApps();
+        String appsJson = gson.toJson(deviceAppsObject);
+        JsonObject appsJsonObject = jsonParser.parse(appsJson).getAsJsonObject();
+        results[0] = "{\"Device\":[" + appsJsonObject.toString() + "]}";
+
+        //LocationsJson
+        DeviceLocationsObject deviceLocationsObject = new DeviceLocationsObject();
+        deviceLocationsObject.DeviceID = telephonyManager.getDeviceId().toString();
+        deviceLocationsObject.Locations = getLocations();
+        String locationsJson = gson.toJson(deviceLocationsObject);
+        JsonObject locationsJsonObject = jsonParser.parse(locationsJson).getAsJsonObject();
+        results[1] = "{\"Device\":[" + locationsJsonObject.toString() + "]}";
+
+        //ContactsJson
+        DeviceContactsObject deviceContactsObject = new DeviceContactsObject();
+        deviceContactsObject.DeviceID = telephonyManager.getDeviceId().toString();
+        deviceContactsObject.Contacts = getContacts();
+        String contactsJson = gson.toJson(deviceContactsObject);
+        JsonObject contactsJsonObject = jsonParser.parse(contactsJson).getAsJsonObject();
+        results[2] = "{\"Device\":[" + contactsJsonObject.toString() + "]}";
+
+
+        return results;
+        //return SendJson;
     }
 
     public RootObject Deserialize (String json)
@@ -115,25 +146,31 @@ public class JSONHandler {
         ArrayList<Contact> contacts = new ArrayList<Contact>();
         Contact contact = new Contact();
 
-        Cursor cur = context.getContentResolver().query(ParentControlContentProvider.CONTENT_URI_CONTACTS, null, null, null, null);
-        if (cur.getCount() > 0) {
-            while (cur.moveToNext())
-            {
-                contact = new Contact();
-                contact.ContactID = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_ID));
-                contact.FirstName = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_FIRSTNAME));
-                contact.LastName = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_LASTNAME));
-                contact.PhoneNumber = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_PHONENUMBER));
-                contact.TxtAmount = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_TXTAMOUNT));
-                contact.TxtMax = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_TXTMAX));
-                contact.CallAmount = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_CALLAMOUNT));
-                contact.CallMax = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_CALLMAX));
-                contact.Blocked = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_BLOCKED));
+        try {
+            Cursor cur = context.getContentResolver().query(ParentControlContentProvider.CONTENT_URI_CONTACTS, null, null, null, null);
+            if (cur.getCount() > 0) {
+                while (cur.moveToNext()) {
+                    contact = new Contact();
+                    contact.ContactID = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_ID));
+                    contact.FirstName = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_FIRSTNAME));
+                    contact.LastName = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_LASTNAME));
+                    contact.PhoneNumber = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_PHONENUMBER));
+                    contact.TxtAmount = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_TXTAMOUNT));
+                    contact.TxtMax = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_TXTMAX));
+                    contact.CallAmount = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_CALLAMOUNT));
+                    contact.CallMax = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_CALLMAX));
+                    contact.Blocked = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_BLOCKED));
 
-                contacts.add(contact);
+                    contacts.add(contact);
+                }
             }
+            cur.close();
         }
-        cur.close();
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         return contacts;
     }
 }

@@ -40,6 +40,33 @@ public class MainActivity extends Activity
 
         Database.InsertToContactToDB(getContentResolver(), GetAllContactsAndroid());
 
+        try {
+            Contact contact;
+            ArrayList<Contact> contacts = new ArrayList<Contact>();
+            Cursor cur = this.getContentResolver().query(Database.CONTENT_URI_CONTACTS, null, null, null, null);
+            if (cur.getCount() > 0) {
+                while (cur.moveToNext()) {
+                    contact = new Contact();
+                    contact.ContactID = cur.getInt(cur.getColumnIndex(Database.COLUMN_ID));
+                    contact.FirstName = cur.getString(cur.getColumnIndex(Database.COLUMN_FIRSTNAME));
+                    contact.LastName = cur.getString(cur.getColumnIndex(Database.COLUMN_LASTNAME));
+                    contact.PhoneNumber = cur.getString(cur.getColumnIndex(Database.COLUMN_PHONENUMBER));
+                    contact.TxtAmount = cur.getInt(cur.getColumnIndex(Database.COLUMN_TXTAMOUNT));
+                    contact.TxtMax = cur.getInt(cur.getColumnIndex(Database.COLUMN_TXTMAX));
+                    contact.CallAmount = cur.getInt(cur.getColumnIndex(Database.COLUMN_CALLAMOUNT));
+                    contact.CallMax = cur.getInt(cur.getColumnIndex(Database.COLUMN_CALLMAX));
+                    contact.Blocked = cur.getInt(cur.getColumnIndex(Database.COLUMN_BLOCKED));
+
+                    contacts.add(contact);
+                }
+            }
+            cur.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         nameTxt                 = (EditText)  findViewById(R.id.txtName);
         phoneTxt                = (EditText)  findViewById(R.id.txtPhone);
         addressTxt              = (EditText)  findViewById(R.id.txtAddress);

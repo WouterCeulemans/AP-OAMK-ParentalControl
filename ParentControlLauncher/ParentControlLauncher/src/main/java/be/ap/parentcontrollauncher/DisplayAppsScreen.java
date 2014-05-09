@@ -136,6 +136,7 @@ public class DisplayAppsScreen extends ActionBarActivity {
     private class SendDeviceID extends AsyncTask<Void, Void, Void> {
 
         ProgressDialog progressDialog;
+        TelephonyManager telephonyManager;
         @Override
         protected void onPreExecute()
         {
@@ -144,7 +145,7 @@ public class DisplayAppsScreen extends ActionBarActivity {
 
         @Override
         protected Void doInBackground(Void... param) {
-            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+            telephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
             NetClient netClient = new NetClient("81.83.164.27", 8041);
             netClient.ConnectWithServer();
             netClient.SendDataToServer("create;" + telephonyManager.getDeviceId() +";Device Name;");
@@ -156,6 +157,15 @@ public class DisplayAppsScreen extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void result) {
             progressDialog.dismiss();
+            AlertDialog alertDialog = new AlertDialog.Builder(DisplayAppsScreen.this).create();
+            alertDialog.setTitle("Device Registered");
+            alertDialog.setMessage("You need to enter the following code on %website% to add it to your account:\n" + telephonyManager.getDeviceId());
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alertDialog.show();
         }
     }
 }

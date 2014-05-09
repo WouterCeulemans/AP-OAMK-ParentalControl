@@ -45,8 +45,6 @@ public class HomeScreen extends Activity {
 
     public LoadApplications loadApps;
     private Pair p = new Pair();
-    private AlarmManager alarmMgr;
-    private PendingIntent alarmIntent;
     private NetClient netClient;
     SendJson sendJson;
 
@@ -88,8 +86,9 @@ public class HomeScreen extends Activity {
         sendJsonBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //To Be Removed Shortly!!!
                 sendJson = new SendJson();
-                sendJson.execute(getBaseContext());
+                sendJson.execute(HomeScreen.this);
             }
         });
 
@@ -102,12 +101,9 @@ public class HomeScreen extends Activity {
             }
         });
 
-        //AlarmManager
-        alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, LocationService.class);
-        intent.putExtra("messenger", new Messenger(handler)); // Traker logging
-        alarmIntent = PendingIntent.getService(this, 0, intent, 0);
-        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000 * 60 * 1, 1000 * 60 * 1, alarmIntent);
+        //RegisterLocationAlarmManager();
+        //RegisterSendDataAlarmManager();
+
 
         Button appButton = (Button)findViewById(R.id.AppButton);
         appButton.setOnClickListener(new View.OnClickListener() {
@@ -126,14 +122,30 @@ public class HomeScreen extends Activity {
         loadApps.execute(p);
     }
 
+    private void RegisterLocationAlarmManager()
+    {
+        //AlarmManager
+        AlarmManager alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, LocationService.class);
+        intent.putExtra("messenger", new Messenger(handler)); // Traker logging
+        PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, 0);
+        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000 * 60 * 1, 1000 * 60 * 1, alarmIntent);
+    }
+
+    private void RegisterSendDataAlarmManager()
+    {
+        AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, SendDataService.class);
+        PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, 0);
+        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000 * 60 * 60 * 12, 1000 * 60 * 60 * 12, alarmIntent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
 
         menu.add(0, 11, 0, "Apps")
                 .setIcon(android.R.drawable.ic_menu_gallery);
-        menu.add(0, 12, 0, "Send app intent")
-                .setIcon(android.R.drawable.ic_menu_send);
         return true;
     }
 
@@ -143,8 +155,6 @@ public class HomeScreen extends Activity {
         switch (item.getItemId()){
             case 11:
                 showAppsPage();
-            case 12:
-                //showSmsApp();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -362,7 +372,9 @@ public class HomeScreen extends Activity {
         protected Void doInBackground(Context... param) {
             JSONHandler jsonHandler = new JSONHandler(param[0]);
             netClient.ConnectWithServer();
-            netClient.SendDataToServer("push;" + jsonHandler.Serialize());
+            for (String json : jsonHandler.Serialize()) {
+                netClient.SendDataToServer("push;" + json);
+            }
             netClient.DisConnectWithServer();
 
             return null;

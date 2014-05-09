@@ -24,6 +24,8 @@ public class Database {
 
     public static void InsertToContactToDB(ContentResolver contentResolver, ArrayList<Contact> contacts)
     {
+        try {
+
         ContentValues values;
         for (Contact contact : contacts)
         {
@@ -36,6 +38,11 @@ public class Database {
             values.put(COLUMN_CALLMAX, contact.CallMax);
             values.put(COLUMN_BLOCKED, contact.Blocked);
             contentResolver.insert(CONTENT_URI_CONTACTS, values);
+        }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 }
