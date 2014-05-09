@@ -1,7 +1,7 @@
 ﻿<?php
 session_start();
 if (isset($_SESSION["LoggedIn"]))
-    header("location: /404");
+    header("location: /404.php");
 ?>
 <html>
     <head>

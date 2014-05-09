@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["LoggedIn"]))
-    header("location: /index.php?LoginError=99");
+    header("location: /index.php?error=99");
 ?>
 <html>
     <head>
@@ -40,14 +40,14 @@ if (!isset($_SESSION["LoggedIn"]))
                 <h5 class="_356">Links</h5>
                 <li><a href="/index.php">Home</a></li>
                 <li><a href="/account.php" class="current">Account</a></li>
-                <li><a href="/spybot.php">Spybot<a></li>
+                <!--li><a href="/spybot.php">Spybot</a></li-->
                 <li><a href="/tracker.php">Tracker</a></li>
                 <div class="Padding"></div>	
                 <?php  
                 include "/php/dbconfig.php";
                 $result = mysql_query("SELECT Name, ID FROM devices WHERE User_ID='$_SESSION[ID]'");
                 while ($row = mysql_fetch_assoc($result)) 
-                echo "<li><a href='/devsettings.php?devid=$row[ID]&devname=$row[Name]'>$row[Name]</a></li>";
+                echo "<li><a href='/devsettings.php?devid=$row[ID]'>$row[Name]</a></li>";
                 mysql_close($dbhandle);
                 ?>
                 <div class="Padding"></div>	
@@ -79,6 +79,9 @@ if (!isset($_SESSION["LoggedIn"]))
                     case 71:
                         print @"<div id='dialog-message' title='Error'><p>Password 's not strong enough.</p></div>";
                         break;
+            		case 72:
+            			print @"<div id='dialog-message' title='Error'><p>Current password not correct.</p></div>";
+            			break;
                 }
             if (isset($_GET["success"]))
                 switch ($_GET["success"]) {
@@ -112,7 +115,7 @@ if (!isset($_SESSION["LoggedIn"]))
                             include "/php/dbconfig.php";
                             $result = mysql_query("SELECT Name, ID FROM devices WHERE User_ID='$_SESSION[ID]'");
                             while ($row = mysql_fetch_assoc($result)) 
-                            echo "<li><a href='/devsettings.php?devid=$row[ID]&devname=$row[Name]' >$row[Name]</a></li>";
+                            echo "<li><a href='/devsettings.php?devid=$row[ID]' >$row[Name]</a></li>";
                             mysql_close($dbhandle);
                             ?>
                         </ul>
@@ -189,7 +192,8 @@ if (!isset($_SESSION["LoggedIn"]))
                        <h3>Change password</h3>
                         <form method="post" action="/php/changePass.php">
                             <table>
-                                <tr><td>Password:		 </td><td><input type="password" name="pass" /><br /></td></tr>
+                                <tr><td>Old Password:	 </td><td><input type="password" name="cpass" /><br /></td></tr>
+                                <tr><td>New Password:    </td><td><input type="password" name="pass" /><br /></td></tr>
                                 <tr><td>Repeat Password: </td><td><input type="password" name="pass2"/><br /></td></tr>
                                 <tr><td></td>
                                 <td><input type='submit' class="right" value="Change Pass"/></td></tr>

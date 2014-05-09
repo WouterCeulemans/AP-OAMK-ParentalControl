@@ -28,7 +28,7 @@ if (!isset($_SESSION["LoggedIn"]))
 				
 				$from = "noreply@parentalcontrol.noip.me";
 				$subject = "Password reset";
-				$message = "http://parentalcontrol.noip.me:8040/php/confirmReset.php?hash=$hash";
+				$message = "http://parentalcontrol.noip.me:8080/php/confirmReset.php?hash=$hash";
 				
 				mail($_POST["Email"],$subject,$message,"From: $from\n");
 				
@@ -42,5 +42,5 @@ if (!isset($_SESSION["LoggedIn"]))
 		}
 	}
 }
-header("location: /404");
+header("location: /404.php");
 ?>

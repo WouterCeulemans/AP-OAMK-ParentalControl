@@ -19,5 +19,5 @@ if (isset($_SESSION["LoggedIn"]))
 		exit();
 	}
 }
-header("location: /404");
+header("location: /404.php");
 ?>

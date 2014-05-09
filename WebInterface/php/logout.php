@@ -6,5 +6,5 @@ if (isset($_SESSION[LoggedIn]))
 	header("location: /index.php");
 }
 else
-	header("location: /404");
+	header("location: /404.php");
 ?>

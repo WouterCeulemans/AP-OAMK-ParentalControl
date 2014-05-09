@@ -50,7 +50,7 @@
                     include "/php/dbconfig.php";
                     $result = mysql_query("SELECT Name, ID FROM devices WHERE User_ID='$_SESSION[ID]'");
                     while ($row = mysql_fetch_assoc($result)) 
-                    echo "<li><a href='/devsettings.php?devid=$row[ID]&devname=$row[Name]' >$row[Name]</a></li>";
+                    echo "<li><a href='/devsettings.php?devid=$row[ID]' >$row[Name]</a></li>";
                     mysql_close($dbhandle);
                 ?>
                 <div class="Padding"></div>	
@@ -110,7 +110,7 @@
                             include "/php/dbconfig.php";
                             $result = mysql_query("SELECT Name, ID FROM devices WHERE User_ID='$_SESSION[ID]'");
                             while ($row = mysql_fetch_assoc($result)) 
-                            echo "<li><a href='/devsettings.php?devid=$row[ID]&devname=$row[Name]' >$row[Name]</a></li>";
+                            echo "<li><a href='/devsettings.php?devid=$row[ID]' >$row[Name]</a></li>";
                             mysql_close($dbhandle);
                             ?>
                         </ul>

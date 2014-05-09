@@ -3,7 +3,6 @@ session_start();
 require_once('/recaptchalib.php');
 
 if (isset($_SESSION["LoggedIn"]))
-{
 	if (isset($_POST["Device"]) && isset($_POST["recaptcha_response_field"]))
 	{
 		$resp = recaptcha_check_answer ($privatekey,
@@ -43,6 +42,5 @@ if (isset($_SESSION["LoggedIn"]))
 			}
 		}
 	}
-}
-header("location: /404");
+header("location: /404.php");
 ?>

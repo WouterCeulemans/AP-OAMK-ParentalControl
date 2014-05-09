@@ -1,7 +1,5 @@
 <?php
 session_start();
-if (!isset($_SESSION["LoggedIn"]))
-    header("location: /index.php?LoginError=99");
 ?>
 <html>
     <head>
@@ -38,7 +36,7 @@ if (!isset($_SESSION["LoggedIn"]))
                 include "/php/dbconfig.php";
                 $result = mysql_query("SELECT Name, ID FROM devices WHERE User_ID='$_SESSION[ID]'");
                 while ($row = mysql_fetch_assoc($result)) 
-                echo "<li><a href='/devsettings.php?devid=$row[ID]&devname=$row[Name]'>$row[Name]</a></li>";
+                echo "<li><a href='/devsettings.php?devid=$row[ID]'>$row[Name]</a></li>";
                 mysql_close($dbhandle);
                 ?>
                 <div class="Padding"></div>	
@@ -67,17 +65,19 @@ if (!isset($_SESSION["LoggedIn"]))
                             <?php endif ?>
                         </ul>
                     </div>
+                    <?php if (isset($_SESSION["LoggedIn"])): ?>
                     <div id="divDev">
                         <ul>
                             <?php  
                             include "/php/dbconfig.php";
                             $result = mysql_query("SELECT Name, ID FROM devices WHERE User_ID='$_SESSION[ID]'");
                             while ($row = mysql_fetch_assoc($result)) 
-                            echo "<li><a href='/devsettings.php?devid=$row[ID]&devname=$row[Name]' >$row[Name]</a></li>";
+                            echo "<li><a href='/devsettings.php?devid=$row[ID]' >$row[Name]</a></li>";
                             mysql_close($dbhandle);
                             ?>
                         </ul>
                     </div>
+                    <?php endif ?>
                 </div>
             </div>
             <div id="divContentWrapper"> 
