@@ -31,6 +31,7 @@ public class Database {
         {
             values = new ContentValues();
             values.put(COLUMN_FIRSTNAME, contact.FirstName);
+            values.put(COLUMN_LASTNAME, contact.LastName);
             values.put(COLUMN_PHONENUMBER, contact.PhoneNumber);
             values.put(COLUMN_TXTAMOUNT, contact.TxtAmount);
             values.put(COLUMN_TXTMAX, contact.TxtMax);

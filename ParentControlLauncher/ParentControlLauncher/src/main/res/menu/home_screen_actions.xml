@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_send_data"
+        android:title="Send Data"
+        yourapp:showAsAction="never"/>
+    <item android:id="@+id/action_request_update"
+        android:title="Request Data update"
+        yourapp:showAsAction="never"/>
+</menu>
