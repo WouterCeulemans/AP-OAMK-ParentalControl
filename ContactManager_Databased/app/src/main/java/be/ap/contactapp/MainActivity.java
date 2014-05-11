@@ -199,27 +199,39 @@ public class MainActivity extends Activity
         {
             while (cur.moveToNext())
             {
+                contact = new Contact();
+
                 String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                 if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
                     Cursor pCur = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
                     if (pCur.moveToFirst()) {
-                        String phoneNo = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
-                        contact = new Contact();
-                        contact.FirstName = name;
-                        contact.PhoneNumber = phoneNo;
-                        contact.Blocked = 0;
-                        contact.CallAmount = 0;
-                        contact.TxtAmount = 0;
-                        contact.TxtMax = 10;
-                        contact.CallMax = 100;
-                        Contacts.add(contact);
+                        contact.PhoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                     }
+                    else
+                        contact.PhoneNumber = "0000000000";
                 }
+                else
+                    contact.PhoneNumber = "0000000000";
+
+                Cursor nCur = getContentResolver().query(ContactsContract.Data.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
+                if (nCur.moveToFirst())
+                {
+                    contact.FirstName = nCur.getString(nCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
+                    contact.LastName = nCur.getString(nCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
+                }
+                else {
+                    contact.FirstName = "Unknown";
+                    contact.LastName = "Unknown";
+                }
+
+                contact.Blocked = 0;
+                contact.CallAmount = 0;
+                contact.TxtAmount = 0;
+                contact.TxtMax = 10;
+                contact.CallMax = 100;
+                Contacts.add(contact);
             }
         }
-
         return Contacts;
     }
 

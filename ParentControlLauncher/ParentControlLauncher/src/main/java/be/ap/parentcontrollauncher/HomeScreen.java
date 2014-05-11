@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
+import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -103,6 +104,8 @@ public class HomeScreen extends Activity {
 
         //RegisterLocationAlarmManager();
         //RegisterSendDataAlarmManager();
+
+        insertContacts(getContentResolver(), GetAllContactsAndroid());
 
 
         Button appButton = (Button)findViewById(R.id.AppButton);
@@ -379,5 +382,63 @@ public class HomeScreen extends Activity {
 
             return null;
         }
+    }
+
+    private void insertContacts(ContentResolver contentResolver, ArrayList<Contact> contacts)
+    {
+        try {
+
+            ContentValues values;
+            for (Contact contact : contacts)
+            {
+                values = new ContentValues();
+                values.put(ContactsTable.COLUMN_FIRSTNAME, contact.FirstName);
+                values.put(ContactsTable.COLUMN_LASTNAME, "achternaam");
+                values.put(ContactsTable.COLUMN_PHONENUMBER, contact.PhoneNumber);
+                values.put(ContactsTable.COLUMN_TXTAMOUNT, contact.TxtAmount);
+                values.put(ContactsTable.COLUMN_TXTMAX, contact.TxtMax);
+                values.put(ContactsTable.COLUMN_CALLAMOUNT, contact.CallAmount);
+                values.put(ContactsTable.COLUMN_CALLMAX, contact.CallMax);
+                values.put(ContactsTable.COLUMN_BLOCKED, contact.Blocked);
+                contentResolver.insert(ParentControlContentProvider.CONTENT_URI_CONTACTS, values);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private ArrayList<Contact> GetAllContactsAndroid()
+    {
+        ArrayList<Contact> Contacts = new ArrayList<Contact>();
+        Contact contact;
+        Cursor cur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        if (cur.getCount() > 0)
+        {
+            while (cur.moveToNext())
+            {
+                String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
+                String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                    Cursor pCur = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
+                    if (pCur.moveToFirst()) {
+                        String phoneNo = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                        contact = new Contact();
+                        contact.FirstName = name;
+                        contact.PhoneNumber = phoneNo;
+                        contact.Blocked = 0;
+                        contact.CallAmount = 0;
+                        contact.TxtAmount = 0;
+                        contact.TxtMax = 10;
+                        contact.CallMax = 100;
+                        Contacts.add(contact);
+                    }
+                }
+            }
+        }
+
+        return Contacts;
     }
 }
