@@ -195,12 +195,11 @@ public class DisplayAppsScreen extends ActionBarActivity {
         protected Void doInBackground(Void... param) {
             JSONHandler jsonHandler = new JSONHandler(DisplayAppsScreen.this);
             NetClient netClient = new NetClient("81.83.164.27", 8041);
-            netClient.ConnectWithServer();
             for (String json : jsonHandler.Serialize()) {
+                netClient.ConnectWithServer();
                 netClient.SendDataToServer("push;" + json);
+                netClient.DisConnectWithServer();
             }
-            netClient.DisConnectWithServer();
-
             return null;
         }
 

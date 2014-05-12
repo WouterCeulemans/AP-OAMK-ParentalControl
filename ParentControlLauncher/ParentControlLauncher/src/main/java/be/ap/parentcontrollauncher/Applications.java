@@ -140,4 +140,8 @@ public class Applications {
 
     public static AppsAdapter appsAdapter;
     public static ArrayList<Item> appList;
+    public static String[] SystemApps =
+    {
+
+    };
 }
