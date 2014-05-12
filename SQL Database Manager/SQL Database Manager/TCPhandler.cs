@@ -46,9 +46,17 @@ namespace SQL_Database_Manager
                 Console.WriteLine (Encoding.UTF8.GetString (bytes, 0, bytesRead));
                 switch (data [0]) 
                 {
-                    case "get"   : 
+                    case "getApps":
                     {
-                        var root      = new Rootobject {Device = new [] {Get (data [1])}};
+                        var root      = new Rootobject { Device = new[] { GetApps (data[1]) } };
+                        var _string   = JsonConvert.SerializeObject (root);
+                        var sendBytes = Encoding.UTF8.GetBytes (_string);
+                        networkStream.Write (sendBytes, 0, sendBytes.Length);
+                        break;
+                    }
+                    case "getContacts"   : 
+                    {
+                        var root      = new Rootobject {Device = new [] {GetContacts (data [1])}};
                         var _string   = JsonConvert.SerializeObject (root);
                         var sendBytes = Encoding.UTF8.GetBytes(_string);
                         networkStream.Write(sendBytes, 0, sendBytes.Length);
@@ -135,12 +143,20 @@ namespace SQL_Database_Manager
             _conn.Close ();
         }
 
-        private Device      Get             (string id)          
+        private Device      GetApps             (string id)          
         {
             var device= new Device
             {
                 DeviceId = id,
-                Apps     = GetAppList (id),
+                Apps     = GetAppList (id)
+            };
+            return device;
+        }
+        private Device GetContacts (string id)
+        {
+            var device= new Device
+            {
+                DeviceId = id,
                 Contacts = GetContactList (id)
             };
             return device;
