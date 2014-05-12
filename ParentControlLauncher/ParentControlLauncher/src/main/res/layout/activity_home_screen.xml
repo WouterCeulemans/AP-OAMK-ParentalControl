@@ -27,17 +27,11 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:id="@+id/trackerLog"
-            android:background="@android:color/white"
-            android:textColor="@android:color/black"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
             android:maxLines="200"
             android:scrollbars="vertical"
         />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Clear"
-            android:id="@+id/clearLogButton"/>
 
     </LinearLayout>
 
@@ -46,34 +40,82 @@
     android:layout_height="match_parent"
     android:layout_weight="1"
     >
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Apps"
-        android:id="@+id/AppButton"
-        />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SMS App"
-        android:id="@+id/SmsButton"
-        />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SMS App"
+            android:background="@drawable/abc_ab_bottom_transparent_light_holo"
+            android:src="@drawable/messageicon"
+            android:id="@+id/SmsButton"
+            android:layout_marginLeft="30dp"
+            />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Call App"
-        android:id="@+id/CallButton"
-        />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Call App"
+            android:background="@drawable/abc_ab_bottom_transparent_light_holo"
+            android:src="@drawable/phoneicon"
+            android:id="@+id/CallButton"
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Contact App"
-        android:id="@+id/ContactButton"
-        />
+            android:layout_marginLeft="30dp"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact App"
+            android:background="@drawable/abc_ab_bottom_transparent_light_holo"
+            android:src="@drawable/usericon"
+            android:id="@+id/ContactButton"
+
+            android:layout_marginLeft="30dp"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Call App"
+            android:background="@drawable/abc_ab_bottom_transparent_light_holo"
+            android:src="@drawable/browsericon"
+            android:id="@+id/BrowserBtn"
+
+            android:layout_marginLeft="30dp"
+            />
 </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:weightSum="1">
+
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apps"
+            android:id="@+id/AppButton"
+            android:background="@drawable/abc_ab_bottom_transparent_light_holo"
+            android:src="@drawable/menuicon"
+
+            android:layout_marginLeft="45dp"
+
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:id="@+id/clearLogButton"
+
+            android:background="@drawable/abc_ab_bottom_transparent_light_holo"
+            android:layout_marginLeft="50dp"
+            />
+
+
+    </LinearLayout>
 
 </LinearLayout>
 
