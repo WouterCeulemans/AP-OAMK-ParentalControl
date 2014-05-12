@@ -8,8 +8,8 @@
         <option name="gradleHome" value="$PROJECT_DIR$/gradle/wrapper" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ParentControlLauncher" />
+            <option value="C:\Users\nick\Copy\SEM4\Project ICT\AP-OAMK-ParentalControl\ParentControlLauncher" />
+            <option value="C:\Users\nick\Copy\SEM4\Project ICT\AP-OAMK-ParentalControl\ParentControlLauncher\ParentControlLauncher" />
           </set>
         </option>
       </GradleProjectSettings>

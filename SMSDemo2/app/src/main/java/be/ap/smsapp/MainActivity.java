@@ -28,6 +28,9 @@ public class MainActivity extends Activity
     IntentFilter intentFilter;
     SmsManager sm = SmsManager.getDefault();
 
+    Integer id = null;
+    Integer Textamount;
+
     private BroadcastReceiver intentReceiver = new BroadcastReceiver()
     {
         @Override
@@ -44,6 +47,9 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TEST_CheckNumberExists();
+
 
         //intent to filter for SMS messages
         intentFilter = new IntentFilter();
@@ -82,8 +88,9 @@ public class MainActivity extends Activity
         Integer TxtAmount = 0;
         Integer TxtMax = 0;
         Integer Blocked = 0;
-        String selection = Database.COLUMN_PHONENUMBER + " = " + number;
-        Cursor cur = this.getContentResolver().query(Database.CONTENT_URI_CONTACTS, null, selection, null, null);
+        Integer id;
+        //Cursor cur = this.getContentResolver().query(Database.CONTENT_URI_CONTACTS, null, Database.COLUMN_PHONENUMBER + " = ?", new String[] {number}, null);
+        Cursor cur = this.getContentResolver().query(Database.CONTENT_URI_CONTACTS, null, Database.COLUMN_ID + " = ?", new String[] {"1"}, null);
         if (cur.getCount() > 0) {
             while (cur.moveToNext()) {
                 TxtAmount = cur.getInt(cur.getColumnIndex(Database.COLUMN_TXTAMOUNT));
@@ -97,7 +104,7 @@ public class MainActivity extends Activity
                 TxtAmount++;
                 ContentValues values = new ContentValues();
                 values.put(Database.COLUMN_TXTAMOUNT, TxtAmount);
-                getContentResolver().update(Database.CONTENT_URI_CONTACTS, values, selection, null);
+                getContentResolver().update(Database.CONTENT_URI_CONTACTS, values, Database.COLUMN_ID + " = ?", new String[] {"1"});
                 return true;
             } else
                 return false;
@@ -108,9 +115,9 @@ public class MainActivity extends Activity
     private Boolean IntToBoolean(Integer integer)
     {
         if (integer <= 0)
-            return false;
-        else
             return true;
+        else
+            return false;
     }
 
     protected void sendMsg(String theNumber, String myMsg)
@@ -181,7 +188,7 @@ public class MainActivity extends Activity
         PendingIntent deliveredPI   =   PendingIntent.getBroadcast(this, 0  , new Intent(DELIVERED) , 0);
 
 
-        ArrayList<String> parts =sm.divideMessage(myMsg);
+        ArrayList<String> parts = sm.divideMessage(myMsg);
         int numParts = parts.size();
 
         ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
@@ -225,5 +232,26 @@ public class MainActivity extends Activity
         }
 
         sm.sendMultipartTextMessage(theNumber, null, parts, sentIntents, deliveryIntents);
+    }
+
+
+    private void TEST_CheckNumberExists()
+    {
+        try {
+
+            Cursor cur = this.getContentResolver().query(Database.CONTENT_URI_CONTACTS, null, null, null, null);
+            if (cur.getCount() > 0) {
+                while (cur.moveToNext()) {
+                    Toast.makeText(getApplicationContext(), "Beschikbaar", Toast.LENGTH_SHORT);
+                    id = cur.getInt(cur.getColumnIndex(Database.COLUMN_ID));
+                    Textamount = cur.getInt(cur.getColumnIndex(Database.COLUMN_TXTAMOUNT));
+                }
+            }
+            cur.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

@@ -21,6 +21,7 @@ import android.telephony.TelephonyManager;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -83,16 +84,6 @@ public class HomeScreen extends Activity {
             }
         });
 
-        Button sendJsonBtn = (Button)findViewById(R.id.SendButton);
-        sendJsonBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //To Be Removed Shortly!!!
-                sendJson = new SendJson();
-                sendJson.execute(HomeScreen.this);
-            }
-        });
-
         Button clearLogBtn = (Button)findViewById(R.id.clearLogButton);
         clearLogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +96,8 @@ public class HomeScreen extends Activity {
         //RegisterLocationAlarmManager();
         //RegisterSendDataAlarmManager();
 
-        insertContacts(getContentResolver(), GetAllContactsAndroid());
+        TEST_AddNumberToContactsDB("0497351782", 0);
+        TEST_CheckNumberExists();
 
 
         Button appButton = (Button)findViewById(R.id.AppButton);
@@ -146,18 +138,21 @@ public class HomeScreen extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
-
-        menu.add(0, 11, 0, "Apps")
-                .setIcon(android.R.drawable.ic_menu_gallery);
-        return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_screen_actions, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         //Handle item selection
         switch (item.getItemId()){
-            case 11:
-                showAppsPage();
+            case R.id.action_send_data:
+                new SendJson().execute(HomeScreen.this);
+                return true;
+            case R.id.action_request_update:
+                RequestUpdate();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -324,8 +319,6 @@ public class HomeScreen extends Activity {
                 values.put(ContactsTable.COLUMN_CALLAMOUNT, contact.CallAmount);
                 getContentResolver().update(ParentControlContentProvider.CONTENT_URI_CONTACTS, values, selection, null);
             }
-
-            //Locations ??? Remove or not
         }
     }
 
@@ -384,24 +377,20 @@ public class HomeScreen extends Activity {
         }
     }
 
-    private void insertContacts(ContentResolver contentResolver, ArrayList<Contact> contacts)
+    private void TEST_AddNumberToContactsDB(String number, Integer blocked)
     {
         try {
 
-            ContentValues values;
-            for (Contact contact : contacts)
-            {
-                values = new ContentValues();
-                values.put(ContactsTable.COLUMN_FIRSTNAME, contact.FirstName);
-                values.put(ContactsTable.COLUMN_LASTNAME, "achternaam");
-                values.put(ContactsTable.COLUMN_PHONENUMBER, contact.PhoneNumber);
-                values.put(ContactsTable.COLUMN_TXTAMOUNT, contact.TxtAmount);
-                values.put(ContactsTable.COLUMN_TXTMAX, contact.TxtMax);
-                values.put(ContactsTable.COLUMN_CALLAMOUNT, contact.CallAmount);
-                values.put(ContactsTable.COLUMN_CALLMAX, contact.CallMax);
-                values.put(ContactsTable.COLUMN_BLOCKED, contact.Blocked);
-                contentResolver.insert(ParentControlContentProvider.CONTENT_URI_CONTACTS, values);
-            }
+            ContentValues values = new ContentValues();
+            values.put(ContactsTable.COLUMN_FIRSTNAME, "naam");
+            values.put(ContactsTable.COLUMN_LASTNAME, "achternaam");
+            values.put(ContactsTable.COLUMN_PHONENUMBER, number);
+            values.put(ContactsTable.COLUMN_TXTAMOUNT, 9);
+            values.put(ContactsTable.COLUMN_TXTMAX, 10);
+            values.put(ContactsTable.COLUMN_CALLAMOUNT, 0);
+            values.put(ContactsTable.COLUMN_CALLMAX, 100);
+            values.put(ContactsTable.COLUMN_BLOCKED, blocked);
+            getContentResolver().insert(ParentControlContentProvider.CONTENT_URI_CONTACTS, values);
         }
         catch (Exception e)
         {
@@ -409,36 +398,33 @@ public class HomeScreen extends Activity {
         }
     }
 
-    private ArrayList<Contact> GetAllContactsAndroid()
+    private void TEST_CheckNumberExists()
     {
-        ArrayList<Contact> Contacts = new ArrayList<Contact>();
-        Contact contact;
-        Cursor cur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-        if (cur.getCount() > 0)
-        {
-            while (cur.moveToNext())
-            {
-                String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
-                    Cursor pCur = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
-                    if (pCur.moveToFirst()) {
-                        String phoneNo = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+        try {
+            Contact contact;
+            ArrayList<Contact> contacts = new ArrayList<Contact>();
+            Cursor cur = this.getContentResolver().query(ParentControlContentProvider.CONTENT_URI_CONTACTS, null, null, null, null);
+            if (cur.getCount() > 0) {
+                while (cur.moveToNext()) {
+                    contact = new Contact();
+                    contact.ContactID = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_ID));
+                    contact.FirstName = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_FIRSTNAME));
+                    contact.LastName = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_LASTNAME));
+                    contact.PhoneNumber = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_PHONENUMBER));
+                    contact.TxtAmount = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_TXTAMOUNT));
+                    contact.TxtMax = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_TXTMAX));
+                    contact.CallAmount = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_CALLAMOUNT));
+                    contact.CallMax = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_CALLMAX));
+                    contact.Blocked = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_BLOCKED));
 
-                        contact = new Contact();
-                        contact.FirstName = name;
-                        contact.PhoneNumber = phoneNo;
-                        contact.Blocked = 0;
-                        contact.CallAmount = 0;
-                        contact.TxtAmount = 0;
-                        contact.TxtMax = 10;
-                        contact.CallMax = 100;
-                        Contacts.add(contact);
-                    }
+                    contacts.add(contact);
                 }
             }
+            cur.close();
         }
-
-        return Contacts;
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
