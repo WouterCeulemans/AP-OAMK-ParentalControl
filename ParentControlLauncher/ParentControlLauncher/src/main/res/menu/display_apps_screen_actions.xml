@@ -8,4 +8,10 @@
     <item android:id="@+id/action_register_device"
         android:title="Register Device"
         yourapp:showAsAction="never"/>
+    <item android:id="@+id/action_send_data"
+        android:title="Send Data"
+        yourapp:showAsAction="never"/>
+    <item android:id="@+id/action_request_update"
+        android:title="Request Data update"
+        yourapp:showAsAction="never"/>
 </menu>

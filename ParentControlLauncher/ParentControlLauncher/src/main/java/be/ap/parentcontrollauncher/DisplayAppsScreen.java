@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,6 +34,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+
+import be.ap.parentcontrollauncher.contentprovider.ParentControlContentProvider;
+import be.ap.parentcontrollauncher.database.ApplicationsTable;
+import be.ap.parentcontrollauncher.database.ContactsTable;
 
 public class DisplayAppsScreen extends ActionBarActivity {
 
@@ -89,6 +94,12 @@ public class DisplayAppsScreen extends ActionBarActivity {
                 return true;
             case R.id.action_register_device:
                 ShowRegisterDeviceDialog();
+                return true;
+            case R.id.action_send_data:
+                new SendJson().execute();
+                return true;
+            case R.id.action_request_update:
+                new RequestUpdate().execute();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -166,6 +177,105 @@ public class DisplayAppsScreen extends ActionBarActivity {
                 }
             });
             alertDialog.show();
+        }
+    }
+
+    private class SendJson extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute()
+        {
+            progressDialog = ProgressDialog.show(DisplayAppsScreen.this, "Sending Data to server", "Pleas wait...", true, false);
+        }
+
+        @Override
+        protected Void doInBackground(Void... param) {
+            JSONHandler jsonHandler = new JSONHandler(DisplayAppsScreen.this);
+            NetClient netClient = new NetClient("81.83.164.27", 8041);
+            netClient.ConnectWithServer();
+            for (String json : jsonHandler.Serialize()) {
+                netClient.SendDataToServer("push;" + json);
+            }
+            netClient.DisConnectWithServer();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), "Sending Completed", Toast.LENGTH_SHORT);
+        }
+    }
+
+    private class RequestUpdate extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute()
+        {
+            progressDialog = ProgressDialog.show(DisplayAppsScreen.this, "Receiving Data from server", "Pleas wait...", true, false);
+        }
+
+        @Override
+        protected Void doInBackground (Void... param) {
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            String deviceID = telephonyManager.getDeviceId();
+            NetClient netClient = new NetClient("81.83.164.27", 8041);
+
+            //GetApps
+            netClient.ConnectWithServer();
+            netClient.SendDataToServer("getApps;" + deviceID + ";");
+            String jsonApps = netClient.ReceiveDataFromServer();
+            netClient.DisConnectWithServer();
+
+            if (jsonApps != null && jsonApps.length() > 0) {
+                ContentValues values;
+                JSONHandler jsonHandler = new JSONHandler(DisplayAppsScreen.this);
+                RootObject rootObject = jsonHandler.Deserialize(jsonApps);
+
+                for (App app : rootObject.Apps) {
+                    values = new ContentValues();
+                    values.put(ApplicationsTable.COLUMN_VISIBLE, app.Visible);
+                    getContentResolver().update(ParentControlContentProvider.CONTENT_URI_APPS, values, ApplicationsTable.COLUMN_ID + " = ?", new String[]{Integer.toString(app.AppID)});
+                }
+            }
+
+            //GetContacts
+            netClient.ConnectWithServer();
+            netClient.SendDataToServer("getContacts;" + deviceID + ";");
+            String jsonContacts = netClient.ReceiveDataFromServer();
+            netClient.DisConnectWithServer();
+
+            if (jsonContacts != null && jsonContacts.length() > 0) {
+                ContentValues values;
+                JSONHandler jsonHandler = new JSONHandler(DisplayAppsScreen.this);
+                RootObject rootObject = jsonHandler.Deserialize(jsonContacts);
+
+                for (Contact contact : rootObject.Contacts) {
+                    values = new ContentValues();
+                    values.put(ContactsTable.COLUMN_FIRSTNAME, contact.FirstName);
+                    values.put(ContactsTable.COLUMN_LASTNAME, contact.LastName);
+                    values.put(ContactsTable.COLUMN_PHONENUMBER, contact.PhoneNumber);
+                    values.put(ContactsTable.COLUMN_TXTMAX, contact.TxtMax);
+                    values.put(ContactsTable.COLUMN_TXTAMOUNT, contact.TxtAmount);
+                    values.put(ContactsTable.COLUMN_CALLMAX, contact.CallMax);
+                    values.put(ContactsTable.COLUMN_CALLAMOUNT, contact.CallAmount);
+                    values.put(ContactsTable.COLUMN_BLOCKED, contact.Blocked);
+                    getContentResolver().update(ParentControlContentProvider.CONTENT_URI_CONTACTS, values, ContactsTable.COLUMN_ID + " = ?", new String[]{Integer.toString(contact.ContactID)});
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), "Receiving Completed", Toast.LENGTH_SHORT);
         }
     }
 }

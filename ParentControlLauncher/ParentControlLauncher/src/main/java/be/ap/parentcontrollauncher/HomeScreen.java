@@ -346,7 +346,7 @@ public class HomeScreen extends Activity {
             }
         }
 
-        //GetApps
+        //GetContacts
         netClient.ConnectWithServer();
         netClient.SendDataToServer("getContacts;" + deviceID +";");
         String jsonContacts = netClient.ReceiveDataFromServer();
