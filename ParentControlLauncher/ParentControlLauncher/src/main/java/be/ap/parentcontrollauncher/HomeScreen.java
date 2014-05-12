@@ -85,6 +85,14 @@ public class HomeScreen extends Activity {
             }
         });
 
+        ImageButton webBrowserButton = (ImageButton)findViewById(R.id.BrowserBtn);
+        webBrowserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWebbowser();
+            }
+        });
+
         Button clearLogBtn = (Button)findViewById(R.id.clearLogButton);
         clearLogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,6 +222,28 @@ public class HomeScreen extends Activity {
     private void openContactApp() {
         PackageManager pm = this.getPackageManager();
         String packageName = "be.ap.contactapp";
+        Boolean isInstalled;
+        try
+        {
+            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+            Intent mIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+            try {
+                startActivity(mIntent);
+            } catch (ActivityNotFoundException err) {
+                Toast t = Toast.makeText(getApplicationContext(), "App Not Found", Toast.LENGTH_SHORT);
+                t.show();
+            }
+        }
+        catch(Exception e)
+        {
+            Toast toast = Toast.makeText(getApplicationContext(), "Could not open App", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+    private void openWebbowser() {
+        PackageManager pm = this.getPackageManager();
+        String packageName = "be.ap.webbrowser";
         Boolean isInstalled;
         try
         {

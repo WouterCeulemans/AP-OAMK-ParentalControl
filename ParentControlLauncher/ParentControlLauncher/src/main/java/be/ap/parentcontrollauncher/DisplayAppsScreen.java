@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -205,6 +206,7 @@ public class DisplayAppsScreen extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Void result) {
+            getContentResolver().delete(ParentControlContentProvider.CONTENT_URI_LOCATIONS, null, null);
             progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), "Sending Completed", Toast.LENGTH_SHORT);
         }

@@ -1,4 +1,4 @@
-package com.example.webbrowsing.app;
+package be.ap.webbrowser;
 
 import android.webkit.WebView;
 import android.webkit.WebViewClient;

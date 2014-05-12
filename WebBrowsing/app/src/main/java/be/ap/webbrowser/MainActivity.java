@@ -1,4 +1,4 @@
-package com.example.webbrowsing.app;
+package be.ap.webbrowser;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,9 +17,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(com.example.webbrowsing.app.R.layout.activity_main);
 
-        ourBrowser = (WebView) findViewById(R.id.wvBrowser);
+        ourBrowser = (WebView) findViewById(com.example.webbrowsing.app.R.id.wvBrowser);
         //enable javascript voor youtube bijvoorbeeld
         ourBrowser.getSettings().setJavaScriptEnabled(true);
         ourBrowser.getSettings().setLoadWithOverviewMode(true);// able to zoom out orso
@@ -36,13 +36,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
 
 
-        ImageButton go       = (ImageButton) findViewById(R.id.btnGo);
-        ImageButton back     = (ImageButton) findViewById(R.id.btnBack);
-        ImageButton refresh  = (ImageButton)findViewById(R.id.btnRefresh);
-        ImageButton forward  = (ImageButton) findViewById(R.id.btnForward);
-        ImageButton settings = (ImageButton) findViewById(R.id.btnSettings);
+        ImageButton go       = (ImageButton) findViewById(com.example.webbrowsing.app.R.id.btnGo);
+        ImageButton back     = (ImageButton) findViewById(com.example.webbrowsing.app.R.id.btnBack);
+        ImageButton refresh  = (ImageButton)findViewById(com.example.webbrowsing.app.R.id.btnRefresh);
+        ImageButton forward  = (ImageButton) findViewById(com.example.webbrowsing.app.R.id.btnForward);
+        ImageButton settings = (ImageButton) findViewById(com.example.webbrowsing.app.R.id.btnSettings);
 
-        url = (EditText) findViewById(R.id.txtUrlBar);
+        url = (EditText) findViewById(com.example.webbrowsing.app.R.id.txtUrlBar);
 
         go.setOnClickListener(this);
         back.setOnClickListener(this);
@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     {
         switch (arg0.getId())
         {
-            case R.id.btnGo:
+            case com.example.webbrowsing.app.R.id.btnGo:
                 //allow people to go to there own url like a bauwz
                 String theWebsite = "http://" + url.getText().toString();
                 ourBrowser.loadUrl(theWebsite);
@@ -64,21 +64,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 imm.hideSoftInputFromWindow(url.getWindowToken(), 0);//this code will hide the keyboard after using the edit text
 
                 break;
-            case R.id.btnBack:
+            case com.example.webbrowsing.app.R.id.btnBack:
                 if (ourBrowser.canGoBack())
                 ourBrowser.goBack();
 
                 break  ;
-            case  R.id.btnForward:
+            case  com.example.webbrowsing.app.R.id.btnForward:
                 if (ourBrowser.canGoForward())
                     ourBrowser.goForward();
 
                 break;
-            case R.id.btnRefresh:
+            case com.example.webbrowsing.app.R.id.btnRefresh:
                 ourBrowser.reload();
 
                 break;
-            case R.id.btnSettings:
+            case com.example.webbrowsing.app.R.id.btnSettings:
                 //voor het wissen van geschiedennis
                 /*
                 ourBrowser.clearHistory();
