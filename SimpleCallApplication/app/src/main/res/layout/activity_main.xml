@@ -14,11 +14,6 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
@@ -27,14 +22,45 @@
             android:layout_height="wrap_content"
             android:text="Call number"
             android:id="@+id/CallButton"
+            android:background="@drawable/abc_cab_background_top_holo_light"
+            android:textColor="@android:color/holo_blue_dark"
+
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="20dp"
+
+            android:minWidth="100dp"
+
             android:layout_gravity="bottom" />
+
+
 
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="call 112"
+            android:background="@drawable/abc_cab_background_top_holo_light"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="20dp"
+
+            android:minWidth="100dp"
+
             android:layout_gravity="bottom" />
+
+        <Button
+            android:id="@+id/FavoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Favorites"
+            android:background="@drawable/abc_cab_background_top_holo_light"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="20dp"
+
+            android:minWidth="100dp"
+            android:layout_gravity="bottom" />
+
     </LinearLayout>
 
 </LinearLayout>
