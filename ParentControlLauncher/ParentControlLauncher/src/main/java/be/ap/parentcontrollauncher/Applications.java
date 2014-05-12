@@ -12,7 +12,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import be.ap.parentcontrollauncher.contentprovider.ParentControlContentProvider;
@@ -34,19 +36,19 @@ public class Applications {
         myApplications = pm.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo packageInfo : myApplications)
         {
-            icon = packageInfo.loadIcon(pm);
-            if(icon instanceof BitmapDrawable) {
-                APKIcon = ((BitmapDrawable)icon).getBitmap();
+            if (!Arrays.asList(SystemApps).contains(packageInfo.packageName)) {
+                icon = packageInfo.loadIcon(pm);
+                if (icon instanceof BitmapDrawable) {
+                    APKIcon = ((BitmapDrawable) icon).getBitmap();
+                } else {
+                    Bitmap bitmap = Bitmap.createBitmap(icon.getIntrinsicWidth(), icon.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(bitmap);
+                    icon.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+                    icon.draw(canvas);
+                    APKIcon = bitmap;
+                }
+                appList.add(new Item(APKIcon, (String) pm.getApplicationLabel(packageInfo), packageInfo.packageName, true));
             }
-            else
-            {
-                Bitmap bitmap = Bitmap.createBitmap(icon.getIntrinsicWidth(),icon.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                icon.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-                icon.draw(canvas);
-                APKIcon = bitmap;
-            }
-            appList.add(new Item(APKIcon, (String) pm.getApplicationLabel(packageInfo), packageInfo.packageName, true));
         }
         return appList;
     }
@@ -142,6 +144,75 @@ public class Applications {
     public static ArrayList<Item> appList;
     public static String[] SystemApps =
     {
-
+            "android",
+            "android.tts",
+            "be.ap.parentcontrollauncher",
+            "com.android.audioTuning",
+            "com.android.bluetooth",
+            "com.android.certinstaller",
+            "com.android.defcontainer",
+            "com.android.packageinstaller",
+            "com.android.Preconfig",
+            "com.android.providers.applications",
+            "com.android.providers.calendar",
+            "com.android.providers.contacts",
+            "com.android.providers.downloads",
+            "com.android.providers.media",
+            "com.android.providers.settings",
+            "com.android.providers.subscribedfeeds",
+            "com.android.providers.telephony",
+            "com.android.providers.userdictionary",
+            "com.android.RilFactoryApp",
+            "com.android.samsungtest.DataCreate",
+            "com.android.server.vpn",
+            "com.android.settings.mt",
+            "com.android.setupwizard",
+            "com.android.vending.updater",
+            "com.android.wallpaper.livepicker",
+            "com.boombuler.system.appwidgetpicker",
+            "com.broadcom.bt.app.system",
+            "com.demboos.galaxy.music.widget",
+            "com.fede.launcher",
+            "com.google.android.apps.uploader",
+            "com.google.android.gms",
+            "com.google.android.gsf",
+            "com.google.android.location",
+            "com.google.android.partnersetup",
+            "com.google.android.street",
+            "com.google.android.syncadapters.calendar",
+            "com.google.android.syncadapters.contacts",
+            "com.samsung.android.app.divx",
+            "com.samsung.InputEventApp",
+            "com.samsung.mobileTracker.ui",
+            "com.samsung.sec.android.application.csc",
+            "com.samsung.simdetachnotifier",
+            "com.sec.android.app.callsetting",
+            "com.sec.android.app.drmua",
+            "com.sec.android.app.GpsSetup2",
+            "com.sec.android.app.lcdtest",
+            "com.sec.android.app.personalization",
+            "com.sec.android.app.phoneutil",
+            "com.sec.android.app.screencapture",
+            "com.sec.android.app.servicemodeapp",
+            "com.sec.android.app.shutdown",
+            "com.sec.android.app.sns",
+            "com.sec.android.app.snsaccount",
+            "com.sec.android.app.twlauncher",
+            "com.sec.android.inputmethod.axt9",
+            "com.sec.android.provider.badge",
+            "com.sec.android.provider.logsprovider",
+            "com.sec.android.providers.downloads",
+            "com.sec.android.providers.drm",
+            "com.sec.app.OmaCP",
+            "com.sec.app.RilErrorNotifier",
+            "com.smlds",
+            "com.sonyericsson.home",
+            "com.svox.pico",
+            "com.swype.android.inputmethod",
+            "com.wipereceiver",
+            "com.wsomacp",
+            "gmail",
+            "net.thinkindifferent.inputmethod.latin",
+            "org.adw.launcher",
     };
 }
