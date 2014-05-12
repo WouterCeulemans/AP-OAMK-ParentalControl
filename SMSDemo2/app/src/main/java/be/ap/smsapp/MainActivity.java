@@ -88,11 +88,12 @@ public class MainActivity extends Activity
         Integer TxtAmount = 0;
         Integer TxtMax = 0;
         Integer Blocked = 0;
-        Integer id;
-        //Cursor cur = this.getContentResolver().query(Database.CONTENT_URI_CONTACTS, null, Database.COLUMN_PHONENUMBER + " = ?", new String[] {number}, null);
-        Cursor cur = this.getContentResolver().query(Database.CONTENT_URI_CONTACTS, null, Database.COLUMN_ID + " = ?", new String[] {"1"}, null);
+        Integer id = 1;
+        Cursor cur = this.getContentResolver().query(Database.CONTENT_URI_CONTACTS, null, Database.COLUMN_PHONENUMBER + " = ?", new String[] {number}, null);
+        //Cursor cur = this.getContentResolver().query(Database.CONTENT_URI_CONTACTS, null, Database.COLUMN_ID + " = ?", new String[] {"1"}, null);
         if (cur.getCount() > 0) {
             while (cur.moveToNext()) {
+                id = cur.getInt(cur.getColumnIndex(Database.COLUMN_ID));
                 TxtAmount = cur.getInt(cur.getColumnIndex(Database.COLUMN_TXTAMOUNT));
                 TxtMax = cur.getInt(cur.getColumnIndex(Database.COLUMN_TXTMAX));
                 Blocked = cur.getInt(cur.getColumnIndex(Database.COLUMN_BLOCKED));
@@ -104,7 +105,7 @@ public class MainActivity extends Activity
                 TxtAmount++;
                 ContentValues values = new ContentValues();
                 values.put(Database.COLUMN_TXTAMOUNT, TxtAmount);
-                getContentResolver().update(Database.CONTENT_URI_CONTACTS, values, Database.COLUMN_ID + " = ?", new String[] {"1"});
+                getContentResolver().update(Database.CONTENT_URI_CONTACTS, values, Database.COLUMN_ID + " = ?", new String[] {id.toString()});
                 return true;
             } else
                 return false;

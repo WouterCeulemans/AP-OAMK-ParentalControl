@@ -286,7 +286,7 @@ public class HomeScreen extends Activity {
 
     private void RequestUpdate()
     {
-        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+        /*TelephonyManager telephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
         netClient.ConnectWithServer();
         netClient.SendDataToServer("get;" + telephonyManager.getDeviceId() +";");
         String json = netClient.ReceiveDataFromServer();
@@ -318,6 +318,57 @@ public class HomeScreen extends Activity {
                 values.put(ContactsTable.COLUMN_CALLMAX, contact.CallMax);
                 values.put(ContactsTable.COLUMN_CALLAMOUNT, contact.CallAmount);
                 getContentResolver().update(ParentControlContentProvider.CONTENT_URI_CONTACTS, values, selection, null);
+            }
+
+        }*/
+
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+        String deviceID = telephonyManager.getDeviceId();
+
+        //GetApps
+        netClient.ConnectWithServer();
+        netClient.SendDataToServer("getApps;" + deviceID +";");
+        String jsonApps = netClient.ReceiveDataFromServer();
+        netClient.DisConnectWithServer();
+
+        if (jsonApps != null && jsonApps.length() > 0)
+        {
+            ContentValues values;
+            JSONHandler jsonHandler = new JSONHandler(this);
+            RootObject rootObject = jsonHandler.Deserialize(jsonApps);
+
+            for (App app : rootObject.Apps)
+            {
+                values = new ContentValues();
+                values.put(ApplicationsTable.COLUMN_VISIBLE, app.Visible);
+                getContentResolver().update(ParentControlContentProvider.CONTENT_URI_APPS, values, ApplicationsTable.COLUMN_ID + " = ?", new String[] {Integer.toString(app.AppID)});
+            }
+        }
+
+        //GetApps
+        netClient.ConnectWithServer();
+        netClient.SendDataToServer("getContacts;" + deviceID +";");
+        String jsonContacts = netClient.ReceiveDataFromServer();
+        netClient.DisConnectWithServer();
+
+        if (jsonContacts != null && jsonContacts.length() > 0)
+        {
+            ContentValues values;
+            JSONHandler jsonHandler = new JSONHandler(this);
+            RootObject rootObject = jsonHandler.Deserialize(jsonContacts);
+
+            for (Contact contact : rootObject.Contacts)
+            {
+                values = new ContentValues();
+                values.put(ContactsTable.COLUMN_FIRSTNAME, contact.FirstName);
+                values.put(ContactsTable.COLUMN_LASTNAME, contact.LastName);
+                values.put(ContactsTable.COLUMN_PHONENUMBER, contact.PhoneNumber);
+                values.put(ContactsTable.COLUMN_TXTMAX, contact.TxtMax);
+                values.put(ContactsTable.COLUMN_TXTAMOUNT, contact.TxtAmount);
+                values.put(ContactsTable.COLUMN_CALLMAX, contact.CallMax);
+                values.put(ContactsTable.COLUMN_CALLAMOUNT, contact.CallAmount);
+                values.put(ContactsTable.COLUMN_BLOCKED, contact.Blocked);
+                getContentResolver().update(ParentControlContentProvider.CONTENT_URI_CONTACTS, values, ContactsTable.COLUMN_ID + " = ?", new String[] {Integer.toString(contact.ContactID)});
             }
         }
     }
