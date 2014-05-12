@@ -48,7 +48,7 @@
             android:background="@drawable/abc_ab_bottom_transparent_light_holo"
             android:src="@drawable/messageicon"
             android:id="@+id/SmsButton"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             />
 
         <ImageButton
@@ -59,7 +59,7 @@
             android:src="@drawable/phoneicon"
             android:id="@+id/CallButton"
 
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             />
 
         <ImageButton
@@ -70,7 +70,7 @@
             android:src="@drawable/usericon"
             android:id="@+id/ContactButton"
 
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             />
 
         <ImageButton
@@ -81,7 +81,7 @@
             android:src="@drawable/browsericon"
             android:id="@+id/BrowserBtn"
 
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             />
 </LinearLayout>
 

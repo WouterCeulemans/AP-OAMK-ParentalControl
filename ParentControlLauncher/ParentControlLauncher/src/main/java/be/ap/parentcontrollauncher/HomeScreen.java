@@ -25,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +61,7 @@ public class HomeScreen extends Activity {
         TextView logViewer = (TextView)findViewById(R.id.trackerLog);
         logViewer.setMovementMethod(new ScrollingMovementMethod());
 
-        Button smsAppBtn = (Button)findViewById(R.id.SmsButton);
+        ImageButton smsAppBtn = (ImageButton)findViewById(R.id.SmsButton);
         smsAppBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +69,7 @@ public class HomeScreen extends Activity {
             }
         });
 
-        Button callAppBtn = (Button)findViewById(R.id.CallButton);
+        ImageButton callAppBtn = (ImageButton)findViewById(R.id.CallButton);
         callAppBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +77,7 @@ public class HomeScreen extends Activity {
             }
         });
 
-        Button contactAppBtn = (Button)findViewById(R.id.ContactButton);
+        ImageButton contactAppBtn = (ImageButton)findViewById(R.id.ContactButton);
         contactAppBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +101,7 @@ public class HomeScreen extends Activity {
         TEST_CheckNumberExists();
 
 
-        Button appButton = (Button)findViewById(R.id.AppButton);
+        ImageButton appButton = (ImageButton)findViewById(R.id.AppButton);
         appButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
