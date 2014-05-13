@@ -37,7 +37,6 @@
         public string TxtMax         { get; set; }
         public string CallAmount     { get; set; }
         public string CallMax        { get; set; }
+        public string Blocked        { get; set; }
     }
 }
-
-
