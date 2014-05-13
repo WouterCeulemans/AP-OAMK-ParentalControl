@@ -18,13 +18,13 @@ namespace SQL_Database_Manager
         private  static INIFile      _ini;
         private  static IPAddress    _ip;
         private  static bool         _continue = true;
-        private static void Main ( )                                
+        private static void Main                    ( )             
         {
             Init ();
             TestDatabaseConnection ();
 
             var listener = new TcpListener (_ip, _portNum);
-            var thread = new Thread (GetInput);
+            var thread   = new Thread (GetInput);
             thread.Start();
 
             try                 
@@ -47,16 +47,15 @@ namespace SQL_Database_Manager
 
         private static void Init                    ( )             
         {
-            if (!Directory.Exists ("./config"))
-                Directory.CreateDirectory ("./config");
-            if (!Directory.Exists ("./logs"))
-                Directory.CreateDirectory ("./logs");
-            _ini = new INIFile ("./config/config.ini");
+            if (!Directory.Exists ("./config")) Directory.CreateDirectory ("./config");
+            if (!Directory.Exists ("./logs"))   Directory.CreateDirectory ("./logs");
+            _ini    = new INIFile ("./config/config.ini");
             LogFile = new StreamWriter ("./logs/SQLiteServer_" + DateTime.Now.ToString ("yyyy-MM-d_HH_mm_ss") + ".log");
             
             if (!File.Exists ("./config/config.ini"))
             {
-                WriteInfo (String.Format ("{0} | Error | config.ini not found; Continuing with default values and writing default config file", DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
+                WriteInfo (String.Format ("{0} | Error | config.ini not found; Continuing with default values and writing default config file",
+                           DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
                 _portNum = 8080;
                 _ip = IPAddress.Parse ("0.0.0.0");
                 Db  = String.Format   ("server={0};user={1};password={2};database={3}", "localhost", "root", "", "ParentalControlDb");
@@ -174,13 +173,13 @@ namespace SQL_Database_Manager
                 WriteInfo (String.Format ("{0} | Info | Database does not exist. Creating database.",
                                           DateTime.Now.ToString ("yyyy-MM-d HH:mm:ss")));
                 conn.Open ();
-                query = String.Format ("create database {0}", _databaseName);
+                query = String.Format ("CREATE DATABASE {0}", _databaseName);
                 cmd = new MySqlCommand (query, conn);
                 cmd.ExecuteScalar ();
                 conn.Close ();
                 conn = new MySqlConnection (Db);
                 conn.Open ();
-                query = File.ReadAllText ("./SQL/Create_Database.sql");
+                query = File.ReadAllText ("./sql/Create_Database.sql");
                 cmd = new MySqlCommand (query, conn);
                 cmd.ExecuteScalar ();
             }
@@ -193,11 +192,11 @@ namespace SQL_Database_Manager
         internal static void WriteInfo              (string info)   
         {
             Console.WriteLine (info);
-            LogFile.WriteLine    (info);
+            LogFile.WriteLine (info);
             LogFile.Flush ();
         }
 
-        private static void GetInput()
+        private static void GetInput                ( )             
         {
             for (;;)
                 if (Console.ReadKey (true).Key == ConsoleKey.Escape)

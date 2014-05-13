@@ -14,14 +14,14 @@ namespace SQL_Database_Manager
         private readonly TcpClient _clientSocket;
         private MySqlConnection    _conn;
 
-        public ClientHandler            (TcpClient clientSocket) 
+        public ClientHandler                (TcpClient clientSocket) 
         {
             _clientSocket = clientSocket;
             _clientSocket.ReceiveTimeout    = 100;
             _clientSocket.ReceiveBufferSize = 16384;
         }
 
-        public void Process (Object o)
+        public  void        Process         (Object o)               
         {
             try
             {
@@ -32,7 +32,9 @@ namespace SQL_Database_Manager
                     Thread.Sleep (100);
                     timeout --;
                 }
+#if DEBUG
                     Console.WriteLine (prev);
+#endif
                 while (_clientSocket.Available > prev) {
                     prev = _clientSocket.Available; 
                     Console.WriteLine (prev);
@@ -43,22 +45,30 @@ namespace SQL_Database_Manager
                 var bytesRead     = networkStream.Read (bytes, 0, _clientSocket.ReceiveBufferSize);
                 if (bytesRead <= 0) return;
                 var data          = Encoding.UTF8.GetString (bytes, 0, bytesRead).Split (';');
+#if DEBUG
                 Console.WriteLine (Encoding.UTF8.GetString (bytes, 0, bytesRead));
+#endif
                 switch (data [0]) 
                 {
                     case "getApps":
                     {
-                        var root      = new Rootobject { Device = new[] { GetApps (data[1]) } };
-                        var _string   = JsonConvert.SerializeObject (root);
+                        var root    = new Rootobject {Device = new [] {GetApps (data [1])}};
+                        var _string = JsonConvert.SerializeObject (root);
+#if DEBUG
+                        Console.WriteLine (_string);
+#endif
                         var sendBytes = Encoding.UTF8.GetBytes (_string);
                         networkStream.Write (sendBytes, 0, sendBytes.Length);
                         break;
                     }
                     case "getContacts"   : 
                     {
-                        var root      = new Rootobject {Device = new [] {GetContacts (data [1])}};
-                        var _string   = JsonConvert.SerializeObject (root);
-                        var sendBytes = Encoding.UTF8.GetBytes(_string);
+                        var root    = new Rootobject {Device = new [] {GetContacts (data [1])}};
+                        var _string = JsonConvert.SerializeObject (root);
+#if DEBUG
+                        Console.WriteLine (_string);
+#endif
+                        var sendBytes = Encoding.UTF8.GetBytes (_string);
                         networkStream.Write(sendBytes, 0, sendBytes.Length);
                         break;
                     }
@@ -87,10 +97,10 @@ namespace SQL_Database_Manager
             }
         }
 
-        private void        Create          (IList<string> data) 
+        private void        Create          (IList<string> data)     
         {
             _conn = new MySqlConnection (_db);
-            var query = String.Format ("insert into devices (ID,Name) Values(\"{0}\",\"{1}\");", data [1], data [2]);
+            var query = String.Format ("INSERT INTO devices (ID,Name) VALUES(\"{0}\",\"{1}\");", data [1], data [2]);
             try
             {
                 _conn.Open ();
@@ -104,7 +114,7 @@ namespace SQL_Database_Manager
             _conn.Close ();
         }
 
-        private void        Push            (Device device)      
+        private void        Push            (Device device)          
         {
             _conn = new MySqlConnection (_db);
             try
@@ -113,7 +123,7 @@ namespace SQL_Database_Manager
                 if (device.Apps != null)
                     foreach (var app in device.Apps)
                     {
-                        var query = String.Format ("insert into apps (ID,PackageName,Name,Visible) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\") on duplicate key update Name=\"{2}\", Visible=\"{3}\";",
+                        var query = String.Format ("INSERT INTO apps (ID,PackageName,Name,Visible) VALUES(\"{0}\",\"{1}\",\"{2}\",\"{3}\") ON DUPLICATE KEY UPDATE Name=\"{2}\", Visible=\"{3}\";",
                                                    device.DeviceId, app.PackageName, app.Title, app.Visible);
                         var cmd = new MySqlCommand (query, _conn);
                         cmd.ExecuteScalar ();
@@ -121,7 +131,7 @@ namespace SQL_Database_Manager
                 if (device.Contacts != null)
                     foreach (var contact in device.Contacts)
                     {
-                        var query = String.Format ("insert into contacts (ID,Contact_ID,SurName,Name,Number,TxtAmount,TxtMax,CallAmount,CallMax) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\") on duplicate key update SurName=\"{2}\",Name=\"{3}\",Number=\"{4}\",TxtAmount=\"{5}\",TxtMax=\"{6}\",CallAmount=\"{7}\",CallMax=\"{8}\";",
+                        var query = String.Format ("INSERT INTO contacts (ID,Contact_ID,SurName,Name,Number,TxtAmount,TxtMax,CallAmount,CallMax) VALUES(\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\") ON DUPLICATE KEY UPDATE SurName=\"{2}\",Name=\"{3}\",Number=\"{4}\",TxtAmount=\"{5}\",TxtMax=\"{6}\",CallAmount=\"{7}\",CallMax=\"{8}\";",
                                                    device.DeviceId, contact.ContactId, contact.SurName, contact.Name, contact.Number, contact.TxtAmount, contact.TxtMax, contact.CallAmount, contact.CallMax);
                         var cmd = new MySqlCommand (query, _conn);
                         cmd.ExecuteScalar ();
@@ -130,7 +140,7 @@ namespace SQL_Database_Manager
                     foreach (var coordinate in device.Locations)
                     {
                         var query =
-                            String.Format ("insert into coordinates (ID,Pos_ID,Latitude,Longitude) Values(\"{0}\",\"{1}\",\"{2}\",\"{3}\") on duplicate key update Latitude=\"{2}\",Longitude=\"{3}\";",
+                            String.Format ("INSERT INTO coordinates (ID,Pos_ID,Latitude,Longitude) VALUES(\"{0}\",\"{1}\",\"{2}\",\"{3}\") ON DUPLICATE KEY UPDATE Latitude=\"{2}\",Longitude=\"{3}\";",
                                            device.DeviceId, coordinate.PosId, coordinate.Latitude, coordinate.Longitude);
                         var cmd = new MySqlCommand (query, _conn);
                         cmd.ExecuteScalar ();
@@ -143,7 +153,7 @@ namespace SQL_Database_Manager
             _conn.Close ();
         }
 
-        private Device      GetApps             (string id)          
+        private Device      GetApps         (string id)              
         {
             var device= new Device
             {
@@ -152,7 +162,7 @@ namespace SQL_Database_Manager
             };
             return device;
         }
-        private Device GetContacts (string id)
+        private Device      GetContacts     (string id)              
         {
             var device= new Device
             {
@@ -162,9 +172,9 @@ namespace SQL_Database_Manager
             return device;
         }
 
-        private App      [] GetAppList      (string id)          
+        private App      [] GetAppList      (string id)              
         {
-            var query = String.Format ("select packagename,name,visible from apps where id=\"{0}\";", id);
+            var query = String.Format ("SELECT PackageName,Name,Visible FROM apps WHERE ID=\"{0}\";", id);
             _conn = new MySqlConnection (_db);
             try
             {
@@ -191,9 +201,9 @@ namespace SQL_Database_Manager
                 return new App[0];
             }
         }
-        private Contact  [] GetContactList  (string id)          
+        private Contact  [] GetContactList  (string id)              
         {
-            var query = String.Format ("select Contact_ID,SurName,Name,Number,TxtAmount,TxtMax,CallAmount,CallMax from contacts where id=\"{0}\";", id);
+            var query = String.Format ("SELECT Contact_ID,SurName,Name,Number,TxtAmount,TxtMax,CallAmount,CallMax FROM contacts WHERE id=\"{0}\";", id);
             _conn = new MySqlConnection (_db);
             try
             {
