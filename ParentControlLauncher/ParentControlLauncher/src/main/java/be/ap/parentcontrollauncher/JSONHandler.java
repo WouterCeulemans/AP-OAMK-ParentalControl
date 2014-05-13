@@ -1,22 +1,15 @@
 package be.ap.parentcontrollauncher;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.drawable.BitmapDrawable;
 import android.telephony.TelephonyManager;
-import android.util.JsonWriter;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import be.ap.parentcontrollauncher.contentprovider.ParentControlContentProvider;
 import be.ap.parentcontrollauncher.database.ApplicationsTable;
@@ -108,7 +101,7 @@ public class JSONHandler {
             while (cur.moveToNext())
             {
                 app = new App();
-                app.AppID = cur.getInt(cur.getColumnIndex(ApplicationsTable.COLUMN_ID));
+                app.AppId = cur.getInt(cur.getColumnIndex(ApplicationsTable.COLUMN_ID));
                 app.Title = cur.getString(cur.getColumnIndex(ApplicationsTable.COLUMN_TITLE));
                 app.PackageName = cur.getString(cur.getColumnIndex(ApplicationsTable.COLUMN_PACKAGE));
                 app.Visible = cur.getInt(cur.getColumnIndex(ApplicationsTable.COLUMN_VISIBLE));
@@ -130,7 +123,7 @@ public class JSONHandler {
             while (cur.moveToNext())
             {
                 location = new Location();
-                location.PosID = cur.getInt(cur.getColumnIndex(LocationsTable.COLUMN_ID));
+                location.PosId = cur.getInt(cur.getColumnIndex(LocationsTable.COLUMN_ID));
                 location.Latitude = cur.getDouble(cur.getColumnIndex(LocationsTable.COLUMN_LAT));
                 location.Longitude = cur.getDouble(cur.getColumnIndex(LocationsTable.COLUMN_LONG));
 
@@ -151,10 +144,10 @@ public class JSONHandler {
             if (cur.getCount() > 0) {
                 while (cur.moveToNext()) {
                     contact = new Contact();
-                    contact.ContactID = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_ID));
+                    contact.ContactId = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_ID));
                     contact.FirstName = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_FIRSTNAME));
                     contact.LastName = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_LASTNAME));
-                    contact.PhoneNumber = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_PHONENUMBER));
+                    contact.Number = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_PHONENUMBER));
                     contact.TxtAmount = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_TXTAMOUNT));
                     contact.TxtMax = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_TXTMAX));
                     contact.CallAmount = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_CALLAMOUNT));

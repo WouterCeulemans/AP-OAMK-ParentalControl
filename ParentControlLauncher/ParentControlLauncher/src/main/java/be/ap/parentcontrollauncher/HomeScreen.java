@@ -10,16 +10,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
-import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,15 +26,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 
 import be.ap.parentcontrollauncher.contentprovider.ParentControlContentProvider;
@@ -105,8 +93,8 @@ public class HomeScreen extends Activity {
         //RegisterLocationAlarmManager();
         //RegisterSendDataAlarmManager();
 
-        TEST_AddNumberToContactsDB("0497351782", 0);
-        TEST_CheckNumberExists();
+        //TEST_AddNumberToContactsDB("0497351782", 0);
+        //TEST_CheckNumberExists();
 
 
         ImageButton appButton = (ImageButton)findViewById(R.id.AppButton);
@@ -333,17 +321,17 @@ public class HomeScreen extends Activity {
             for (App app : data.Apps)
             {
                 values = new ContentValues();
-                selection = ApplicationsTable.COLUMN_ID + " = " + app.AppID;
+                selection = ApplicationsTable.COLUMN_ID + " = " + app.AppId;
                 values.put(ApplicationsTable.COLUMN_VISIBLE, app.Visible);
                 getContentResolver().update(ParentControlContentProvider.CONTENT_URI_APPS, values, selection, null);
             }
             for (Contact contact : data.Contacts)
             {
                 values = new ContentValues();
-                selection = ContactsTable.COLUMN_ID + " = " + contact.ContactID;
+                selection = ContactsTable.COLUMN_ID + " = " + contact.ContactId;
                 values.put(ContactsTable.COLUMN_FIRSTNAME, contact.FirstName);
                 values.put(ContactsTable.COLUMN_LASTNAME, contact.LastName);
-                values.put(ContactsTable.COLUMN_PHONENUMBER, contact.PhoneNumber);
+                values.put(ContactsTable.COLUMN_PHONENUMBER, contact.Number);
                 values.put(ContactsTable.COLUMN_TXTMAX, contact.TxtMax);
                 values.put(ContactsTable.COLUMN_TXTAMOUNT, contact.TxtAmount);
                 values.put(ContactsTable.COLUMN_CALLMAX, contact.CallMax);
@@ -368,11 +356,11 @@ public class HomeScreen extends Activity {
             JSONHandler jsonHandler = new JSONHandler(this);
             RootObject rootObject = jsonHandler.Deserialize(jsonApps);
 
-            for (App app : rootObject.Apps)
+            for (App app : rootObject.Device[0].Apps)
             {
                 values = new ContentValues();
                 values.put(ApplicationsTable.COLUMN_VISIBLE, app.Visible);
-                getContentResolver().update(ParentControlContentProvider.CONTENT_URI_APPS, values, ApplicationsTable.COLUMN_ID + " = ?", new String[] {Integer.toString(app.AppID)});
+                getContentResolver().update(ParentControlContentProvider.CONTENT_URI_APPS, values, ApplicationsTable.COLUMN_ID + " = ?", new String[] {Integer.toString(app.AppId)});
             }
         }
 
@@ -388,18 +376,18 @@ public class HomeScreen extends Activity {
             JSONHandler jsonHandler = new JSONHandler(this);
             RootObject rootObject = jsonHandler.Deserialize(jsonContacts);
 
-            for (Contact contact : rootObject.Contacts)
+            for (Contact contact : rootObject.Device[0].Contacts)
             {
                 values = new ContentValues();
                 values.put(ContactsTable.COLUMN_FIRSTNAME, contact.FirstName);
                 values.put(ContactsTable.COLUMN_LASTNAME, contact.LastName);
-                values.put(ContactsTable.COLUMN_PHONENUMBER, contact.PhoneNumber);
+                values.put(ContactsTable.COLUMN_PHONENUMBER, contact.Number);
                 values.put(ContactsTable.COLUMN_TXTMAX, contact.TxtMax);
                 values.put(ContactsTable.COLUMN_TXTAMOUNT, contact.TxtAmount);
                 values.put(ContactsTable.COLUMN_CALLMAX, contact.CallMax);
                 values.put(ContactsTable.COLUMN_CALLAMOUNT, contact.CallAmount);
                 values.put(ContactsTable.COLUMN_BLOCKED, contact.Blocked);
-                getContentResolver().update(ParentControlContentProvider.CONTENT_URI_CONTACTS, values, ContactsTable.COLUMN_ID + " = ?", new String[] {Integer.toString(contact.ContactID)});
+                getContentResolver().update(ParentControlContentProvider.CONTENT_URI_CONTACTS, values, ContactsTable.COLUMN_ID + " = ?", new String[] {Integer.toString(contact.ContactId)});
             }
         }
     }
@@ -489,10 +477,10 @@ public class HomeScreen extends Activity {
             if (cur.getCount() > 0) {
                 while (cur.moveToNext()) {
                     contact = new Contact();
-                    contact.ContactID = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_ID));
+                    contact.ContactId = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_ID));
                     contact.FirstName = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_FIRSTNAME));
                     contact.LastName = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_LASTNAME));
-                    contact.PhoneNumber = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_PHONENUMBER));
+                    contact.Number = cur.getString(cur.getColumnIndex(ContactsTable.COLUMN_PHONENUMBER));
                     contact.TxtAmount = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_TXTAMOUNT));
                     contact.TxtMax = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_TXTMAX));
                     contact.CallAmount = cur.getInt(cur.getColumnIndex(ContactsTable.COLUMN_CALLAMOUNT));

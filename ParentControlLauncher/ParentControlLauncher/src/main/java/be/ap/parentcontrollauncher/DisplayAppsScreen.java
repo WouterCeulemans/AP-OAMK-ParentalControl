@@ -1,40 +1,24 @@
 package be.ap.parentcontrollauncher;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.util.ArrayList;
 
 import be.ap.parentcontrollauncher.contentprovider.ParentControlContentProvider;
 import be.ap.parentcontrollauncher.database.ApplicationsTable;
@@ -238,10 +222,12 @@ public class DisplayAppsScreen extends ActionBarActivity {
                 JSONHandler jsonHandler = new JSONHandler(DisplayAppsScreen.this);
                 RootObject rootObject = jsonHandler.Deserialize(jsonApps);
 
-                for (App app : rootObject.Apps) {
-                    values = new ContentValues();
-                    values.put(ApplicationsTable.COLUMN_VISIBLE, app.Visible);
-                    getContentResolver().update(ParentControlContentProvider.CONTENT_URI_APPS, values, ApplicationsTable.COLUMN_ID + " = ?", new String[]{Integer.toString(app.AppID)});
+                if (rootObject.Device[0].Apps != null) {
+                    for (App app : rootObject.Device[0].Apps) {
+                        values = new ContentValues();
+                        values.put(ApplicationsTable.COLUMN_VISIBLE, app.Visible);
+                        getContentResolver().update(ParentControlContentProvider.CONTENT_URI_APPS, values, ApplicationsTable.COLUMN_ID + " = ?", new String[]{Integer.toString(app.AppId)});
+                    }
                 }
             }
 
@@ -256,17 +242,19 @@ public class DisplayAppsScreen extends ActionBarActivity {
                 JSONHandler jsonHandler = new JSONHandler(DisplayAppsScreen.this);
                 RootObject rootObject = jsonHandler.Deserialize(jsonContacts);
 
-                for (Contact contact : rootObject.Contacts) {
-                    values = new ContentValues();
-                    values.put(ContactsTable.COLUMN_FIRSTNAME, contact.FirstName);
-                    values.put(ContactsTable.COLUMN_LASTNAME, contact.LastName);
-                    values.put(ContactsTable.COLUMN_PHONENUMBER, contact.PhoneNumber);
-                    values.put(ContactsTable.COLUMN_TXTMAX, contact.TxtMax);
-                    values.put(ContactsTable.COLUMN_TXTAMOUNT, contact.TxtAmount);
-                    values.put(ContactsTable.COLUMN_CALLMAX, contact.CallMax);
-                    values.put(ContactsTable.COLUMN_CALLAMOUNT, contact.CallAmount);
-                    values.put(ContactsTable.COLUMN_BLOCKED, contact.Blocked);
-                    getContentResolver().update(ParentControlContentProvider.CONTENT_URI_CONTACTS, values, ContactsTable.COLUMN_ID + " = ?", new String[]{Integer.toString(contact.ContactID)});
+                if (rootObject.Device[0].Contacts != null) {
+                    for (Contact contact : rootObject.Device[0].Contacts) {
+                        values = new ContentValues();
+                        values.put(ContactsTable.COLUMN_FIRSTNAME, contact.FirstName);
+                        values.put(ContactsTable.COLUMN_LASTNAME, contact.LastName);
+                        values.put(ContactsTable.COLUMN_PHONENUMBER, contact.Number);
+                        values.put(ContactsTable.COLUMN_TXTMAX, contact.TxtMax);
+                        values.put(ContactsTable.COLUMN_TXTAMOUNT, contact.TxtAmount);
+                        values.put(ContactsTable.COLUMN_CALLMAX, contact.CallMax);
+                        values.put(ContactsTable.COLUMN_CALLAMOUNT, contact.CallAmount);
+                        values.put(ContactsTable.COLUMN_BLOCKED, contact.Blocked);
+                        getContentResolver().update(ParentControlContentProvider.CONTENT_URI_CONTACTS, values, ContactsTable.COLUMN_ID + " = ?", new String[]{Integer.toString(contact.ContactId)});
+                    }
                 }
             }
 
