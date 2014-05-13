@@ -49,7 +49,7 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TEST_CheckNumberExists();
+        //TEST_CheckNumberExists();
 
 
         //intent to filter for SMS messages

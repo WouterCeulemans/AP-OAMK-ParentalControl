@@ -263,6 +263,14 @@ public class DisplayAppsScreen extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Void result) {
+            progressDialog.setMessage("Reloading Apps");
+            Applications.appsAdapter.clear();
+            Applications.appList = Applications.GetAppsFromDB(getApplicationContext(), getContentResolver(), true);
+            for (Item item : Applications.appList)
+            {
+                Applications.appsAdapter.add(item);
+            }
+            Applications.appsAdapter.notifyDataSetChanged();
             progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), "Receiving Completed", Toast.LENGTH_SHORT);
         }
