@@ -73,6 +73,7 @@
 
         <service android:name=".LocationService"></service>
         <service android:name=".SendDataService"></service>
+        <service android:name=".WakeLockService"></service>
     </application>
 
 </manifest>

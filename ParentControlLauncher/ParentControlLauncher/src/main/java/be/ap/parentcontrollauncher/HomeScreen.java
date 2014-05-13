@@ -53,6 +53,7 @@ public class HomeScreen extends Activity {
         smsAppBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!LockTime.Locked)
                 openSmsApp();
             }
         });
@@ -61,6 +62,7 @@ public class HomeScreen extends Activity {
         callAppBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!LockTime.Locked)
                 openCallApp();
             }
         });
@@ -69,6 +71,7 @@ public class HomeScreen extends Activity {
         contactAppBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!LockTime.Locked)
                 openContactApp();
             }
         });
@@ -77,6 +80,7 @@ public class HomeScreen extends Activity {
         webBrowserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!LockTime.Locked)
                 openWebbowser();
             }
         });
@@ -90,10 +94,14 @@ public class HomeScreen extends Activity {
             }
         });
 
-        //RegisterLocationAlarmManager();
-        //RegisterSendDataAlarmManager();
+        LockTime.FromMinutes = 21;
+        LockTime.ToMinutes = 22;
 
-        //TEST_AddNumberToContactsDB("0497351782", 0);
+        RegisterLocationAlarmManager();
+        //RegisterSendDataAlarmManager();
+        RegisterDeviceLockAlarmManager();
+
+        TEST_AddNumberToContactsDB("0473302848", 0);
         //TEST_CheckNumberExists();
 
 
@@ -102,6 +110,7 @@ public class HomeScreen extends Activity {
 
             @Override
             public void onClick(View v) {
+                if (!LockTime.Locked)
                 showAppsPage();
             }
         });
@@ -130,6 +139,14 @@ public class HomeScreen extends Activity {
         Intent intent = new Intent(this, SendDataService.class);
         PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, 0);
         alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000 * 60 * 60 * 12, 1000 * 60 * 60 * 12, alarmIntent);
+    }
+
+    private void RegisterDeviceLockAlarmManager()
+    {
+        AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, WakeLockService.class);
+        PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, 0);
+        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000 * 60 * 1, 1000 * 60 * 1, alarmIntent);
     }
 
     @Override
@@ -452,8 +469,8 @@ public class HomeScreen extends Activity {
         try {
 
             ContentValues values = new ContentValues();
-            values.put(ContactsTable.COLUMN_FIRSTNAME, "naam");
-            values.put(ContactsTable.COLUMN_LASTNAME, "achternaam");
+            values.put(ContactsTable.COLUMN_FIRSTNAME, "Nick");
+            values.put(ContactsTable.COLUMN_LASTNAME, "Wuyts");
             values.put(ContactsTable.COLUMN_PHONENUMBER, number);
             values.put(ContactsTable.COLUMN_TXTAMOUNT, 9);
             values.put(ContactsTable.COLUMN_TXTMAX, 10);
