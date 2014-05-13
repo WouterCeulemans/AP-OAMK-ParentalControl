@@ -10,8 +10,8 @@ CREATE TABLE `apps` (
 CREATE TABLE `contacts` (
   `ID`           varchar(20) NOT NULL,
   `Contact_ID`   int         NOT NULL,
-  `SurName`      varchar(20) NOT NULL,
-  `Name`         varchar(20) NOT NULL,
+  `LastName`     varchar(20) NOT NULL,
+  `FirstName`    varchar(20) NOT NULL,
   `Number`       varchar(13) NOT NULL,
   `TxtAmount`    int,
   `TxtMax`       int,

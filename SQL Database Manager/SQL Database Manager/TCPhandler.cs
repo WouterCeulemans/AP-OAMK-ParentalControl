@@ -123,16 +123,16 @@ namespace SQL_Database_Manager
                 if (device.Apps != null)
                     foreach (var app in device.Apps)
                     {
-                        var query = String.Format ("INSERT INTO apps (ID,PackageName,Name,Visible) VALUES(\"{0}\",\"{1}\",\"{2}\",\"{3}\") ON DUPLICATE KEY UPDATE Name=\"{2}\", Visible=\"{3}\";",
-                                                   device.DeviceId, app.PackageName, app.Title, app.Visible);
+                        var query = String.Format ("INSERT INTO apps (ID,AppID,PackageName,Name,Visible) VALUES(\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\") ON DUPLICATE KEY UPDATE Visible=\"{3}\";",
+                                                   device.DeviceId, app.AppId, app.PackageName, app.Title, app.Visible);
                         var cmd = new MySqlCommand (query, _conn);
                         cmd.ExecuteScalar ();
                     }
                 if (device.Contacts != null)
                     foreach (var contact in device.Contacts)
                     {
-                        var query = String.Format ("INSERT INTO contacts (ID,Contact_ID,SurName,Name,Number,TxtAmount,TxtMax,CallAmount,CallMax) VALUES(\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\") ON DUPLICATE KEY UPDATE SurName=\"{2}\",Name=\"{3}\",Number=\"{4}\",TxtAmount=\"{5}\",TxtMax=\"{6}\",CallAmount=\"{7}\",CallMax=\"{8}\";",
-                                                   device.DeviceId, contact.ContactId, contact.SurName, contact.Name, contact.Number, contact.TxtAmount, contact.TxtMax, contact.CallAmount, contact.CallMax);
+                        var query = String.Format ("INSERT INTO contacts (ID,Contact_ID,LastName,FirstName,Number,TxtAmount,TxtMax,CallAmount,CallMax) VALUES(\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\") ON DUPLICATE KEY UPDATE SurName=\"{2}\",Name=\"{3}\",Number=\"{4}\",TxtAmount=\"{5}\",TxtMax=\"{6}\",CallAmount=\"{7}\",CallMax=\"{8}\";",
+                                                   device.DeviceId, contact.ContactId, contact.LastName, contact.FirstName, contact.Number, contact.TxtAmount, contact.TxtMax, contact.CallAmount, contact.CallMax);
                         var cmd = new MySqlCommand (query, _conn);
                         cmd.ExecuteScalar ();
                     }
@@ -174,7 +174,7 @@ namespace SQL_Database_Manager
 
         private App      [] GetAppList      (string id)              
         {
-            var query = String.Format ("SELECT PackageName,Name,Visible FROM apps WHERE ID=\"{0}\";", id);
+            var query = String.Format ("SELECT AppID,PackageName,Name,Visible FROM apps WHERE ID=\"{0}\";", id);
             _conn = new MySqlConnection (_db);
             try
             {
@@ -186,9 +186,10 @@ namespace SQL_Database_Manager
                 {
                     appList.Add (new App
                     {
-                        PackageName = obj.GetString (0),
-                        Title       = obj.GetString (1),
-                        Visible     = obj.GetString (2)
+                        AppId       = obj.GetString (0),
+                        PackageName = obj.GetString (1),
+                        Title       = obj.GetString (2),
+                        Visible     = obj.GetString (3)
                     });
                 }
                 _conn.Close ();
@@ -203,7 +204,7 @@ namespace SQL_Database_Manager
         }
         private Contact  [] GetContactList  (string id)              
         {
-            var query = String.Format ("SELECT Contact_ID,SurName,Name,Number,TxtAmount,TxtMax,CallAmount,CallMax FROM contacts WHERE id=\"{0}\";", id);
+            var query = String.Format ("SELECT Contact_ID,LastName,FirstName,Number,TxtAmount,TxtMax,CallAmount,CallMax FROM contacts WHERE id=\"{0}\";", id);
             _conn = new MySqlConnection (_db);
             try
             {
@@ -216,8 +217,8 @@ namespace SQL_Database_Manager
                     contactList.Add (new Contact
                     {
                         ContactId  = obj.GetString (0),
-                        SurName    = obj.GetString (1),
-                        Name       = obj.GetString (2),
+                        LastName   = obj.GetString (1),
+                        FirstName  = obj.GetString (2),
                         Number     = obj.GetString (3),
                         TxtAmount  = obj.GetString (4),
                         TxtMax     = obj.GetString (5),

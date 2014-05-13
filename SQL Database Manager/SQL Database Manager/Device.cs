@@ -15,6 +15,7 @@
 
     public class App        
     {
+        public string AppId          { get; set; }
         public string Title          { get; set; }
         public string PackageName    { get; set; }
         public string Visible        { get; set; }
@@ -30,8 +31,8 @@
     public class Contact    
     {
         public string ContactId      { get; set; }
-        public string SurName        { get; set; }
-        public string Name           { get; set; }
+        public string LastName       { get; set; }
+        public string FirstName      { get; set; }
         public string Number         { get; set; }
         public string TxtAmount      { get; set; }
         public string TxtMax         { get; set; }
