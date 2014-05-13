@@ -1,5 +1,6 @@
 CREATE TABLE `apps` (
   `ID`          varchar(20) NOT NULL,
+  `AppID`       int 		NOT NULL,
   `PackageName` varchar(50) NOT NULL,
   `Name`        varchar(50) NOT NULL,
   `Visible`     int         NOT NULL,
