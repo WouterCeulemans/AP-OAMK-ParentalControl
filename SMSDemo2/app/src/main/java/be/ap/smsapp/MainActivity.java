@@ -13,6 +13,7 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity
 {
     /**called when the activity first created*/
-    Button sendSMS;
+    ImageButton sendSMS;
     EditText msgTxt;
     EditText numTxt;
     IntentFilter intentFilter;
@@ -56,7 +57,7 @@ public class MainActivity extends Activity
         intentFilter.addAction("SMS_RECEIVED_ACTION");
 
 
-        sendSMS = (Button) findViewById(R.id.sendBtn);
+        sendSMS = (ImageButton) findViewById(R.id.sendBtn);
         msgTxt =(EditText) findViewById(R.id.MessageTxt);
         numTxt = (EditText) findViewById(R.id.PhoneTxt);
         sendSMS.setOnClickListener
