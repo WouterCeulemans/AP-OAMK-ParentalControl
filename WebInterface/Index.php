@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=500, user-scalable=0">
         <title>Parental Web Center</title>
-        
+        <link rel="shortcut icon" href="/images/favico.ico" type="image/x-icon">
         <link href="/css/layout.css" rel="stylesheet" type="text/css" />
         <?php
         if (isset($_SESSION["LoggedIn"]))
@@ -73,7 +73,6 @@
                     case 99:
                         print @"<div id='dialog-message' title='Error'><p>You need to login before you can use this site.</p></div>";
                         break;
-                    
                 }
             if (isset($_GET["success"]))
                 switch ($_GET["success"]) {
@@ -84,7 +83,6 @@
                         print @"<div id='dialog-message' title='Info'><p>An e-mail containing a reset link is send to you. If you haven't received an email wait another minute or check your spam folder.</p></div>";
                         break;
                    }
-                    
             ?>
             <div id="divHeader">
                 <img src="/images/Header.png" width="500" height="200"/>

@@ -1,8 +1,10 @@
 ﻿<?php
 if (isset($_POST["UserName"]) && isset($_POST["Pass"]))
 {
-    if ($_POST["UserName"] == '')
-        print "<meta http-equiv='refresh' content='0;URL=/index.php?error=20'>";
+	if ($_POST["UserName"] == ''){
+		header("location: /index.php?error=20");
+		exit();
+	}
     else
     {
         include "dbconfig.php";
@@ -34,5 +36,5 @@ if (isset($_POST["UserName"]) && isset($_POST["Pass"]))
             }
     }
 }
-header("location: /404");
+header("location: /404.php");
 ?>

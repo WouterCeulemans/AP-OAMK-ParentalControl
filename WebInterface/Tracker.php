@@ -8,6 +8,7 @@ if (!isset($_SESSION["LoggedIn"]))
         <meta charset="utf-8" />
         <meta name="viewport" content="width=500, user-scalable=0">
         <title>Parental Web Center</title>
+        <link rel="shortcut icon" href="/images/favico.ico" type="image/x-icon">
         <link href="/css/layout.css" rel="stylesheet" type="text/css" />
         <?php
         include "/php/dbconfig.php";
@@ -77,6 +78,7 @@ if (!isset($_SESSION["LoggedIn"]))
                 <div class="divContent"
                     <table>
                         <tr>
+							<td>Device </td>
                             <td><select id='devid'>
                             <?php
                             include "/php/dbconfig.php";
@@ -86,7 +88,7 @@ if (!isset($_SESSION["LoggedIn"]))
                             mysql_close($dbhandle);
                             ?>
                             </select></td>
-                            <td><input type="button" value="Send" style="margin: 0px;margin-bottom: 5px; margin-top: 5px;" onclick="GetCoordinates()"></td>
+                            <td><input type="button" value="Get Data" style="margin: 0px;margin-bottom: 5px; margin-top: 5px;" onclick="GetCoordinates()"></td>
                         </tr>
                     </table>
                     <p>Google maps </p>

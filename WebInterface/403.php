@@ -6,6 +6,7 @@ session_start();
         <meta charset="utf-8">
         <meta name="viewport" content="width=500, user-scalable=0">
         <title>settings</title>
+        <link rel="shortcut icon" href="/images/favico.ico" type="image/x-icon">
         <link href="/css/layout.css" rel="stylesheet" type="text/css" />
         <?php
         if (isset($_SESSION["LoggedIn"]))

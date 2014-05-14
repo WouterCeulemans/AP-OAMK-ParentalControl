@@ -8,6 +8,7 @@ if (isset($_SESSION["LoggedIn"]))
         <meta charset="utf-8">
         <meta name="viewport" content="width=500, user-scalable=0">
         <title>settings</title>
+        <link rel="shortcut icon" href="/images/favico.ico" type="image/x-icon">
         <link href="/css/layout.css" rel="stylesheet" type="text/css" />
         <link href='/themes/lightTheme.css' rel='stylesheet' type='text/css' />
         <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" />
@@ -67,7 +68,7 @@ if (isset($_SESSION["LoggedIn"]))
                 <div class="divContent">
                     <div class="tabs">
                         <h3>Reset Password</h3>
-                        <form method="post" action="/php/reset.php" name="Register">
+                        <form method="post" action="/php/resetPass.php" name="Register">
                             <table style="margin: 0 auto 0 auto;">
                                 <tr><td>E-Mail:</td><td><input type="email" name="Email"/><br/></td></tr>
                                 <tr><td colspan="2">

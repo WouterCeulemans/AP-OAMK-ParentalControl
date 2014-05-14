@@ -7,6 +7,7 @@ if (isset($_SESSION["LoggedIn"]))
         <meta charset="utf-8" />
         <meta name="viewport" content="width=500, user-scalable=0">
         <title>Parental Web Center</title>
+        <link rel="shortcut icon" href="/images/favico.ico" type="image/x-icon">
         <link href="/css/layout.css" rel="stylesheet" type="text/css" />
         <link href="/themes/lightTheme.css" rel="stylesheet" type="text/css" />
         <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" />

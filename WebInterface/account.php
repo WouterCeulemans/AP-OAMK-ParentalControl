@@ -8,6 +8,7 @@ if (!isset($_SESSION["LoggedIn"]))
         <meta charset="utf-8">
         <meta name="viewport" content="width=500, user-scalable=0">
         <title>Account Settings</title>
+        <link rel="shortcut icon" href="/images/favico.ico" type="image/x-icon">
         <link href="/css/layout.css" rel="stylesheet" type="text/css" />
         <?php
         include "/php/dbconfig.php";
@@ -62,10 +63,10 @@ if (!isset($_SESSION["LoggedIn"]))
                         print @"<div id='dialog-message' title='Error'><p>No new device name given.</p></div>";
                         break;
                     case 50:
-                        print @"<div id='dialog-message' title='Error'><p>The given device does not exist</p></div>";
+                        print @"<div id='dialog-message' title='Error'><p>The given device does not exist.</p></div>";
                         break;
                     case 51:
-                        print @"<div id='dialog-message' title='Error'><p>This link is no longer valid</p></div>";
+                        print @"<div id='dialog-message' title='Error'><p>The device is already added.</p></div>";
                         break;
                     case 52:
                         print @"<div id='dialog-message' title='Error'><p>Please fill in the words correctly.</p></div>";
@@ -79,9 +80,9 @@ if (!isset($_SESSION["LoggedIn"]))
                     case 71:
                         print @"<div id='dialog-message' title='Error'><p>Password 's not strong enough.</p></div>";
                         break;
-            		case 72:
-            			print @"<div id='dialog-message' title='Error'><p>Current password not correct.</p></div>";
-            			break;
+                    case 72:
+                        print @"<div id='dialog-message' title='Error'><p>Current password not correct.</p></div>";
+                        break;
                 }
             if (isset($_GET["success"]))
                 switch ($_GET["success"]) {

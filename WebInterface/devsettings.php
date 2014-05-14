@@ -9,8 +9,8 @@ include "/php/dbconfig.php";
 $result = mysql_query("SELECT * FROM devices WHERE ID='$_GET[devid]' && User_ID='$_SESSION[ID]'");
 if (mysql_num_rows ($result) != 1)
 {
-	header("location: /403.php");
-	mysql_close($dbhandle);
+    header("location: /403.php");
+    mysql_close($dbhandle);
 }
 
 ?>
@@ -19,6 +19,7 @@ if (mysql_num_rows ($result) != 1)
         <meta charset="utf-8">
         <meta name="viewport" content="width=500, user-scalable=0">
         <title>Settings</title>
+        <link rel="shortcut icon" href="/images/favico.ico" type="image/x-icon">
         <link href="/css/layout.css" rel="stylesheet" type="text/css" />
         <?php
         if (isset($_SESSION["LoggedIn"]))
@@ -35,6 +36,18 @@ if (mysql_num_rows ($result) != 1)
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js"></script>
         <script src="/js/sideMenu.js"></script>
+        <script language="javascript" type="text/javascript">
+            $(function () {
+                $("#dialog-message").dialog({
+                    modal: true,
+                    buttons: {
+                        Ok: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+            });
+        </script>
     </head>
 
     <body>
@@ -67,6 +80,32 @@ if (mysql_num_rows ($result) != 1)
         </div>	
         </div>	
         <div id="divWrapper">
+            <?php
+            if (isset($_GET["error"]))
+                switch ($_GET["error"]) {
+                    case 80:
+                    case 100:
+                    case 110:
+                    case 120:
+                        print @"<div id='dialog-message' title='Login Error'><p>Please fill in all fields.</p></div>";
+                        break;
+                }
+            if (isset($_GET["success"]))
+                switch ($_GET["success"]) {
+                    case 81:
+                        print @"<div id='dialog-message' title='Info'><p>Contact information changed.</p></div>";
+                        break;
+                    case 101:
+                        print @"<div id='dialog-message' title='Info'><p>Texting information changed.</p></div>";
+                        break;
+                    case 111:
+                        print @"<div id='dialog-message' title='Info'><p>Calling information changed.</p></div>";
+                        break;
+                    case 121:
+                        print @"<div id='dialog-message' title='Info'><p>App information changed.</p></div>";
+                        break;
+                   }
+            ?>
             <div id="divHeader">
                 <img src="/images/Header.png" width="500" height="200"/>
                 <div id="divLinks">
@@ -114,9 +153,9 @@ if (mysql_num_rows ($result) != 1)
                                     <option value=''></option>
                                     <?php
                                     include "/php/dbconfig.php";
-                                    $result = mysql_query("SELECT Name, SurName, Contact_ID FROM contacts WHERE ID='$_GET[devid]' && blocked='0'");
+                                    $result = mysql_query("SELECT FirstName, LastName, Contact_ID FROM contacts WHERE ID='$_GET[devid]' && blocked='0'");
                                     while ($row = mysql_fetch_assoc($result)) 
-                                    echo "<option value='$row[Contact_ID]'>$row[Name] $row[SurName]</option>";
+                                    echo "<option value='$row[Contact_ID]'>$row[FirstName] $row[LastName]</option>";
                                     mysql_close($dbhandle);
                                     ?>
                                     </select></td>
@@ -127,9 +166,9 @@ if (mysql_num_rows ($result) != 1)
                                     <option value=''></option>
                                     <?php
                                     include "/php/dbconfig.php";
-                                    $result = mysql_query("SELECT Name, SurName, Contact_ID FROM contacts WHERE ID='$_GET[devid]' && blocked='1'");
+                                    $result = mysql_query("SELECT FirstName, LastName, Contact_ID FROM contacts WHERE ID='$_GET[devid]' && blocked='1'");
                                     while ($row = mysql_fetch_assoc($result)) 
-                                    echo "<option value='$row[Contact_ID]'>$row[Name] $row[SurName]</option>";
+                                    echo "<option value='$row[Contact_ID]'>$row[FirstName] $row[LastName]</option>";
                                     mysql_close($dbhandle);
                                     ?>
                                     </select></td>
@@ -152,9 +191,9 @@ if (mysql_num_rows ($result) != 1)
                                     <option value=''></option>
                                     <?php
                                     include "/php/dbconfig.php";
-                                    $result = mysql_query("SELECT Name, SurName, Contact_ID FROM contacts WHERE ID='$_GET[devid]'");
+                                    $result = mysql_query("SELECT FirstName, LastName, Contact_ID FROM contacts WHERE ID='$_GET[devid]'");
                                     while ($row = mysql_fetch_assoc($result)) 
-                                    echo "<option value='$row[Contact_ID]'>$row[Name] $row[SurName]</option>";
+                                    echo "<option value='$row[Contact_ID]'>$row[FirstName] $row[LastName]</option>";
                                     mysql_close($dbhandle);
                                     ?>
                                     </select></td>
@@ -163,7 +202,7 @@ if (mysql_num_rows ($result) != 1)
                                     <td>Amount of texts: </td>
                                     <td><input type="text" name="txtLim"/></td>
                                 </tr>
-                                <tr><td></td>
+                                <tr><td><a id='middle' href="/php/reset.php?m=m&devid=<?php echo $_GET["devid"]; ?>">Rest</a></td>
                                 <td><input type='submit' class="right" value='Save' /></td>
                                 </tr>
                             </table>
@@ -181,9 +220,9 @@ if (mysql_num_rows ($result) != 1)
                                     <option value=''></option>
                                     <?php
                                     include "/php/dbconfig.php";
-                                    $result = mysql_query("SELECT Name, SurName, Contact_ID FROM contacts WHERE ID='$_GET[devid]'");
+                                    $result = mysql_query("SELECT FirstName, LastName, Contact_ID FROM contacts WHERE ID='$_GET[devid]'");
                                     while ($row = mysql_fetch_assoc($result)) 
-                                    echo "<option value='$row[Contact_ID]'>$row[Name] $row[SurName]</option>";
+                                    echo "<option value='$row[Contact_ID]'>$row[FirstName] $row[LastName]</option>";
                                     mysql_close($dbhandle);
                                     ?>
                                     </select></td>																																				
@@ -192,7 +231,7 @@ if (mysql_num_rows ($result) != 1)
                                     <td>Amount of calling: </td>
                                     <td><input type="text" name="callLim"/></td>
                                 </tr>
-                                <tr><td></td>
+                                <tr><td><a id='middle' href="/php/reset.php?m=c&devid=<?php echo $_GET["devid"]; ?>">Rest</a></td>
                                 <td><input type='submit' class="right" value='Save' /></td>
                                 </tr>
                             </table>

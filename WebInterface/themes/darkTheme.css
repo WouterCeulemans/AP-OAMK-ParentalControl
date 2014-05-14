@@ -173,7 +173,7 @@ input[type="button"]:hover, input[type="button"]:hover {
     background: #fe9917;
 }
 
-#divLogin a {
+#divLogin a, table a {
     font-size: 0.8em;
     color: #FFF;
     border: 1px solid #fdb74a;
@@ -182,7 +182,7 @@ input[type="button"]:hover, input[type="button"]:hover {
     border-radius: 5px;
 }
 
-#divLogin a:hover {
+#divLogin a:hover, table a:hover {
     border: 1px solid #fe9917;
     background: #fe9917;
 }
